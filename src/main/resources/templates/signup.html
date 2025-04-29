@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <link th:href="@{/css/signup.css}" rel="stylesheet">
+</head>
+<body>
+<div class="main-container">
+    <div class="signup-container">
+        <h3 class="signup-title">회원가입</h3>
+        <p class="signup-subtitle">사이드 프로젝트 팀원 찾기</p
+
+        <form th:action="@{/api/user/signup}" method="post">
+            <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}"/>
+            <div class="group">
+                <label for="email" class="label">이메일</label>
+                <input type="email" class="input" id="email" name="email"
+                       placeholder="tester@gmail.com" required>
+                <div id="emailError" style="color:red; display: none;">이메일 형식이 올바르지 않습니다.</div>
+            </div>
+
+            <div class="group">
+                <label for="password" class="label">비밀번호</label>
+                <input type="password" class="input" id="password" name="password"
+                       placeholder="********" required>
+                <div class="password-rules">
+                    <div id="rule1">✔ 영문/숫자/특수문자 중, 2가지 이상 포함</div>
+                    <div id="rule2">✔ 8자 이상 32자 이하 (공백 제외)</div>
+                    <div id="rule3">✔ 연속 3자 이상 동일한 문자/숫자 제외</div>
+                </div>
+            </div>
+
+            <div class="group">
+                <label for="confirmPassword" class="label">비밀번호 확인</label>
+                <input type="password" class="input" id="confirmPassword" placeholder="********"
+                       required>
+            </div>
+
+            <div class="login-button">
+                <button type="submit" class="submit-btn" id="submitBtn" disabled>가입하기</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script th:src="@{/js/signup.js}"></script>
+</body>
+</html>
