@@ -1,4 +1,4 @@
-package com.estsoft.findmember_team01.login.domain;
+package com.estsoft.findmember_team01.member.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -54,12 +54,13 @@ public class Member implements UserDetails {
 
     private Long accessCount;
 
-    @Column(length = 100)
+    @Column(length = 200)
     private String userAgent;
 
     @Column(length = 10)
     private String role;
 
+    // 생성자
     public Member(String email, String password, String nickname) {
         this.email = email;
         this.password = password;
@@ -70,6 +71,7 @@ public class Member implements UserDetails {
         this.role = "USER";
     }
 
+    // 레벨에 따른 권한 부여
     public void updateRoleByLevel() {
         if (this.level == 0) {
             this.role = "ADMIN";
@@ -80,10 +82,28 @@ public class Member implements UserDetails {
         }
     }
 
+    // 로그인 시 정보 업데이트
     public void updateLoginInfo(String userAgent) {
         this.userAgent = userAgent;
         this.accessCount += 1;
         this.lastAccessTime = LocalDateTime.now();
+    }
+
+    // 로그아웃 시 정보 업데이트
+    public void updateLogoutInfo() {
+        this.lastAccessTime = LocalDateTime.now();
+    }
+
+    // 경험치 추가 로직
+    public void addExp(int exp) {
+        this.exp += exp;
+        Long temp = this.level;
+        this.level += exp / 10;
+        this.exp %= 10;
+
+        if (!level.equals(temp)) {
+            updateRoleByLevel();
+        }
     }
 
     @Override

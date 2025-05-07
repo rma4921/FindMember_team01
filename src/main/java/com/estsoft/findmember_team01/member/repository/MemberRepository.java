@@ -1,6 +1,6 @@
-package com.estsoft.findmember_team01.login.repository;
+package com.estsoft.findmember_team01.member.repository;
 
-import com.estsoft.findmember_team01.login.domain.Member;
+import com.estsoft.findmember_team01.member.domain.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
