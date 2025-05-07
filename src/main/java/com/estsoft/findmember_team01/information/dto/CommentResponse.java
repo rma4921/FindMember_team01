@@ -24,7 +24,7 @@ public class CommentResponse {
     private LocalDateTime createdAt;
 
     public CommentResponse(Comment comment) {
-        this.memberId = comment.getMember().getMemberId();
+        this.memberId = comment.getMember().getId();
         this.informationId = comment.getInformation().getInformationId();
         this.commentId = comment.getCommentId();
         this.content = comment.getContent();

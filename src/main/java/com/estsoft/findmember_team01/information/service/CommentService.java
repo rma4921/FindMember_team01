@@ -3,28 +3,25 @@ package com.estsoft.findmember_team01.information.service;
 
 import com.estsoft.findmember_team01.information.domain.Comment;
 import com.estsoft.findmember_team01.information.domain.Information;
-import com.estsoft.findmember_team01.information.domain.Member;
 import com.estsoft.findmember_team01.information.dto.CommentRequest;
 import com.estsoft.findmember_team01.information.dto.CommentResponse;
 import com.estsoft.findmember_team01.information.repository.CommentRepository;
 import com.estsoft.findmember_team01.information.repository.InformationRepository;
-import com.estsoft.findmember_team01.information.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
 
-    private final MemberRepository memberRepository;
+    private final com.estsoft.findmember_team01.login.repository.MemberRepository memberRepository;
     private CommentRepository commentRepository;
     private InformationRepository informationRepository;
 
     public CommentService(CommentRepository commentRepository,
-        InformationRepository informationRepository, MemberRepository memberRepository) {
+        InformationRepository informationRepository, com.estsoft.findmember_team01.login.repository.MemberRepository memberRepository) {
         this.commentRepository = commentRepository;
         this.informationRepository = informationRepository;
         this.memberRepository = memberRepository;
@@ -36,7 +33,7 @@ public class CommentService {
         Information information = informationRepository.findById(informationId)
             .orElseThrow(() -> new RuntimeException("Information not found"));
 
-        Member member = memberRepository.findById(memberId)
+        com.estsoft.findmember_team01.login.domain.Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new RuntimeException("Member not found"));
 
         Comment comment = commentRepository.save(
@@ -61,7 +58,7 @@ public class CommentService {
             .orElseThrow(() -> new IllegalArgumentException("Comment not found" + commentId));
 
         // 작성자(memberId) 체크
-        if (!comment.getMember().getMemberId().equals(memberId)) {
+        if (!comment.getMember().getId().equals(memberId)) {
             throw new RuntimeException("수정 권한이 없습니다.");
         }
 
@@ -76,7 +73,7 @@ public class CommentService {
             .orElseThrow(() -> new IllegalArgumentException("Comment not found: " + commentId));
 
         // 작성자(memberId) 체크
-        if (!comment.getMember().getMemberId().equals(memberId)) {
+        if (!comment.getMember().getId().equals(memberId)) {
             throw new RuntimeException("삭제 권한이 없습니다.");
         }
 
