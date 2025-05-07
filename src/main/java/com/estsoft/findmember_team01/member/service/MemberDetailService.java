@@ -1,6 +1,6 @@
-package com.estsoft.findmember_team01.login.service;
+package com.estsoft.findmember_team01.member.service;
 
-import com.estsoft.findmember_team01.login.repository.MemberRepository;
+import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserDetailService implements UserDetailsService {
+public class MemberDetailService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
 

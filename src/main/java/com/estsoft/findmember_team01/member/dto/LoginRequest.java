@@ -1,11 +1,11 @@
-package com.estsoft.findmember_team01.login.dto;
+package com.estsoft.findmember_team01.member.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AddMemberRequest {
+public class LoginRequest {
 
     private String email;
     private String password;
