@@ -50,9 +50,11 @@ public class MemberService {
 //
 //        Project project = projectRepository.findById(projectId)
 //            .orElseThrow(() -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
-//        List<Member> members = project.getMembers();
+//        // applicationRepository에 List<Application> findByRecruitmentIdAndStatusTrue(Long projectId); 추가해야 함.
+//        List<Application> applications = applicationRepository.findByRecruitmentIdAndStatusTrue(projectId);
 //
-//        for (Member member : members) {
+//        for (Application application : applications) {
+//            Member member = application.getMember(); // application에 getMember() 구현해야 함. ManyToOne 설정되어야 함.
 //            member.addExp(completeExp);
 //            member.updateRoleByLevel();
 //            memberRepository.save(member);
@@ -68,7 +70,7 @@ public class MemberService {
 //                SecurityContextHolder.getContext().setAuthentication(newAuth);
 //            }
 //        }
-//
+//        // 여기도 맞춰야 함. 프로젝트
 //        project.complete(true);
 //        projectRepository.save(project);
 //    }
