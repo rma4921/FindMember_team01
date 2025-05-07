@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>메인페이지</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/mainpage.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="navbar mr-auto">
+        <a class="navbar-brand" href="#">Team 1</a>
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="#">팀원 모집</a>
+            <a class="nav-item nav-link" href="#">완료된 프로젝트</a>
+            <a class="nav-item nav-link" href="#">질의응답</a>
+        </div>
+    </div>
+    <div class="navbar-nav ml-auto">
+        <a class="btn btn-outline-primary" href="/login">로그인</a>
+    </div>
+</nav>
+<div class="banner">
+    <div class="banner-title">프로젝트 팀원을 모집해보세요.</div>
+    <div class="banner-subtitle">협업을 통한 경험 노하우 쌓기!</div>
+</div>
+<div class="container mt-2 mb-2" style="padding: 0 10%;">
+    <div class="mb-4" style="display: flex; flex-direction: column; margin-bottom: 10px;">
+        <nav class="filter-nav mb-3">
+            <a class="filter-btn" href="/api/posts?status=-1"
+               th:classappend="${status == -1 ? 'font-weight-bold' : ''}">전체</a>
+            <a class="filter-btn" href="/api/posts?status=1"
+               th:classappend="${status == 1 ? 'font-weight-bold' : ''}">모집중</a>
+            <a class="filter-btn" href="/api/posts?status=0"
+               th:classappend="${status == 0 ? 'font-weight-bold' : ''}">모집완료</a>
+        </nav>
+        <div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
+            <form action="/api/posts" method="get"
+                  style="display: flex; align-items: center; width: 100%; margin-bottom: 10px;">
+                <input name="keyword" placeholder="원하는 사이드 프로젝트 검색" style="flex-grow: 1;"
+                       th:value="${keyword} ?: ''"
+                       type="text"/>
+                <button class="btn btn-primary ml-3" type="submit">검색</button>
+            </form>
+            <a class="btn btn-success" href="/api/posts/new"
+               style="position: relative;">글쓰기</a>
+        </div>
+    </div>
+    <div>
+        <div class="mb-4 post-item" th:each="item : ${recruitmentList}">
+            <a class="stretched-link" th:href="@{/api/posts/{id}(id=${item.recruitmentId})}">
+                <h5 class="d-flex align-items-center">
+                    <span class="badge badge-success mr-2" style="background-color: #28a745;"
+                          th:if="${item.status}">모집중</span>
+                    <span class="badge badge-dark mr-2" style="background-color: #acacac;"
+                          th:unless="${item.status}">모집완료</span>
+                    <span th:text="${item.title}">제목</span>
+                </h5>
+                <p class="text-truncate" style="max-height: 3.6em; overflow: hidden;">
+                    [[${item.content}]]
+                </p>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p class="small card-text mb-0">
+                        <span class="font-weight-bold" style="margin-right: 1em;"
+                              th:text="${item.nickname}">닉네임</span>
+                        <span class="text-muted"
+                              th:text="${#temporals.format(item.createAt, 'yyyy-MM-dd')}">작성시간</span>
+                    </p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container mb-5">
+    <nav th:if="${totalPages > 1}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                <a class="page-link"
+                   tabindex="-1"
+                   th:href="@{'/api/posts'(page=${currentPage - 1}, sortBy=${sortBy},
+                     status=${status != -1 ? status : null},
+                     keyword=${keyword != null and keyword != '' ? keyword : null})}">«</a>
+            </li>
+            <li class="page-item" th:classappend="${i == currentPage} ? 'active'"
+                th:each="i : ${#numbers.sequence(startPage, endPage)}">
+                <a class="page-link"
+                   th:href="@{'/api/posts'(page=${i}, sortBy=${sortBy},
+                     status=${status != -1 ? status : null},
+                     keyword=${keyword != null and keyword != '' ? keyword : null})}"
+                   th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/api/posts'(page=${currentPage + 1}, sortBy=${sortBy},
+                     status=${status != -1 ? status : null},
+                     keyword=${keyword != null and keyword != '' ? keyword : null})}">»</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
