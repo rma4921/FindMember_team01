@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${post.title}">Q&A 상세</title>
+    <link rel="stylesheet" th:href="@{/css/informationDetail.css}">
+</head>
+<body>
+<main class="container detail">
+    <!-- 제목 -->
+    <h1 th:text="${post.title}" class="detail-title">제목</h1>
+
+    <!-- 메타 정보 -->
+    <div class="detail-meta">
+        <span th:text="'작성일: ' + ${#temporals.format(post.createdAt, 'yy.MM.dd HH:mm')}"></span>
+        <span th:text="'수정일: ' + ${#temporals.format(post.modifiedAt, 'yy.MM.dd HH:mm')}"></span>
+        <span th:text="'댓글: ' + ${post.commentCount}"></span>
+    </div>
+
+    <div class="detail-actions">
+        <!-- 수정 버튼 -->
+        <a th:href="@{'/information/edit/' + ${post.id}}"
+           class="edit-btn"
+           th:if="${loginMemberId == post.writerId}">
+            수정
+        </a>
+        <a href="#"
+           class="edit-btn"
+           onclick="return showNotAuthorAlert()"
+           th:if="${loginMemberId != post.writerId}">
+            수정
+        </a>
+
+        <!-- 삭제 버튼 -->
+        <form th:action="@{'/information/delete/' + ${post.id}}" method="post"
+              style="display:inline;">
+            <button type="submit"
+                    class="action-btn"
+                    th:attr="data-writer-id=${post.writerId}, data-logged-id=${loginMemberId}"
+                    onclick="return checkWriter(this, this.dataset.writerId, this.dataset.loggedId);">
+                삭제
+            </button>
+        </form>
+
+        <a th:href="@{/information}" class="back-btn">뒤로가기</a>
+
+    </div>
+
+    <!-- 본문 내용 -->
+    <div class="detail-body" th:text="${post.content}">본문 내용</div>
+
+    <!-- 댓글 작성 -->
+    <section class="comment-section">
+        <h3>댓글</h3>
+        <form th:action="@{/information/comments}" method="post" class="comment-form">
+            <input type="hidden" name="informationId" th:value="${post.id}"/>
+            <input type="hidden" name="memberId" value="2"/>
+            <textarea name="content" placeholder="댓글을 입력하세요" required></textarea>
+            <button type="submit">등록</button>
+        </form>
+
+        <!-- 댓글 리스트 -->
+        <div class="comment-list">
+            <div class="comment-item" th:each="comment : ${comments}">
+                <div class="comment-meta">
+                    <span class="comment-author" th:text="${comment.writer}">닉네임</span>
+                    <span class="comment-date"
+                          th:text="${#temporals.format(comment.createdAt, 'yy.MM.dd HH:mm')}">2025.05.07</span>
+                </div>
+                <div class="comment-text" th:text="${comment.content}">댓글 내용</div>
+            </div>
+        </div>
+    </section>
+</main>
+<script th:src="@{/js/information.js}"></script>
+</body>
+</html>

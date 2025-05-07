@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=1920"/>
+    <title>Q&A 목록</title>
+    <link rel="stylesheet" th:href="@{/css/Information.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<header class="header">
+    <div class="logo">TEAM 1</div>
+    <nav class="nav">
+        <a href="#">팀원 모집</a>
+        <a href="#">완료된 프로젝트</a>
+        <a href="#" class="active">질의 응답</a>
+    </nav>
+    <a href="#" class="login-btn">로그인</a>
+</header>
+
+<main class="container">
+
+    <section class="content">
+        <div class="intro">
+            <h2>질문은 여기에</h2>
+            <p>고수들의 답변을 들어보세요</p>
+        </div>
+
+        <div class="tab-menu">
+            <a th:href="@{/information}" class="tab active">전체</a>
+            <a th:href="@{/information?status=solved}" class="tab">해결</a>
+            <a th:href="@{/information?status=unsolved}" class="tab">미해결</a>
+        </div>
+
+        <div class="filter-box">
+            <div class="filter-top">
+                <form th:action="@{/information/search}" method="get">
+                    <input type="text" name="keyword" placeholder="검색어"/>
+                    <button class="search-btn">검색</button>
+                </form>
+            </div>
+            <div class="filter-bottom">
+                <input type="text" placeholder="# 태그 검색"/>
+                <button class="reset-btn"><span class="refresh-icon">&#x21bb;</span> 초기화</button>
+            </div>
+            <div class="filter-sort">
+                <button class="sort-btn active">최신순</button>
+                <button class="sort-btn">정확도순</button>
+                <button class="sort-btn">댓글많은순</button>
+            </div>
+            <div class="write-section">
+                <a th:href="@{/information/write}" class="write-btn">글쓰기</a>
+            </div>
+        </div>
+
+        <div class="posts">
+            <div class="post" th:each="post : ${posts}">
+                <a th:href="@{'/information/' + ${post.id}}">
+                    <div class="post-title" th:text="${post.title}">제목</div>
+                </a>
+                <div class="post-meta">
+                    <span th:text="${post.writer}">닉네임</span> ·
+                    <span th:text="${#temporals.format(post.createdAt, 'yyyy.MM.dd')}"></span>
+                    <span th:text="'댓글: ' + ${post.commentCount}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 페이징 -->
+        <div class="pagination" th:if="${totalPages != null and totalPages > 0}">
+            <a th:each="page : ${#numbers.sequence(0, totalPages - 1)}"
+               th:href="@{'/information?page=' + ${page}}"
+               th:text="${page + 1}"
+               th:classappend="${page == currentPage} ? 'active'">
+            </a>
+        </div>
+
+    </section>
+</main>
+<script th:src="@{/js/information.js}"></script>
+</body>
+</html>

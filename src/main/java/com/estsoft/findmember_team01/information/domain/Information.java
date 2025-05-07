@@ -1,7 +1,10 @@
 package com.estsoft.findmember_team01.information.domain;
 
 import com.estsoft.findmember_team01.information.dto.InformationResponse;
+import com.estsoft.findmember_team01.login.domain.Member;
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,7 +13,6 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,11 +36,15 @@ public class Information {
     @Column(nullable = false)
     private String content;
 
+
     @CreatedDate
     private LocalDateTime createAt;
 
     @LastModifiedDate
     private LocalDateTime updateAt;
+
+    @OneToMany(mappedBy = "information", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments = new ArrayList<>();
 
     @Builder
     public Information(String title, String content, Member member) {

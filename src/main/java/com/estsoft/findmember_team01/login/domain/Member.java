@@ -26,6 +26,7 @@ public class Member implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
     @Column(nullable = false, unique = true, length = 50)
@@ -99,4 +100,5 @@ public class Member implements UserDetails {
     public String getUsername() {
         return this.email;
     }
+
 }
