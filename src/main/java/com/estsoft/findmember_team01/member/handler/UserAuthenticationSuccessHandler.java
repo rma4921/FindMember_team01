@@ -31,6 +31,8 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         member.updateLoginInfo(userAgent);
         memberRepository.save(member);
 
+        request.getSession().setAttribute("memberId", member.getId());
+
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
         if (savedRequest != null) {
             response.sendRedirect(savedRequest.getRedirectUrl());
