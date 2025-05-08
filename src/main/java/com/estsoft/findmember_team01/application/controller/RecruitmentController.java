@@ -80,6 +80,6 @@ public class RecruitmentController {
         recruitmentService.deleteRecruitment(id);
         return "redirect:/api/posts";
     }
-
+    
 
 }

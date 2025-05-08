@@ -55,16 +55,20 @@ public class Recruitment {
     @Column(nullable = false)
     private Boolean status;
 
+    @Column(name = "end_status", nullable = false)
+    private Boolean end_status = false;
+
     private Long level;
 
     @Builder
     public Recruitment(Member member, String title, String content, LocalDateTime deadline,
-        Boolean status, Long level) {
+        Boolean status, Boolean end_status, Long level) {
         this.member = member;
         this.title = title;
         this.content = content;
         this.deadline = deadline;
         this.status = status;
+        this.end_status = end_status;
         this.level = level;
     }
 
@@ -73,6 +77,7 @@ public class Recruitment {
         this.content = dto.getContent();
         this.deadline = dto.getDeadline();
         this.status = dto.getStatus();
+        this.end_status = dto.getEnd_status();
         this.level = dto.getLevel();
     }
 
@@ -83,6 +88,7 @@ public class Recruitment {
             .content(this.content)
             .deadline(this.deadline)
             .status(this.status)
+            .end_status(this.end_status)
             .level(this.level)
             .build();
     }
