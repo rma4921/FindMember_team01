@@ -31,11 +31,14 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         member.updateLoginInfo(userAgent);
         memberRepository.save(member);
 
+        request.getSession().setAttribute("memberId", member.getId());
+        request.getSession().setAttribute("memberLevel", member.getLevel());
+
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
         if (savedRequest != null) {
             response.sendRedirect(savedRequest.getRedirectUrl());
         } else {
-            response.sendRedirect("/main");
+            response.sendRedirect("/api/posts");
         }
     }
 }

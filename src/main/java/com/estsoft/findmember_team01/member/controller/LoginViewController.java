@@ -19,7 +19,7 @@ public class LoginViewController {
     @GetMapping("/login")
     public String loginView(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
-            return "redirect:/main";
+            return "redirect:/api/posts";
         }
         return "login";
     }

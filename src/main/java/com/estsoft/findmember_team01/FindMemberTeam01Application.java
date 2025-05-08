@@ -10,5 +10,6 @@ public class FindMemberTeam01Application {
 
     public static void main(String[] args) {
         SpringApplication.run(FindMemberTeam01Application.class, args);
+        
     }
 }

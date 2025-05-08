@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>상세보기</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          rel="stylesheet">
     <link href="/css/mainpage.css" rel="stylesheet">
 </head>
 <body>
@@ -28,9 +29,9 @@
     <div class="mb-2 text-muted small">
         작성자 <span th:text="${post.nickname}">닉네임</span>
         &nbsp; | &nbsp;
-        작성 <span th:text="${#temporals.format(post.createAt, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
+        작성 <span th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm:ss')}">작성일</span>
         &nbsp; | &nbsp;
-        수정 <span th:text="${#temporals.format(post.updateAt, 'yyyy-MM-dd HH:mm:ss')}">수정일</span>
+        수정 <span th:text="${#temporals.format(post.updatedAt, 'yyyy-MM-dd HH:mm:ss')}">수정일</span>
     </div>
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="text-muted small">
