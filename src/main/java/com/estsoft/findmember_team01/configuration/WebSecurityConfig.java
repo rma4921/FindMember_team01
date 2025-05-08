@@ -36,7 +36,7 @@ public class WebSecurityConfig {
                     .requestMatchers("/mypage").authenticated() // 테스트용 mypage
                     .requestMatchers("/api/user/exp").permitAll()
                     .requestMatchers("/testurl").permitAll() // 테스트용 나중에 삭제하기!!
-                    .requestMatchers("/admin").hasRole("ADMIN") // 관리자 페이지 설정
+                    .requestMatchers("/api/admin", "/api/admin/**").hasRole("ADMIN") // 관리자 페이지 설정
                     .anyRequest().authenticated())
             .formLogin(auth -> auth.loginPage("/login")
                 .usernameParameter("email")
