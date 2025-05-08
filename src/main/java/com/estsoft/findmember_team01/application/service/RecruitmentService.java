@@ -1,8 +1,11 @@
 package com.estsoft.findmember_team01.application.service;
 
+import com.estsoft.findmember_team01.application.domain.Application;
+import com.estsoft.findmember_team01.application.domain.ApplicationStatus;
 import com.estsoft.findmember_team01.application.domain.Recruitment;
 import com.estsoft.findmember_team01.application.dto.RecruitmentRequest;
 import com.estsoft.findmember_team01.application.dto.RecruitmentResponse;
+import com.estsoft.findmember_team01.application.repository.ApplicationRepository;
 import com.estsoft.findmember_team01.application.repository.RecruitmentRepository;
 import com.estsoft.findmember_team01.exception.NotExistsIdException;
 import com.estsoft.findmember_team01.member.domain.Member;
@@ -14,6 +17,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +30,8 @@ public class RecruitmentService {
 
     private final RecruitmentRepository recruitmentRepository;
     private final MemberRepository memberRepository;
+    private final ApplicationRepository applicationRepository;
+    private final UserDetailsService userDetailsService;
 
     public List<RecruitmentResponse> getAllRecruitments() {
         List<Recruitment> recruitments = recruitmentRepository.findAll();
@@ -58,8 +68,38 @@ public class RecruitmentService {
     public void update(Long id, RecruitmentRequest requestDto) {
         Recruitment recruitment = recruitmentRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 모집글이 없습니다: " + id));
+
+        boolean beforeEndStatus = recruitment.getEnd_status();
         recruitment.updateFromDto(requestDto);
+
+        if (!beforeEndStatus && Boolean.TRUE.equals(recruitment.getEnd_status())) {
+            List<Application> acceptedList = applicationRepository.findByRecruitment_RecruitmentIdAndStatus(
+                id, ApplicationStatus.ACCEPTED);
+
+            for (Application app : acceptedList) {
+                Member applicant = app.getMember();
+                applicant.addExp(20);
+                memberRepository.save(applicant);
+            }
+
+            Member writer = recruitment.getMember();
+            writer.addExp(20);
+
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null &&
+                auth.getName().equals(writer.getEmail())
+            ) {
+                UserDetails user = userDetailsService.loadUserByUsername(writer.getEmail());
+                Authentication newAuth = new UsernamePasswordAuthenticationToken(user,
+                    auth.getCredentials(), user.getAuthorities());
+
+                SecurityContextHolder.getContext().setAuthentication(newAuth);
+            }
+            memberRepository.save(writer);
+
+        }
     }
+
 
     @Transactional
     public void deleteRecruitment(Long id) {
@@ -102,4 +142,6 @@ public class RecruitmentService {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, sortBy));
         return recruitmentRepository.findByStatusAndKeyword(status, keyword, pageable);
     }
+
+
 }

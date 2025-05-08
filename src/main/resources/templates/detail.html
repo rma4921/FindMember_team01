@@ -56,8 +56,8 @@
                         <span class="level-warning">⚠️ 이 모집글은 레벨 [[${recruitment.level}]] 이상만 지원할 수 있습니다.</span>
                     </th:block>
                 </div>
-                <div class="like-report">
-                    <a href="#">신고</a>
+                <div>
+                    <button class="btn-report" onclick="openReportModal()">신고하기</button>
                 </div>
             </div>
         </div>
@@ -80,16 +80,40 @@
         <form id="editForm" th:action="@{/api/posts/{id}(id=${recruitment.recruitmentId})}"
               method="post">
             <input type="hidden" name="_method" value="PUT"/>
-            <input type="text" name="title" th:value="${recruitment.title}" required><br>
-            <textarea name="content" required th:text="${recruitment.content}"></textarea><br>
+            <input type="text" name="title" th:value="${recruitment.title}" required>
+            <div class="toolbar">
+                <button type="button">B</button>
+                <button type="button">I</button>
+                <button type="button">S</button>
+                <button type="button">링크</button>
+                <button type="button">H1</button>
+                <button type="button">H2</button>
+                <button type="button">번호</button>
+                <button type="button">글머리</button>
+                <button type="button">구분선</button>
+                <button type="button">코드</button>
+            </div>
+            <textarea name="content" class="editor-content" required
+                      th:text="${recruitment.content}"></textarea><br>
             <input type="datetime-local"
                    th:text="${#temporals.format(recruitment.updatedAt, 'yyyy-MM-dd HH:mm')}"/><br>
             <select name="status">
                 <option value="true" th:selected="${recruitment.status} == true">모집중</option>
                 <option value="false" th:selected="${recruitment.status} == false">모집완료</option>
-            </select><br>
-            <input type="number" name="level" th:value="${recruitment.level}"><br>
+            </select>
+            <select name="end_status">
+                <option th:value="false" th:selected="${recruitment.end_status} == false">진행중
+                </option>
+                <option th:value="true" th:selected="${recruitment.end_status} == true">진행완료
+                </option>
+            </select>
+            <input type="number" name="level" th:value="${recruitment.level}">
             <div class="modal-button-row">
+                <label for="requiredLevel"><strong>지원 가능 최소 레벨</strong></label>
+                <input type="number" id="requiredLevel" name="requiredLevel"
+                       min="0" max="10" step="1" value="0" required
+                       placeholder="예: 3 (해당 레벨 이상만 지원 가능)"
+                       style="padding: 10px; margin-bottom: 15px;"/>
                 <button type="button" class="btn-cancel" onclick="closeEditModal()">취소</button>
                 <button type="submit" class="btn-submit">수정 완료</button>
             </div>
@@ -148,6 +172,52 @@
                 <button type="submit" class="btn-submit">지원하기</button>
             </div>
         </form>
+    </div>
+</div>
+
+
+<div id="modalOverlay3" class="modal-overlay"></div>
+<div id="reportModal" class="modal-box" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="closeReportModal()">&times;</span>
+
+        <!-- 상단 제목 -->
+        <h2 class="modal-heading">신고</h2>
+
+        <!-- 연두색 안내 박스 -->
+        <div class="alert-box success-alert">
+            아래 양식을 참고해 신고해주세요..
+        </div>
+
+        <form id="reportForm"
+              th:action="@{/api/posts/{id}/report(id=${recruitment.recruitmentId})}"
+              method="post">
+
+            <!-- 제목 (신고 대상 제목 확인용) -->
+            <div class="title-input readonly-text" th:text="${recruitment.title}">모집글 제목</div>
+
+            <!-- 신고 대상 ID와 종류 (숨김 처리) -->
+            <input type="hidden" name="targetId" th:value="${recruitment.recruitmentId}"/>
+            <label for="targetType"><strong>신고 대상</strong></label>
+            <select name="targetType" id="targetType" required>
+                <option value="POST">게시글
+                </option>
+                <option value="MEMBER">사용자
+                </option>
+            </select><br>
+
+            <!-- 신고 사유 입력 -->
+            <textarea name="reason" class="editor-content" rows="18" required>
+- 신고 사유 :
+- 신고 내용 :
+    </textarea>
+            <!-- 버튼 -->
+            <div class="modal-button-row">
+                <button type="button" class="btn-cancel" onclick="closeReportModal()">취소</button>
+                <button type="submit" class="btn-submit">신고하기</button>
+            </div>
+        </form>
+
     </div>
 </div>
 
