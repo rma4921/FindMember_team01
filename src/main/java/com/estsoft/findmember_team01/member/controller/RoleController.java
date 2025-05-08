@@ -20,4 +20,10 @@ public class RoleController {
 
         return ResponseEntity.ok("경험치가 추가되었습니다.");
     }
+
+//    @PostMapping("/api/posts/{projectId}/complete")
+//    public ResponseEntity<String> completeProject(@PathVariable Long projectId) {
+//        projectService.completeProject(projectId);
+//        return ResponseEntity.ok("프로젝트가 완료됐습니다.");
+//    }
 }
