@@ -17,22 +17,23 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
-    private final MemberRepository memberRepository;
+	private final MemberRepository memberRepository;
 
-    // 인증 핸들러
-    @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-        Authentication authentication) throws IOException, ServletException {
-        String email = authentication.getName();
-        String userAgent = request.getHeader("User-Agent");
+	// 인증 핸들러
+	@Override
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+		Authentication authentication) throws IOException, ServletException {
+		String email = authentication.getName();
+		String userAgent = request.getHeader("User-Agent");
 
-        Member member = memberRepository.findByEmail(email)
-            .orElseThrow(() -> new IllegalArgumentException(email + "에 해당하는 사용자 정보를 찾을 수 없습니다."));
-        member.updateLoginInfo(userAgent);
-        memberRepository.save(member);
+		Member member = memberRepository.findByEmail(email)
+			.orElseThrow(() -> new IllegalArgumentException(email + "에 해당하는 사용자 정보를 찾을 수 없습니다."));
+		member.updateLoginInfo(userAgent);
+		memberRepository.save(member);
 
-        request.getSession().setAttribute("memberId", member.getId());
-        request.getSession().setAttribute("memberLevel", member.getLevel());
+		request.getSession().setAttribute("memberId", member.getId());
+		request.getSession().setAttribute("memberLevel", member.getLevel());
+		request.getSession().setAttribute("memberNickname", member.getNickname());
 
         boolean isAdmin = authentication.getAuthorities().stream()
             .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
