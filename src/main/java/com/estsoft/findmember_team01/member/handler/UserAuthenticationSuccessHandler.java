@@ -34,11 +34,14 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         request.getSession().setAttribute("memberId", member.getId());
         request.getSession().setAttribute("memberLevel", member.getLevel());
 
+        boolean isAdmin = authentication.getAuthorities().stream()
+            .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
         if (savedRequest != null) {
             response.sendRedirect(savedRequest.getRedirectUrl());
         } else {
-            response.sendRedirect("/api/posts");
+            response.sendRedirect(isAdmin ? "/api/admin/users" : "/api/posts");
         }
     }
 }
