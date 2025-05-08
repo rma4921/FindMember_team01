@@ -17,12 +17,12 @@ import java.util.List;
 @Service
 public class InformationService {
 
-    private final com.estsoft.findmember_team01.login.repository.MemberRepository memberRepository;
+    private final com.estsoft.findmember_team01.member.repository.MemberRepository memberRepository;
     private InformationRepository informationRepository;
     private CommentRepository commentRepository;
 
     public InformationService(InformationRepository informationRepository,
-        CommentRepository commentRepository, com.estsoft.findmember_team01.login.repository.MemberRepository memberRepository) {
+        CommentRepository commentRepository, com.estsoft.findmember_team01.member.repository.MemberRepository memberRepository) {
         this.informationRepository = informationRepository;
         this.commentRepository = commentRepository;
         this.memberRepository = memberRepository;
@@ -46,7 +46,7 @@ public class InformationService {
         System.out.println(">> title: " + request.getTitle());
         System.out.println(">> content: " + request.getContent());
 
-        com.estsoft.findmember_team01.login.domain.Member member = memberRepository.findById(request.getMemberId())
+        com.estsoft.findmember_team01.member.domain.Member member = memberRepository.findById(request.getMemberId())
             .orElseThrow(() -> new RuntimeException("Member not found"));
 
         Information information = Information.builder()

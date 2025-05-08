@@ -16,12 +16,12 @@ import java.util.stream.Collectors;
 @Service
 public class CommentService {
 
-    private final com.estsoft.findmember_team01.login.repository.MemberRepository memberRepository;
+    private final com.estsoft.findmember_team01.member.repository.MemberRepository memberRepository;
     private CommentRepository commentRepository;
     private InformationRepository informationRepository;
 
     public CommentService(CommentRepository commentRepository,
-        InformationRepository informationRepository, com.estsoft.findmember_team01.login.repository.MemberRepository memberRepository) {
+        InformationRepository informationRepository, com.estsoft.findmember_team01.member.repository.MemberRepository memberRepository) {
         this.commentRepository = commentRepository;
         this.informationRepository = informationRepository;
         this.memberRepository = memberRepository;
@@ -33,7 +33,7 @@ public class CommentService {
         Information information = informationRepository.findById(informationId)
             .orElseThrow(() -> new RuntimeException("Information not found"));
 
-        com.estsoft.findmember_team01.login.domain.Member member = memberRepository.findById(memberId)
+        com.estsoft.findmember_team01.member.domain.Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new RuntimeException("Member not found"));
 
         Comment comment = commentRepository.save(

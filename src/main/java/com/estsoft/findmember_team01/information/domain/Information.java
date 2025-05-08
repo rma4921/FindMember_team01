@@ -1,7 +1,7 @@
 package com.estsoft.findmember_team01.information.domain;
 
 import com.estsoft.findmember_team01.information.dto.InformationResponse;
-import com.estsoft.findmember_team01.login.domain.Member;
+import com.estsoft.findmember_team01.member.domain.Member;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
