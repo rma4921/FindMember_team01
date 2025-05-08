@@ -21,7 +21,15 @@
         </div>
     </div>
     <div class="navbar-nav ml-auto">
-        <a class="btn btn-outline-primary" href="/login">로그인</a>
+        <a class="btn btn-outline-primary" th:href="@{/login}" th:if="${memberId == null}">로그인</a>
+
+        <!-- 로그인 상태 -->
+        <div class="d-flex align-items-center" th:if="${memberId != null}">
+            <span class="mr-3" th:if="${nickname != null}" th:text="${nickname + '님'}">nickname</span>
+            <form method="post" th:action="@{/logout}">
+                <button class="btn btn-outline-danger" type="submit">로그아웃</button>
+            </form>
+        </div>
     </div>
 </nav>
 <div class="banner">
@@ -103,8 +111,8 @@
         </ul>
     </nav>
 </div>
-<div id="modalOverlay" class="modal-overlay"></div>
-<div id="writeModal" class="modal-box">
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="modal-box" id="writeModal">
     <div class="modal-content">
         <span class="close" onclick="closeModal()">&times;</span>
 
@@ -114,9 +122,9 @@
             예시를 참고해 작성해주세요.
         </div>
 
-        <form id="writeForm" th:action="@{/api/posts/create}" method="post">
-            <input type="text" id="title" name="title" placeholder="제목" class="title-input"
-                   required/>
+        <form id="writeForm" method="post" th:action="@{/api/posts/create}">
+            <input class="title-input" id="title" name="title" placeholder="제목" required
+                   type="text"/>
             <div class="toolbar">
                 <button type="button">B</button>
                 <button type="button">I</button>
@@ -130,7 +138,7 @@
                 <button type="button">코드</button>
             </div>
 
-            <textarea id="content" name="content" class="editor-content" rows="18" required>
+            <textarea class="editor-content" id="content" name="content" required rows="18">
 [팀 프로젝트 모집 내용 예시]
 ・ 프로젝트 주제 :
 ・ 프로젝트 목표 :
@@ -142,12 +150,13 @@
 
             <div class="modal-button-row">
                 <label for="requiredLevel"><strong>지원 가능 최소 레벨</strong></label>
-                <input type="number" id="requiredLevel" name="requiredLevel"
-                       min="0" max="10" step="1" value="0" required
-                       placeholder="예: 3 (해당 레벨 이상만 지원 가능)"
-                       style="padding: 10px; margin-bottom: 15px;"/>
-                <button type="button" class="btn-cancel" onclick="closeModal()">취소</button>
-                <button type="submit" class="btn-submit">등록</button>
+                <input id="requiredLevel" max="10" min="0"
+                       name="requiredLevel" placeholder="예: 3 (해당 레벨 이상만 지원 가능)" required step="1"
+                       style="padding: 10px; margin-bottom: 15px;"
+                       type="number"
+                       value="0"/>
+                <button class="btn-cancel" onclick="closeModal()" type="button">취소</button>
+                <button class="btn-submit" type="submit">등록</button>
             </div>
         </form>
     </div>
