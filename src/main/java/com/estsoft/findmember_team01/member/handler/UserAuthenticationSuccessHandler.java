@@ -37,7 +37,7 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         if (savedRequest != null) {
             response.sendRedirect(savedRequest.getRedirectUrl());
         } else {
-            response.sendRedirect("/main");
+            response.sendRedirect("/api/posts");
         }
     }
 }
