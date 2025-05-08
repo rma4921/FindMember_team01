@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>지원서 목록</title>
+    <link rel="stylesheet" href="/css/applicationList.css">
+</head>
+<body>
+
+<div class="main-container">
+    <div class="content">
+        <div class="main-content">
+            <div class="center-content">
+                <div class="header-row">
+                    <h2>지원서 목록</h2>
+                    <a th:href="@{/api/posts/{id}(id=${recruitmentId})}"
+                       class="btn btn-back">뒤로가기</a>
+                </div>
+
+                <!-- 검색 및 정렬 -->
+                <form
+                    th:action="@{/api/posts/{recruitmentId}/apply(recruitmentId=${recruitmentId})}"
+                    method="get" class="search-area">
+                    <div class="search-row">
+                        <input type="text" name="titleKeyword" th:value="${param.titleKeyword}"
+                               placeholder="제목으로 검색"/>
+                        <button type="submit" class="btn-green">검색</button>
+                    </div>
+
+                    <div class="sort-options">
+                        <input type="hidden" name="sort" th:value="${param.sort} ?: 'latest'"/>
+                        <a href="#"
+                           th:onclick="|this.closest('form').sort.value='latest'; this.closest('form').submit(); return false;|"
+                           th:classappend="${param.sort} == 'latest' ? 'active'">최신순</a>
+                        <a href="#"
+                           th:onclick="|this.closest('form').sort.value='oldest'; this.closest('form').submit(); return false;|"
+                           th:classappend="${param.sort} == 'oldest' ? 'active'">오래된순</a>
+                    </div>
+                </form>
+
+                <!-- 지원서 리스트 -->
+                <div class="post-list">
+                    <div class="post-item" th:each="app : ${applicationList}">
+                        <div class="post-left">
+                            <span class="badge" th:text="${app.status.displayName}">상태</span>
+                            <a th:href="@{/api/posts/{recruitmentId}/apply/{applicationId}(recruitmentId=${app.recruitment.recruitmentId}, applicationId=${app.applicationId})}"
+                               class="post-title" th:text="${app.recruitment.title}">글 제목</a>
+                            <p class="post-content" th:text="${app.content}">지원서 내용</p>
+                            <p class="post-meta"
+                               th:text="${#temporals.format(app.createdAt, 'yyyy-MM-dd HH:mm')}">
+                                지원일</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 페이징 -->
+                <div class="pagination" th:if="${page.totalPages > 1}">
+                    <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
+                       th:href="@{/api/posts/{recruitmentId}/apply(recruitmentId=${recruitmentId}, page=${i}, sort=${param.sort}, titleKeyword=${param.titleKeyword})}"
+                       th:text="${i + 1}"
+                       th:class="'page-button' + (${page.number} == ${i} ? ' active' : '')">
+                    </a>
+                    <a th:if="${!page.last}"
+                       th:href="@{/api/posts/{recruitmentId}/apply(recruitmentId=${recruitmentId}, page=${page.number + 1}, sort=${param.sort}, titleKeyword=${param.titleKeyword})}"
+                       class="page-next">다음 페이지</a>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

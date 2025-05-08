@@ -32,6 +32,7 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         memberRepository.save(member);
 
         request.getSession().setAttribute("memberId", member.getId());
+        request.getSession().setAttribute("memberLevel", member.getLevel());
 
         SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
         if (savedRequest != null) {
