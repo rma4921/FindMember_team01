@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>지원서 상세 보기</title>
+    <link rel="stylesheet" href="/css/applicationDetail.css">
+</head>
+<body>
+
+<main class="application-detail-container">
+    <div class="application-detail-header">
+        <h2 class="application-title" th:text="${applicationDto.title}">지원서 제목</h2>
+
+        <div class="application-meta">
+            <div class="meta-left">
+                <span
+                    th:text="'작성일 ' + ${#temporals.format(applicationDto.createdAt, 'yy.MM.dd HH:mm')}">작성일</span>
+                <span class="application-nickname" th:text="${applicationDto.applicantNickname}">지원자 닉네임</span>
+            </div>
+
+            <form
+                th:action="@{/api/posts/{recruitmentId}/apply/{id}(recruitmentId=${applicationDto.recruitmentId}, id=${applicationDto.applicationId})}"
+                method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <input type="hidden" name="_method" value="delete"/>
+                <button type="submit" class="btn btn-delete">삭제</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="application-content">
+        <p th:text="${applicationDto.content}">지원서 내용</p>
+    </div>
+
+    <div class="application-buttons">
+
+
+        <form
+            th:action="@{/api/posts/{recruitmentId}/apply/{id}(recruitmentId=${applicationDto.recruitmentId}, id=${applicationDto.applicationId})}"
+            method="post">
+            <input type="hidden" name="_method" value="put"/>
+            <input type="hidden" name="status" value="ACCEPTED"/>
+            <button type="submit" class="btn btn-accept">수락</button>
+        </form>
+
+        <form
+            th:action="@{/api/posts/{recruitmentId}/apply/{id}(recruitmentId=${applicationDto.recruitmentId}, id=${applicationDto.applicationId})}"
+            method="post">
+            <input type="hidden" name="_method" value="put"/>
+            <input type="hidden" name="status" value="REJECTED"/>
+            <button type="submit" class="btn btn-reject">거절</button>
+        </form>
+
+        <div class="back-button">
+            <a th:href="@{/api/posts/{recruitmentId}/apply(recruitmentId=${applicationDto.recruitmentId})}"
+               class="btn btn-back">뒤로가기</a>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

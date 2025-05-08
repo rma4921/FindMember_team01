@@ -1,0 +1,155 @@
+/* 공통 모달 스타일 */
+.modal-box {
+    position: fixed;
+    top: 0;
+    right: 25vw;
+    bottom: 0;
+    left: 25vw;
+    width: 50vw;
+    height: 100vh;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    display: none;
+    z-index: 1000;
+    overflow-y: auto;
+}
+
+.modal-content,
+.modal-box form {
+    width: 100%;
+    max-width: 100%;
+}
+
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+}
+
+.modal-heading {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.alert-box {
+    display: flex;
+    align-items: center;
+    background: #f0fff5;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-size: 14px;
+}
+
+.success-alert {
+    background-color: #e8f8f2;
+    color: #2d7a55;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.toolbar button {
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 6px 10px;
+    font-size: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.toolbar button:hover {
+    background-color: #e0e0e0;
+}
+
+.editor-content {
+    padding: 16px;
+    min-height: 300px;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333;
+    outline: none;
+    background: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 16px;
+}
+
+.editor-content:empty:before {
+    content: attr(data-placeholder);
+    color: #aaa;
+    pointer-events: none;
+}
+
+.modal-button-row {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btn-cancel {
+    background: #ffffff;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    color: #333;
+}
+
+.btn-submit {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.close {
+    float: right;
+    font-size: 28px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.title-input,
+.tag-input,
+textarea,
+input[type="text"],
+input[type="date"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fafafa;
+}
+
+.readonly-text {
+    padding: 10px;
+    font-size: 1.1rem;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

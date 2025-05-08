@@ -49,7 +49,7 @@ public class LoginController {
             .orElseThrow(() -> new IllegalArgumentException(id + "는 존재하지 않는 사용자입니다."));
 
         if (!member.getEmail().equals(currentEmail)) {
-            return "redirect:/main";
+            return "redirect:/api/posts";
         }
 
         memberService.deleteMember(id);
