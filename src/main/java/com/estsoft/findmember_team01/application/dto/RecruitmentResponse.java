@@ -16,6 +16,7 @@ public class RecruitmentResponse {
     private LocalDateTime updatedAt;
     private LocalDateTime deadline;
     private Boolean status;
+    private Boolean end_status;
     private Long level;
 
     @Builder
@@ -28,6 +29,7 @@ public class RecruitmentResponse {
         this.updatedAt = recruitment.getUpdatedAt();
         this.deadline = recruitment.getDeadline();
         this.status = recruitment.getStatus();
+        this.end_status = recruitment.getEnd_status();
         this.level = recruitment.getLevel();
     }
 }

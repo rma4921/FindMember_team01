@@ -18,16 +18,18 @@ public class RecruitmentRequest {
     private String content;
     private LocalDateTime deadline;
     private Boolean status;
+    private Boolean end_status;
     private Long level;
 
     @Builder
     public RecruitmentRequest(Long memberId, String title, String content,
-        LocalDateTime deadline, Boolean status, Long level) {
+        LocalDateTime deadline, Boolean status, Boolean end_status, Long level) {
         this.memberId = memberId;
         this.title = title;
         this.content = content;
         this.deadline = deadline;
         this.status = status;
+        this.end_status = end_status;
         this.level = level;
     }
 
@@ -38,6 +40,7 @@ public class RecruitmentRequest {
             .content(this.content)
             .deadline(this.deadline)
             .status(true)
+            .end_status(false)
             .level(this.level)
             .build();
     }

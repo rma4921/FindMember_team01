@@ -22,6 +22,16 @@ function closeApplyModal() {
   document.getElementById("modalOverlay").style.display = "none";
 }
 
+function openReportModal() {
+  document.getElementById('reportModal').style.display = 'block';
+  document.getElementById("modalOverlay").style.display = "block";
+}
+
+function closeReportModal() {
+  document.getElementById('reportModal').style.display = 'none';
+  document.getElementById("modalOverlay").style.display = "none";
+}
+
 function changeApplyButton() {
   const button = document.getElementById('applyButton');
   button.disabled = true;
