@@ -29,8 +29,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/login", "/signup", "/user", "/main").permitAll()
+                auth.requestMatchers("/login", "/signup", "/user").permitAll()
                     .requestMatchers("/api/user/signup", "/logout").permitAll()
+                    .requestMatchers("/api/posts").permitAll()
                     .requestMatchers(HttpMethod.DELETE, "/api/user/*").authenticated()
                     .requestMatchers("/mypage").authenticated() // 테스트용 mypage
                     .requestMatchers("/api/user/exp").permitAll()
