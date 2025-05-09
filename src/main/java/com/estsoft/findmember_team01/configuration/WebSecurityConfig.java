@@ -32,6 +32,7 @@ public class WebSecurityConfig {
                 auth.requestMatchers("/login", "/signup", "/user").permitAll()
                     .requestMatchers("/api/user/signup", "/logout").permitAll()
                     .requestMatchers("/api/posts", "/api/posts/**").permitAll()
+                    .requestMatchers("/information/**").permitAll()
                     .requestMatchers(HttpMethod.DELETE, "/api/user/*").authenticated()
                     .requestMatchers("/mypage").authenticated() // 테스트용 mypage
                     .requestMatchers("/api/user/exp").permitAll()

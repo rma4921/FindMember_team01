@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=1920"/>
+    <title>Q&A 목록</title>
+    <link rel="stylesheet" th:href="@{/css/Information.css}"/>
+    <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<header class="header">
+    <div class="header-left">
+        <div class="logo">TEAM 1</div>
+        <nav class="nav">
+            <a href="/api/posts">팀원 모집</a>
+            <a href="#">완료된 프로젝트</a>
+            <a href="/information" class="active">질의 응답</a>
+        </nav>
+    </div>
+
+    <!-- 오른쪽 로그인 영역 -->
+    <div class="navbar-user" th:if="${session.memberId != null}">
+        <span class="nickname" th:text="${session.memberNickname + '님'}">user_nickname님</span>
+        <form method="post" th:action="@{/logout}">
+            <button type="submit" class="logout-btn">로그아웃</button>
+        </form>
+    </div>
+    <a class="login-btn" th:href="@{/login}" th:if="${session.memberId == null}">로그인</a>
+</header>
+
+<main class="container">
+
+    <section class="content">
+        <div class="intro">
+            <h2>질문은 여기에</h2>
+            <p>고수들의 답변을 들어보세요</p>
+        </div>
+
+        <div class="tab-menu">
+            <a th:href="@{/information/search(status='ALL', keyword=${keyword})}"
+               class="tab"
+               th:classappend="${selectedStatus == null or selectedStatus == 'ALL'} ? 'active'">
+                전체
+            </a>
+            <a th:href="@{/information/search(status='SOLVED', keyword=${keyword})}"
+               class="tab"
+               th:classappend="${selectedStatus == 'SOLVED'} ? 'active'">
+                해결
+            </a>
+            <a th:href="@{/information/search(status='UNSOLVED', keyword=${keyword})}"
+               class="tab"
+               th:classappend="${selectedStatus == 'UNSOLVED'} ? 'active'">
+                미해결
+            </a>
+        </div>
+
+
+        <div class="filter-box">
+            <div class="filter-top">
+                <!-- 검색창 -->
+                <form th:action="@{/information/search}" method="get">
+                    <input type="text" name="keyword" placeholder="검색어" th:value="${keyword}"/>
+                    <input type="hidden" name="status" th:value="${selectedStatus}"/>
+                    <button type="submit">검색</button>
+                </form>
+            </div>
+            <div class="filter-bottom">
+                <input type="text" placeholder="# 태그 검색"/>
+                <button class="reset-btn"><span class="refresh-icon">&#x21bb;</span> 초기화</button>
+            </div>
+            <div class="filter-sort">
+                <button class="sort-btn active">최신순</button>
+                <button class="sort-btn">정확도순</button>
+                <button class="sort-btn">댓글많은순</button>
+            </div>
+            <div class="write-section">
+                <a th:href="@{/information/write}" class="write-btn">글쓰기</a>
+            </div>
+        </div>
+
+        <div class="posts">
+            <!-- 제목 링크 -->
+            <div class="post" th:each="post : ${posts}">
+                <a th:href="@{'/information/' + ${post.id}}">
+                    <div class="post-title">
+                        <span th:text="${post.title}">제목</span>
+                        <span class="status-badge"
+                              th:text="${post.status.name() == 'SOLVED' ? '해결' : '미해결'}"
+                              th:classappend="${post.status.name() == 'SOLVED' ? 'solved' : 'unsolved'}">
+                        </span>
+                    </div>
+                </a>
+                <!-- 작성자, 날짜 -->
+                <div class="post-meta">
+                    <span th:text="${post.writer}">닉네임</span> ·
+                    <span th:text="${#temporals.format(post.createdAt, 'yyyy.MM.dd')}"></span>
+                    <span th:text="'댓글: ' + ${post.commentCount}"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 페이징 -->
+        <div class="pagination" th:if="${totalPages != null and totalPages > 0}">
+            <a th:each="page : ${#numbers.sequence(0, totalPages - 1)}"
+               th:href="@{/information/search(status=${selectedStatus}, keyword=${keyword}, page=${page})}"
+               th:text="${page + 1}"
+               th:classappend="${page == currentPage} ? 'active'">
+            </a>
+        </div>
+
+    </section>
+</main>
+<script th:src="@{/js/information.js}"></script>
+</body>
+</html>

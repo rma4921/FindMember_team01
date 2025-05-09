@@ -121,4 +121,5 @@ public class Member implements UserDetails {
     public String getUsername() {
         return this.email;
     }
+
 }
