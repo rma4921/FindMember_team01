@@ -13,16 +13,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "recruitment")
 public class Recruitment {
@@ -60,9 +64,12 @@ public class Recruitment {
 
     private Long level;
 
+    @Column(name = "hide_status", nullable = false)
+    private Boolean hide_status;
+
     @Builder
     public Recruitment(Member member, String title, String content, LocalDateTime deadline,
-        Boolean status, Boolean end_status, Long level) {
+        Boolean status, Boolean end_status, Long level, Boolean hide_status) {
         this.member = member;
         this.title = title;
         this.content = content;
@@ -70,6 +77,7 @@ public class Recruitment {
         this.status = status;
         this.end_status = end_status;
         this.level = level;
+        this.hide_status = hide_status;
     }
 
     public void updateFromDto(RecruitmentRequest dto) {
@@ -79,6 +87,7 @@ public class Recruitment {
         this.status = dto.getStatus();
         this.end_status = dto.getEnd_status();
         this.level = dto.getLevel();
+        this.hide_status = dto.getHide_status();
     }
 
     public Recruitment toEntity(Member member) {
@@ -90,6 +99,7 @@ public class Recruitment {
             .status(this.status)
             .end_status(this.end_status)
             .level(this.level)
+            .hide_status(this.hide_status)
             .build();
     }
 

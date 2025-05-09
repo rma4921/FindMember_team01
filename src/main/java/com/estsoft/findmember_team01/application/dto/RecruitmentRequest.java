@@ -20,10 +20,12 @@ public class RecruitmentRequest {
     private Boolean status;
     private Boolean end_status;
     private Long level;
+    private Boolean hide_status;
 
     @Builder
     public RecruitmentRequest(Long memberId, String title, String content,
-        LocalDateTime deadline, Boolean status, Boolean end_status, Long level) {
+        LocalDateTime deadline, Boolean status, Boolean end_status, Long level,
+        Boolean hide_status) {
         this.memberId = memberId;
         this.title = title;
         this.content = content;
@@ -31,6 +33,7 @@ public class RecruitmentRequest {
         this.status = status;
         this.end_status = end_status;
         this.level = level;
+        this.hide_status = hide_status;
     }
 
     public Recruitment toEntity(Member member) {
@@ -42,6 +45,7 @@ public class RecruitmentRequest {
             .status(true)
             .end_status(false)
             .level(this.level)
+            .hide_status(this.hide_status)
             .build();
     }
 }

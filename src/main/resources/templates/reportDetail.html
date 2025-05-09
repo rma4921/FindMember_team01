@@ -51,6 +51,9 @@
         <p th:text="${report.reason}">신고 사유</p>
     </div>
     <div class="header-top header-row">
+        <a th:href="@{/api/admin/posts/{id}(id=${report.getTargetId()})}"
+           class="btn btn-move">이동
+        </a>
         <a th:href="@{/api/admin/reports}" class="btn btn-back">뒤로가기</a>
     </div>
 </div>

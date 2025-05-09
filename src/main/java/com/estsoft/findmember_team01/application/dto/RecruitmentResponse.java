@@ -18,6 +18,7 @@ public class RecruitmentResponse {
     private Boolean status;
     private Boolean end_status;
     private Long level;
+    private Boolean hide_status;
 
     @Builder
     public RecruitmentResponse(Recruitment recruitment) {
@@ -31,5 +32,6 @@ public class RecruitmentResponse {
         this.status = recruitment.getStatus();
         this.end_status = recruitment.getEnd_status();
         this.level = recruitment.getLevel();
+        this.hide_status = recruitment.getHide_status();
     }
 }
