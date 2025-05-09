@@ -49,6 +49,7 @@ public class Report {
     @CreationTimestamp
     private LocalDateTime createdAt;
 
+    @Builder.Default
     @Column(nullable = false)
     private Boolean status = false;
 

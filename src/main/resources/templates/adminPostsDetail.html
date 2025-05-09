@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시글 상세보기</title>
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/modal.css">
+</head>
+<body>
+
+
+<div class="detail-container">
+    <div class="detail-header">
+        <div class="header-top">
+            <h2 th:text="${recruitment.title}"></h2>
+            <div class="detail-meta">
+                <!-- 작성일과 수정일 비교 -->
+                <th:block th:if="${recruitment.createdAt == recruitment.updatedAt}">
+                    <span>작성일 [[${#temporals.format(recruitment.createdAt, 'yy.MM.dd HH:mm')}]]</span>
+                </th:block>
+                <th:block th:if="${recruitment.createdAt != recruitment.updatedAt}">
+                    <span>수정일 [[${#temporals.format(recruitment.updatedAt, 'yy.MM.dd HH:mm')}]]</span>
+                </th:block>
+                <span th:text="${recruitment.status ? '모집중' : '모집 완료'}">모집중</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <!-- 왼쪽 영역: 수정/삭제 -->
+            <div class="left-actions">
+                <div class="application-buttons">
+                    <form id="deleteForm"
+                          th:action="@{/api/admin/posts/{id}(id=${recruitment.recruitmentId})}"
+                          method="post"
+                          onsubmit="return confirmDelete();">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button type="submit" class="btn-delete">삭제</button>
+                    </form>
+                </div>
+            </div>
+            <div class="application-buttons">
+                <form th:action="@{/api/admin/posts/{id}(id=${recruitment.recruitmentId})}"
+                      method="post">
+                    <input type="hidden" name="_method" value="put"/>
+                    <input type="hidden" name="hide_status"
+                           th:value="${recruitment.hide_status ? false : true}"/>
+                    <button type="submit"
+                            th:text="${recruitment.hide_status ? '꺼내기' : '숨기기'}"
+                            class="btn-hide">
+                        숨기기
+                    </button>
+                </form>
+
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="detail-content">
+        <p th:text="${recruitment.content}">프로젝트 내용</p>
+    </div>
+    <div class="header-top header-row">
+        <a th:href="@{/api/admin/posts}" class="btn btn-back">게시글 목록</a>
+    </div>
+</div>
+
+
+<script src="/js/detail.js"></script>
+</body>
+</html>
