@@ -27,7 +27,8 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
                     member.updateLogoutInfo();
                     memberRepository.save(member);
                 });
-            response.sendRedirect("/api/posts");
         }
+        
+        response.sendRedirect("/api/posts");
     }
 }
