@@ -16,5 +16,29 @@ input[type="text"] {
 
 .pagination .page-item.active .page-link {
     background-color: #00C471;
-    color: white;
+    color: #ffffff;
+}
+
+.fixed-role-badge {
+    width: 60px;
+    padding: 7px;
+    text-align: center;
+}
+
+.role-select {
+    max-width: 84px;
+    padding-left: 0;
+}
+
+.nickname {
+    font-size: 18px;
+    padding-bottom: 7px;
+}
+
+.btn-warning {
+    background-color: #a1a1a1;
+}
+
+.text-muted {
+    font-size: 14px;
 }
