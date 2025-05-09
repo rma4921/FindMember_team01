@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,5 +73,13 @@ public class AdminController {
         @RequestParam UpdateLevelRequest request) {
         adminService.updateUserLevel(id, request.getLevel());
         return ResponseEntity.ok("레벨 및 권한이 수정되었습니다.");
+    }
+
+    @PostMapping("/api/admin/users/{id}/role")
+    public String changeMemberRole(@PathVariable Long id,
+        @RequestParam String role) {
+        adminService.changeRole(id, role);
+
+        return "redirect:/api/admin/users";
     }
 }
