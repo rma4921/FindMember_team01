@@ -16,7 +16,7 @@
         <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="#">회원 조회</a>
             <a class="nav-item nav-link" href="#">회원 관리</a>
-            <a class="nav-item nav-link" href="/api/admin/posts">신고 관리</a>
+            <a class="nav-item nav-link" href="/api/admin/reports">신고 관리</a>
             <a class="nav-item nav-link" href="#">팀원 모집</a>
             <a class="nav-item nav-link" href="#">질의응답</a>
         </div>
@@ -28,15 +28,15 @@
 <div class="container mt-2 mb-2" style="padding: 0 10%;">
     <div class="mb-4" style="display: flex; flex-direction: column; margin-bottom: 10px;">
         <nav class="filter-nav mb-3">
-            <a class="filter-btn" href="/api/admin/posts?status=-1"
+            <a class="filter-btn" href="/api/admin/reports?status=-1"
                th:classappend="${status == -1 ? 'font-weight-bold' : ''}">전체</a>
-            <a class="filter-btn" href="/api/admin/posts?status=0"
+            <a class="filter-btn" href="/api/admin/reports?status=0"
                th:classappend="${status == 0 ? 'font-weight-bold' : ''}">처리중</a>
-            <a class="filter-btn" href="/api/admin/posts?status=1"
+            <a class="filter-btn" href="/api/admin/reports?status=1"
                th:classappend="${status == 1 ? 'font-weight-bold' : ''}">처리완료</a>
         </nav>
         <div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
-            <form action="/api/admin/posts" method="get"
+            <form action="/api/admin/reports" method="get"
                   style="display: flex; align-items: center; width: 100%; margin-bottom: 10px;">
                 <input name="keyword" placeholder="신고 제목 검색" style="flex-grow: 1;"
                        th:value="${keyword} ?: ''"
@@ -47,7 +47,7 @@
     </div>
     <div>
         <div class="mb-4 post-item" th:each="item : ${reportList}">
-            <a class="stretched-link" th:href="@{/api/admin/posts/{id}(id=${item.reportId})}">
+            <a class="stretched-link" th:href="@{/api/admin/reports/{id}(id=${item.reportId})}">
                 <h5 class="d-flex align-items-center">
                     <span class="badge badge-success mr-2" style="background-color: #28a745;"
                           th:if="${item.status == false}">처리중</span>
@@ -85,21 +85,21 @@
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
                 <a class="page-link"
                    tabindex="-1"
-                   th:href="@{'/api/admin/posts'(page=${currentPage - 1}, sortBy=${sortBy},
+                   th:href="@{'/api/admin/reports'(page=${currentPage - 1}, sortBy=${sortBy},
                      status=${status != -1 ? status : null},
                      keyword=${keyword != null and keyword != '' ? keyword : null})}">«</a>
             </li>
             <li class="page-item" th:classappend="${i == currentPage} ? 'active'"
                 th:each="i : ${#numbers.sequence(startPage, endPage)}">
                 <a class="page-link"
-                   th:href="@{'/api/admin/posts'(page=${i}, sortBy=${sortBy},
+                   th:href="@{'/api/admin/reports'(page=${i}, sortBy=${sortBy},
                      status=${status != -1 ? status : null},
                      keyword=${keyword != null and keyword != '' ? keyword : null})}"
                    th:text="${i + 1}">1</a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{'/api/admin/posts'(page=${currentPage + 1}, sortBy=${sortBy},
+                   th:href="@{'/api/admin/reports'(page=${currentPage + 1}, sortBy=${sortBy},
                      status=${status != -1 ? status : null},
                      keyword=${keyword != null and keyword != '' ? keyword : null})}">»</a>
             </li>

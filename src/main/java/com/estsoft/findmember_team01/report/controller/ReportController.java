@@ -40,7 +40,7 @@ public class ReportController {
     }
 
     //신고 목록 조회
-    @GetMapping("/api/admin/posts")
+    @GetMapping("/api/admin/reports")
     public String getReport(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "createdAt") String sortBy,
@@ -95,7 +95,7 @@ public class ReportController {
         return "reportList";
     }
 
-    @GetMapping("/api/admin/posts/{id}")
+    @GetMapping("/api/admin/reports/{id}")
     public String reportDetail(@PathVariable("id") Long id, Model model) {
         ReportResponse report = reportService.getReportById(id);  // 이름 변경
         model.addAttribute("report", report);  // 모델에 report로 저장
@@ -103,16 +103,16 @@ public class ReportController {
         return "reportDetail";
     }
 
-    @PutMapping("/api/admin/posts/{id}")
+    @PutMapping("/api/admin/reports/{id}")
     public String updateReportStatus(@PathVariable Long id, @RequestParam boolean status) {
         reportService.updateStatus(id, status);
-        return "redirect:/api/admin/posts/" + id;
+        return "redirect:/api/admin/reports/" + id;
     }
-    
-    @DeleteMapping("/api/admin/posts/{id}")
+
+    @DeleteMapping("/api/admin/reports/{id}")
     public String deleteReport(@PathVariable Long id) {
         reportService.deleteReport(id);
-        return "redirect:/api/admin/posts";
+        return "redirect:/api/admin/reports";
     }
 
 }
