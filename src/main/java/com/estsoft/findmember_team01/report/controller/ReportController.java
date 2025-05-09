@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -37,6 +38,7 @@ public class ReportController {
         return "redirect:/api/posts/" + id;
     }
 
+    //신고 목록 조회
     @GetMapping("/api/admin/posts")
     public String getReport(
         @RequestParam(defaultValue = "0") int page,
@@ -90,6 +92,20 @@ public class ReportController {
         model.addAttribute("keyword", hasKeyword ? keyword : "");
 
         return "reportList";
+    }
+
+    @GetMapping("/api/admin/posts/{id}")
+    public String reportDetail(@PathVariable("id") Long id, Model model) {
+        ReportResponse report = reportService.getReportById(id);  // 이름 변경
+        model.addAttribute("report", report);  // 모델에 report로 저장
+
+        return "reportDetail";
+    }
+
+    @PutMapping("/api/admin/posts/{id}")
+    public String updateReportStatus(@PathVariable Long id, @RequestParam boolean status) {
+        reportService.updateStatus(id, status);
+        return "redirect:/api/admin/posts/" + id;
     }
 
 }
