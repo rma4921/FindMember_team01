@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -106,6 +107,12 @@ public class ReportController {
     public String updateReportStatus(@PathVariable Long id, @RequestParam boolean status) {
         reportService.updateStatus(id, status);
         return "redirect:/api/admin/posts/" + id;
+    }
+    
+    @DeleteMapping("/api/admin/posts/{id}")
+    public String deleteReport(@PathVariable Long id) {
+        reportService.deleteReport(id);
+        return "redirect:/api/admin/posts";
     }
 
 }

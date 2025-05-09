@@ -84,4 +84,9 @@ public class ReportService {
         report.setStatus(status);
     }
 
+    @Transactional
+    public void deleteReport(Long id) {
+        reportRepository.deleteById(id);
+    }
+
 }
