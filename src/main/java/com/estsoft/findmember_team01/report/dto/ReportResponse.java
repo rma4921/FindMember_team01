@@ -21,6 +21,7 @@ public class ReportResponse {
     private String reason;
     private LocalDateTime createdAt;
     private Boolean status;
+    private String nickname;
 
     public static ReportResponse toEntity(Report report) {
         return ReportResponse.builder()
@@ -31,6 +32,7 @@ public class ReportResponse {
             .reason(report.getReason())
             .createdAt(report.getCreatedAt())
             .status(report.getStatus())
+            .nickname(report.getMember().getNickname())
             .build();
     }
 
