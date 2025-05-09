@@ -1,5 +1,7 @@
 package com.estsoft.findmember_team01.report.service;
 
+import com.estsoft.findmember_team01.information.domain.Comment;
+import com.estsoft.findmember_team01.information.repository.CommentRepository;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.report.domain.Report;

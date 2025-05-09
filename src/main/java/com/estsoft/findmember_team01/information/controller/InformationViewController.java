@@ -3,14 +3,12 @@ package com.estsoft.findmember_team01.information.controller;
 import com.estsoft.findmember_team01.information.domain.Comment;
 import com.estsoft.findmember_team01.information.domain.Information;
 import com.estsoft.findmember_team01.information.domain.Status;
-import com.estsoft.findmember_team01.information.domain.TargetType;
 import com.estsoft.findmember_team01.information.dto.CommentRequest;
 import com.estsoft.findmember_team01.information.dto.CommentView;
 import com.estsoft.findmember_team01.information.dto.InformationRequest;
 import com.estsoft.findmember_team01.information.dto.InformationView;
 import com.estsoft.findmember_team01.information.service.CommentService;
 import com.estsoft.findmember_team01.information.service.InformationService;
-import com.estsoft.findmember_team01.information.service.ReportService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +30,6 @@ public class InformationViewController {
 
     private final InformationService informationService;
     private final CommentService commentService;
-    private final ReportService reportService;
 
     // 상세 페이지
     @GetMapping("/{id}")
@@ -185,28 +182,6 @@ public class InformationViewController {
 
         commentService.deleteComment(commentId);
         return "redirect:/information/" + info.getInformationId();
-    }
-
-    @PostMapping("/report")
-    public String handleReport(
-        @RequestParam("targetType") String type,
-        @RequestParam("targetId") Long targetId,
-        @RequestParam("reason") String reason,
-        @AuthenticationPrincipal Member loginMember
-    ) {
-        if (loginMember == null) {
-            throw new IllegalStateException("로그인이 필요합니다.");
-        }
-
-        TargetType targetType = TargetType.valueOf(type.toUpperCase());
-
-        reportService.submitReport(loginMember.getId(), targetType, targetId, reason);
-
-        String redirectUrl = (targetType == TargetType.POST)
-            ? "/information/" + targetId
-            : "/information/" + reportService.findPostIdByCommentId(targetId);
-
-        return "redirect:" + redirectUrl;
     }
 
 }
