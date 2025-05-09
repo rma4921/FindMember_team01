@@ -43,9 +43,6 @@
                        type="text"/>
                 <button class="btn btn-primary ml-3" type="submit">검색</button>
             </form>
-            <button class="write-button" style="position: relative" onclick="openModal()">✏️
-                글쓰기
-            </button>
         </div>
     </div>
     <div>
@@ -58,13 +55,13 @@
                           th:if="${item.status == true}">처리완료</span>
                     <span
                         th:if="${item.targetType == T(com.estsoft.findmember_team01.report.domain.ReportTargetType).POST}"
-                        th:text="'게시물'">게시물</span>
+                        th:text="'게시물'">게시물 신고</span>
                     <span
                         th:if="${item.targetType == T(com.estsoft.findmember_team01.report.domain.ReportTargetType).MEMBER}"
-                        th:text="'유저'">유저</span>
+                        th:text="'유저'">유저 신고</span>
                     <span
                         th:if="${item.targetType == T(com.estsoft.findmember_team01.report.domain.ReportTargetType).COMMENT}"
-                        th:text="'댓글'">댓글</span>
+                        th:text="'댓글'">댓글 신고</span>
 
                 </h5>
                 <p class="text-truncate" style="max-height: 3.6em; overflow: hidden;">
@@ -73,7 +70,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <p class="small card-text mb-0">
                         <span class="font-weight-bold" style="margin-right: 1em;"
-                              th:text="${item.memberId}">닉네임</span>
+                              th:text="${item.nickname}">닉네임</span>
                         <span class="text-muted"
                               th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd')}">작성시간</span>
                     </p>
