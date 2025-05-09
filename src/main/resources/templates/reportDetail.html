@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>신고 상세보기</title>
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/modal.css">
+</head>
+<body>
+
+
+<div class="detail-container">
+    <div class="detail-header">
+        <div class="header-top">
+            <th:block th:switch="${report.targetType}">
+                <h2 th:if="${report.targetType.name() == 'POST'}">게시물 신고</h2>
+                <h2 th:if="${report.targetType.name() == 'MEMBER'}">회원 신고</h2>
+                <h2 th:if="${report.targetType.name() == 'COMMENT'}">댓글 신고</h2>
+            </th:block>
+
+            <div class="detail-meta">
+                <!-- 작성일과 수정일 비교 -->
+                <th:block>
+                    <span>작성일 [[${#temporals.format(report.createdAt, 'yy.MM.dd HH:mm')}]]</span>
+                </th:block>
+                <span th:text="${report.status ? '처리 완료' : '처리 중'}"></span>
+            </div>
+        </div>
+
+        <div class="header-actions">
+            <div class="left-actions">
+                <form th:if="${!report.status}"
+                      th:action="@{/api/admin/posts/{id}(id=${report.reportId})}" method="post">
+                    <input type="hidden" name="_method" value="put"/>
+                    <input type="hidden" name="status" value="true"/>
+                    <button type="submit" class="btn btn-accept">신고 처리</button>
+                </form>
+
+                <form id="deleteForm"
+                      th:action="@{/api/admin/posts/{id}(id=${report.reportId})}"
+                      method="post"
+                      onsubmit="return confirmDelete();">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit" class="btn-delete">삭제</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-content">
+        <p th:text="${report.reason}">신고 사유</p>
+    </div>
+    <div class="header-top header-row">
+        <a th:href="@{/api/admin/posts}" class="btn btn-back">뒤로가기</a>
+    </div>
+</div>
+<script src="/js/detail.js"></script>
+</body>
+</html>

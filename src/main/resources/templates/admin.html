@@ -35,15 +35,26 @@
         </form>
     </div>
     <div class=" p-3 mb-3 rounded bg-light" th:each="member : ${memberList}">
-        <div class="d-flex flex-wrap align-items-baseline">
-            <div style="min-width: 300px;">
-                <div class="d-flex align-items-center">
-                <span class="badge badge-success mr-2" style="background-color: #28a745;"
-                      th:if="${member.role}" th:text="${member.role}">등급</span>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="d-flex align-items-center mb-2">
+                <span class="badge badge-success mr-2 fixed-role-badge"
+                      th:text="${member.role}">등급</span>
                     <strong th:text="${member.nickname}">닉네임</strong>
                 </div>
+                <form class="d-flex align-items-center"
+                      method="post"
+                      onsubmit="return confirm('회원 등급을 변경하시겠습니까?');"
+                      th:action="@{/api/admin/users/{id}/role(id=${member.id})}">
+                    <select class="form-control form-control-sm mr-2 role-select" name="role">
+                        <option th:selected="${member.role == 'USER'}" value="USER">USER</option>
+                        <option th:selected="${member.role == 'MASTER'}" value="MASTER">MASTER</option>
+                        <option th:selected="${member.role == 'ADMIN'}" value="ADMIN">ADMIN</option>
+                    </select>
+                    <button class="btn btn-sm btn-warning" type="submit">변경</button>
+                </form>
             </div>
-            <div style="min-width: 280px;">
+            <div class="col-md-8 mb-1">
                 <div class="text-muted">
                     <span
                         th:text="'가입일자: ' + ${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}">가입일자</span>
@@ -52,8 +63,6 @@
                     <span
                         th:text="'최종 접속 시간: ' + ${#temporals.format(member.lastAccessTime, 'yyyy-MM-dd HH:mm')}">최종 접속시간</span>
                 </div>
-            </div>
-            <div style="min-width: 80px;">
                 <div class="text-muted">
                     <span th:text="'접속 횟수: ' + ${member.accessCount} + '회'">접속횟수</span>
                 </div>

@@ -1,9 +1,12 @@
 package com.estsoft.findmember_team01.report.service;
 
+import com.estsoft.findmember_team01.information.domain.Comment;
+import com.estsoft.findmember_team01.information.repository.CommentRepository;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.report.domain.Report;
 import com.estsoft.findmember_team01.report.dto.ReportRequest;
+import com.estsoft.findmember_team01.report.dto.ReportResponse;
 import com.estsoft.findmember_team01.report.repository.ReportRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -67,6 +70,25 @@ public class ReportService {
         String keyword) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, sortBy));
         return reportRepository.findByStatusAndKeyword(status, keyword, pageable);
+    }
+
+    public ReportResponse getReportById(Long id) {
+        Report report = reportRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 신고가 존재하지 않습니다: " + id));
+        return ReportResponse.toEntity(report);
+    }
+
+    @Transactional
+    public void updateStatus(Long reportId, boolean status) {
+        Report report = reportRepository.findById(reportId)
+            .orElseThrow(() -> new IllegalArgumentException("신고가 존재하지 않습니다. id=" + reportId));
+
+        report.setStatus(status);
+    }
+
+    @Transactional
+    public void deleteReport(Long id) {
+        reportRepository.deleteById(id);
     }
 
 }

@@ -1,0 +1,83 @@
+/* write.css - Q&A 글쓰기 모달 전용 스타일 */
+
+body {
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+.write-modal {
+    width: 600px;
+    background: white;
+    border-radius: 8px;
+    padding: 32px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    font-size: 14px;
+}
+
+.write-header h3 {
+    margin: 0;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.write-guide {
+    background: #e6fff0;
+    color: #00a65c;
+    padding: 8px;
+    font-size: 13px;
+    margin: 12px 0 20px;
+    border-radius: 4px;
+}
+
+.write-form label {
+    display: block;
+    margin-top: 16px;
+    font-weight: bold;
+}
+
+.write-form input,
+.write-form textarea {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.editor-box {
+    margin-top: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    padding: 8px;
+}
+
+.write-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.cancel-btn,
+.submit-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cancel-btn {
+    background-color: #eee;
+}
+
+.submit-btn {
+    background-color: #00c83f;
+    color: white;
+}
