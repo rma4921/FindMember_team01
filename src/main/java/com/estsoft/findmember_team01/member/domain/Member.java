@@ -104,6 +104,7 @@ public class Member implements UserDetails {
         if (!level.equals(temp)) {
             updateRoleByLevel();
         }
+
     }
 
     @Override

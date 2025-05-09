@@ -3,21 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>메인페이지</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          rel="stylesheet">
     <link href="/css/mainpage.css" rel="stylesheet">
+    <link href="/css/modal.css" rel="stylesheet">
+    <link href="/css/list.css" rel="stylesheet">
+    <script src="/js/mainPage.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="navbar mr-auto">
         <a class="navbar-brand" href="#">Team 1</a>
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="#">팀원 모집</a>
+            <a class="nav-item nav-link" href="/api/posts">팀원 모집</a>
             <a class="nav-item nav-link" href="#">완료된 프로젝트</a>
             <a class="nav-item nav-link" href="#">질의응답</a>
         </div>
     </div>
     <div class="navbar-nav ml-auto">
-        <a class="btn btn-outline-primary" href="/login">로그인</a>
+        <a class="btn btn-outline-primary" th:href="@{/login}" th:if="${memberId == null}">로그인</a>
+
+        <!-- 로그인 상태 -->
+        <div class="d-flex align-items-center" th:if="${memberId != null}">
+            <span class="mr-3" th:if="${nickname != null}" th:text="${nickname + '님'}">nickname</span>
+            <form method="post" th:action="@{/logout}">
+                <button class="btn btn-outline-danger" type="submit">로그아웃</button>
+            </form>
+        </div>
     </div>
 </nav>
 <div class="banner">
@@ -42,8 +54,9 @@
                        type="text"/>
                 <button class="btn btn-primary ml-3" type="submit">검색</button>
             </form>
-            <a class="btn btn-success" href="/api/posts/new"
-               style="position: relative;">글쓰기</a>
+            <button class="write-button" style="position: relative" onclick="openModal()">✏️
+                글쓰기
+            </button>
         </div>
     </div>
     <div>
@@ -64,7 +77,7 @@
                         <span class="font-weight-bold" style="margin-right: 1em;"
                               th:text="${item.nickname}">닉네임</span>
                         <span class="text-muted"
-                              th:text="${#temporals.format(item.createAt, 'yyyy-MM-dd')}">작성시간</span>
+                              th:text="${#temporals.format(item.createdAt, 'yyyy-MM-dd')}">작성시간</span>
                     </p>
                 </div>
             </a>
@@ -97,6 +110,56 @@
             </li>
         </ul>
     </nav>
+</div>
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="modal-box" id="writeModal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h2 class="modal-heading">팀 프로젝트</h2>
+
+        <div class="alert-box success-alert">
+            예시를 참고해 작성해주세요.
+        </div>
+
+        <form id="writeForm" method="post" th:action="@{/api/posts/create}">
+            <input class="title-input" id="title" name="title" placeholder="제목" required
+                   type="text"/>
+            <div class="toolbar">
+                <button type="button">B</button>
+                <button type="button">I</button>
+                <button type="button">S</button>
+                <button type="button">링크</button>
+                <button type="button">H1</button>
+                <button type="button">H2</button>
+                <button type="button">번호</button>
+                <button type="button">글머리</button>
+                <button type="button">구분선</button>
+                <button type="button">코드</button>
+            </div>
+
+            <textarea class="editor-content" id="content" name="content" required rows="18">
+[팀 프로젝트 모집 내용 예시]
+・ 프로젝트 주제 :
+・ 프로젝트 목표 :
+・ 예상 프로젝트 일정(횟수) :
+・ 예상 커리큘럼 간략히 :
+・ 모집 인원 :
+・ 프로젝트 관련 주의사항 :
+            </textarea>
+
+            <div class="modal-button-row">
+                <label for="requiredLevel"><strong>지원 가능 최소 레벨</strong></label>
+                <input id="requiredLevel" max="10" min="0"
+                       name="requiredLevel" placeholder="예: 3 (해당 레벨 이상만 지원 가능)" required step="1"
+                       style="padding: 10px; margin-bottom: 15px;"
+                       type="number"
+                       value="0"/>
+                <button class="btn-cancel" onclick="closeModal()" type="button">취소</button>
+                <button class="btn-submit" type="submit">등록</button>
+            </div>
+        </form>
+    </div>
 </div>
 </body>
 </html>

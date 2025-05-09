@@ -9,8 +9,6 @@ import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -31,11 +29,20 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         member.updateLoginInfo(userAgent);
         memberRepository.save(member);
 
-        SavedRequest savedRequest = new HttpSessionRequestCache().getRequest(request, response);
-        if (savedRequest != null) {
-            response.sendRedirect(savedRequest.getRedirectUrl());
+        request.getSession().setAttribute("memberId", member.getId());
+        request.getSession().setAttribute("memberLevel", member.getLevel());
+        request.getSession().setAttribute("memberNickname", member.getNickname());
+
+        boolean isAdmin = authentication.getAuthorities().stream()
+            .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
+
+        String redirectUrl = (String) request.getSession().getAttribute("prevPage");
+        request.getSession().removeAttribute("prevPage");
+
+        if (redirectUrl != null) {
+            response.sendRedirect(redirectUrl);
         } else {
-            response.sendRedirect("/main");
+            response.sendRedirect(isAdmin ? "/api/admin/users" : "/api/posts");
         }
     }
 }
