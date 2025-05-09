@@ -56,11 +56,14 @@ public class RecruitmentController {
         RecruitmentResponse recruitment = recruitmentService.getRecruitmentById(id);
         model.addAttribute("recruitment", recruitment);
         model.addAttribute("memberId", memberId);
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. id=" + memberId));
 
-        Long memberLevel = member.getLevel();
-        model.addAttribute("memberLevel", memberLevel);
+        if (memberId != null) {
+            Member member = memberRepository.findById(memberId)
+                .orElseThrow(
+                    () -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. id=" + memberId));
+            Long memberLevel = member.getLevel();
+            model.addAttribute("memberLevel", memberLevel);
+        }
 
         return "detail";
     }
@@ -80,6 +83,6 @@ public class RecruitmentController {
         recruitmentService.deleteRecruitment(id);
         return "redirect:/api/posts";
     }
-    
+
 
 }
