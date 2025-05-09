@@ -4,12 +4,9 @@ import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.dto.LoginRequest;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.member.service.MemberService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,16 +24,6 @@ public class LoginController {
     @PostMapping("/api/user/signup")
     public String signup(@ModelAttribute LoginRequest request) {
         memberService.save(request);
-        return "redirect:/login";
-    }
-
-    // 로그아웃 메서드
-    @PostMapping("/logout")
-    public String logout(HttpServletRequest request, HttpServletResponse response) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        new SecurityContextLogoutHandler().logout(request, response, authentication);
-
         return "redirect:/login";
     }
 
