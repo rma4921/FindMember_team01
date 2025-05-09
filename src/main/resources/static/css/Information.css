@@ -9,6 +9,7 @@ body {
 
 .header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     padding: 16px 32px;
     background-color: white;
@@ -24,6 +25,18 @@ body {
     margin-right: 40px;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 .nav a {
     margin: 0 12px;
     color: #999;
@@ -33,15 +46,6 @@ body {
 
 .nav a.active {
     color: black;
-}
-
-.login-btn {
-    margin-left: auto;
-    background-color: #00c83f;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 4px;
-    text-decoration: none;
 }
 
 .container {
@@ -284,3 +288,35 @@ body {
     justify-content: space-between;
     align-items: center;
 }
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.nickname {
+    font-weight: bold;
+    color: #333;
+}
+
+.logout-btn,
+.login-btn {
+    background-color: #00c853;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.logout-btn:hover,
+.login-btn:hover {
+    background-color: #d32f2f; /* hover 시 빨간색 */
+}
+

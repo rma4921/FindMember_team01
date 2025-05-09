@@ -9,13 +9,23 @@
 </head>
 <body>
 <header class="header">
-    <div class="logo">TEAM 1</div>
-    <nav class="nav">
-        <a href="/api/posts">팀원 모집</a>
-        <a href="#">완료된 프로젝트</a>
-        <a href="/information" class="active">질의 응답</a>
-    </nav>
-    <a href="#" class="login-btn">로그인</a>
+    <div class="header-left">
+        <div class="logo">TEAM 1</div>
+        <nav class="nav">
+            <a href="/api/posts">팀원 모집</a>
+            <a href="#">완료된 프로젝트</a>
+            <a href="/information" class="active">질의 응답</a>
+        </nav>
+    </div>
+
+    <!-- 오른쪽 로그인 영역 -->
+    <div class="navbar-user" th:if="${session.memberId != null}">
+        <span class="nickname" th:text="${session.memberNickname + '님'}">user_nickname님</span>
+        <form method="post" th:action="@{/logout}">
+            <button type="submit" class="logout-btn">로그아웃</button>
+        </form>
+    </div>
+    <a class="login-btn" th:href="@{/login}" th:if="${session.memberId == null}">로그인</a>
 </header>
 
 <main class="container">

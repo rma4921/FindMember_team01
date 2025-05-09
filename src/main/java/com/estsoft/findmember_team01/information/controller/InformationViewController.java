@@ -77,7 +77,7 @@ public class InformationViewController {
     //글 목록 10개 이상되면 다음 페이지로 넘어가는 기능
     @GetMapping
     public String showList(@RequestParam(defaultValue = "0") int page,
-        Model model) {
+        Model model, @AuthenticationPrincipal Member loginMember) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by("createAt").descending());
         Page<Information> pageInfo = informationService.findAllPaged(pageable);
 
