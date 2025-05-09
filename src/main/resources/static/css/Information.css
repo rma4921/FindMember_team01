@@ -1,0 +1,322 @@
+/* index.css - Q&A 목록 전용 스타일 */
+
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: #f9f9f9;
+    color: #111;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+}
+
+.logo {
+    background-color: #00c83f;
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin-right: 40px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav a {
+    margin: 0 12px;
+    color: #999;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.nav a.active {
+    color: black;
+}
+
+.container {
+    display: flex;
+    margin: 32px auto;
+    max-width: 1280px;
+}
+
+.sidebar {
+    width: 200px;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin-right: 24px;
+}
+
+.sidebar.small {
+    font-size: 13px;
+    padding: 12px;
+    width: 180px;
+    line-height: 1.6;
+}
+
+.sidebar h3 {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar li {
+    font-size: 13px;
+    margin: 6px 0;
+    color: #555;
+}
+
+.content {
+    flex-grow: 1;
+}
+
+.intro {
+    margin-bottom: 16px;
+}
+
+.intro h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.intro p {
+    margin: 4px 0 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.tab-menu {
+    display: flex;
+    border-bottom: 2px solid #ccc;
+    margin-bottom: 16px;
+}
+
+.tab {
+    padding: 12px 24px;
+    text-decoration: none;
+    color: #999;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+}
+
+.tab.active {
+    color: black;
+    border-bottom: 2px solid black;
+}
+
+.filter-box {
+    background-color: #f5f5f5;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 24px;
+}
+
+.filter-top,
+.filter-bottom {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.filter-top input,
+.filter-bottom input {
+    height: 36px;
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-btn,
+.reset-btn {
+    height: 36px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-btn {
+    background-color: #00c83f;
+    color: white;
+}
+
+.reset-btn {
+    background: none;
+    color: #333;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.refresh-icon {
+    font-size: 16px;
+}
+
+.filter-sort {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.sort-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.sort-btn.active {
+    color: black;
+}
+
+.write-section {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.write-btn {
+    background-color: #333;
+    color: white;
+    font-size: 12px;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.posts .post {
+    background-color: white;
+    padding: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.post-title {
+    font-weight: bold;
+    margin: 8px 0 4px;
+}
+
+.post-meta {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+}
+
+.pagination {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+}
+
+.pagination a {
+    display: inline-block;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    height: 36px;
+    line-height: 24px;
+    color: #00c83f;
+    font-weight: bold;
+    border: 1px solid transparent;
+}
+
+.pagination a.active {
+    border: 1px solid #00c83f;
+    background-color: white;
+}
+
+.solved {
+    background-color: #00c83f;
+}
+
+.unsolved {
+    background-color: #ff5f5f;
+}
+
+.status-badge {
+    margin-left: 10px;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 999px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.status-badge.solved {
+    background-color: #00c83f;
+    color: white;
+}
+
+.status-badge.unsolved {
+    background-color: #ccc;
+    color: #333;
+}
+
+.post-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.nickname {
+    font-weight: bold;
+    color: #333;
+}
+
+.logout-btn,
+.login-btn {
+    background-color: #00c853;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+}
+
+.logout-btn:hover,
+.login-btn:hover {
+    background-color: #d32f2f; /* hover 시 빨간색 */
+}
+

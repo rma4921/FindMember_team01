@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>관리자</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          rel="stylesheet">
     <link href="/css/admin.css" rel="stylesheet">
 </head>
 <body>
@@ -13,7 +14,7 @@
         <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="#">회원 조회</a>
             <a class="nav-item nav-link" href="#">회원 관리</a>
-            <a class="nav-item nav-link" href="#">신고 관리</a>
+            <a class="nav-item nav-link" href="/api/admin/posts">신고 관리</a>
             <a class="nav-item nav-link" href="#">팀원 모집</a>
             <a class="nav-item nav-link" href="#">질의응답</a>
         </div>
@@ -55,10 +56,12 @@
             </div>
             <div class="col-md-8 mb-1">
                 <div class="text-muted">
-                    <span th:text="'가입일자: ' + ${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}">가입일자</span>
+                    <span
+                        th:text="'가입일자: ' + ${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}">가입일자</span>
                 </div>
                 <div class="text-muted">
-                    <span th:text="'최종 접속 시간: ' + ${#temporals.format(member.lastAccessTime, 'yyyy-MM-dd HH:mm')}">최종 접속시간</span>
+                    <span
+                        th:text="'최종 접속 시간: ' + ${#temporals.format(member.lastAccessTime, 'yyyy-MM-dd HH:mm')}">최종 접속시간</span>
                 </div>
                 <div class="text-muted">
                     <span th:text="'접속 횟수: ' + ${member.accessCount} + '회'">접속횟수</span>

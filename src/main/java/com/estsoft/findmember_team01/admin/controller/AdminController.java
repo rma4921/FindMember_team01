@@ -1,29 +1,27 @@
 package com.estsoft.findmember_team01.admin.controller;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.estsoft.findmember_team01.admin.dto.MemberViewResponse;
 import com.estsoft.findmember_team01.admin.dto.UpdateLevelRequest;
 import com.estsoft.findmember_team01.admin.service.AdminService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.service.MemberService;
-
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class AdminController {
 
@@ -68,6 +66,7 @@ public class AdminController {
     }
 
     // 사용자 레벨 조정 메서드
+    @ResponseBody
     @PutMapping("/api/admin/users/{id}/level")
     public ResponseEntity<String> updateUserLevel(@PathVariable Long id,
         @RequestParam UpdateLevelRequest request) {

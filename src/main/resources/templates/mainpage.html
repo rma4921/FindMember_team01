@@ -15,21 +15,21 @@
     <div class="navbar mr-auto">
         <a class="navbar-brand" href="#">Team 1</a>
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="#">팀원 모집</a>
+            <a class="nav-item nav-link" href="/api/posts">팀원 모집</a>
             <a class="nav-item nav-link" href="#">완료된 프로젝트</a>
-            <a class="nav-item nav-link" href="#">질의응답</a>
+            <a class="nav-item nav-link" href="/information">질의응답</a>
         </div>
     </div>
-    <div class="navbar-nav ml-auto">
-        <a class="btn btn-outline-primary" th:href="@{/login}" th:if="${memberId == null}">로그인</a>
+    <div class="d-flex align-items-center ms-auto">
+    <span class="me-2 fw-bold"
+          th:if="${session.memberNickname != null}"
+          th:text="${session.memberNickname + '님'}">nickname</span>
 
-        <!-- 로그인 상태 -->
-        <div class="d-flex align-items-center" th:if="${memberId != null}">
-            <span class="mr-3" th:if="${nickname != null}" th:text="${nickname + '님'}">nickname</span>
-            <form method="post" th:action="@{/logout}">
-                <button class="btn btn-outline-danger" type="submit">로그아웃</button>
-            </form>
-        </div>
+        <form method="post" th:action="@{/logout}" th:if="${session.memberId != null}">
+            <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
+        </form>
+
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/login}" th:if="${session.memberId == null}">로그인</a>
     </div>
 </nav>
 <div class="banner">
@@ -54,9 +54,9 @@
                        type="text"/>
                 <button class="btn btn-primary ml-3" type="submit">검색</button>
             </form>
-            <div class="btn btn-success">
-                <button onclick="openModal()" style="position: relative">✏️ 글쓰기</button>
-            </div>
+            <button class="write-button" style="position: relative" onclick="openModal()">✏️
+                글쓰기
+            </button>
         </div>
     </div>
     <div>

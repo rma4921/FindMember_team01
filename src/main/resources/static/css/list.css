@@ -271,7 +271,6 @@ nav ul li.active {
     border-color: #4CAF50;
 }
 
-/* ✅ list.css 기준으로 ApplicationList 화면 구성용 핵심 CSS 정리 */
 .post-list {
     display: flex;
     flex-direction: column;

@@ -103,10 +103,12 @@ public class Member implements UserDetails {
 		this.level += exp / 10;
 		this.exp %= 10;
 
-		if (!level.equals(temp)) {
-			updateRoleByLevel();
-		}
-	}
+
+        if (!level.equals(temp)) {
+            updateRoleByLevel();
+        }
+
+    }
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -126,4 +128,5 @@ public class Member implements UserDetails {
 	public void updateRole(String newRole) {
 		this.role = newRole;
 	}
+
 }
