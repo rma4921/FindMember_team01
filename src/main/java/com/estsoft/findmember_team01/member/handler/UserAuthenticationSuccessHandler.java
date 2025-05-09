@@ -39,10 +39,12 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         String redirectUrl = (String) request.getSession().getAttribute("prevPage");
         request.getSession().removeAttribute("prevPage");
 
-        if (redirectUrl != null) {
+        if (isAdmin) {
+            response.sendRedirect("/api/admin/users");
+        } else if (redirectUrl != null) {
             response.sendRedirect(redirectUrl);
         } else {
-            response.sendRedirect(isAdmin ? "/api/admin/users" : "/api/posts");
+            response.sendRedirect("/api/posts");
         }
     }
 }

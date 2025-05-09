@@ -6,10 +6,12 @@ import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ReportResponse {
 
     private Long reportId;
@@ -19,6 +21,7 @@ public class ReportResponse {
     private String reason;
     private LocalDateTime createdAt;
     private Boolean status;
+    private String nickname;
 
     public static ReportResponse toEntity(Report report) {
         return ReportResponse.builder()
@@ -29,6 +32,7 @@ public class ReportResponse {
             .reason(report.getReason())
             .createdAt(report.getCreatedAt())
             .status(report.getStatus())
+            .nickname(report.getMember().getNickname())
             .build();
     }
 
