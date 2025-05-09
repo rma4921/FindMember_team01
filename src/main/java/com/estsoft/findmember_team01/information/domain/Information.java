@@ -36,6 +36,9 @@ public class Information {
     @Column(nullable = false)
     private String content;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.UNSOLVED;
 
     @CreatedDate
     private LocalDateTime createAt;
@@ -62,5 +65,10 @@ public class Information {
     //Dto
     public InformationResponse toDto() {
         return new InformationResponse(this);
+    }
+
+    //상태
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

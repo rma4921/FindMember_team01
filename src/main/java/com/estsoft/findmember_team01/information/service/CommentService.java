@@ -1,12 +1,12 @@
 package com.estsoft.findmember_team01.information.service;
 
-
 import com.estsoft.findmember_team01.information.domain.Comment;
 import com.estsoft.findmember_team01.information.domain.Information;
 import com.estsoft.findmember_team01.information.dto.CommentRequest;
 import com.estsoft.findmember_team01.information.dto.CommentResponse;
 import com.estsoft.findmember_team01.information.repository.CommentRepository;
 import com.estsoft.findmember_team01.information.repository.InformationRepository;
+import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -16,68 +16,64 @@ import java.util.stream.Collectors;
 @Service
 public class CommentService {
 
-    private final com.estsoft.findmember_team01.member.repository.MemberRepository memberRepository;
-    private CommentRepository commentRepository;
-    private InformationRepository informationRepository;
+    private final MemberRepository memberRepository;
+    private final CommentRepository commentRepository;
+    private final InformationRepository informationRepository;
 
     public CommentService(CommentRepository commentRepository,
-        InformationRepository informationRepository, com.estsoft.findmember_team01.member.repository.MemberRepository memberRepository) {
+        InformationRepository informationRepository,
+        MemberRepository memberRepository) {
         this.commentRepository = commentRepository;
         this.informationRepository = informationRepository;
         this.memberRepository = memberRepository;
     }
 
-    //댓글 생성
-    public CommentResponse addComment(Long informationId, Long memberId,
-        CommentRequest commentRequest) {
-        Information information = informationRepository.findById(informationId)
-            .orElseThrow(() -> new RuntimeException("Information not found"));
+    public Comment findById(Long commentId) {
+        return commentRepository.findById(commentId)
+            .orElseThrow(() -> new IllegalArgumentException("Comment not found: " + commentId));
+    }
 
-        com.estsoft.findmember_team01.member.domain.Member member = memberRepository.findById(memberId)
+    public void deleteComment(Long commentId) {
+        commentRepository.deleteById(commentId);
+    }
+
+    public CommentResponse addComment(Long informationId, Long memberId, CommentRequest commentRequest) {
+        var information = informationRepository.findById(informationId)
+            .orElseThrow(() -> new RuntimeException("Information not found"));
+        var member = memberRepository.findById(memberId)
             .orElseThrow(() -> new RuntimeException("Member not found"));
 
-        Comment comment = commentRepository.save(
-            Comment.builder().content(commentRequest.getContent()).member(member)
-                .information(information).build());
+        var comment = commentRepository.save(Comment.builder()
+            .content(commentRequest.getContent())
+            .member(member)
+            .information(information).build());
 
         return comment.toDto();
     }
 
-    //댓글 조회
     public List<CommentResponse> getAllComments(Long informationId) {
-        List<Comment> comments = commentRepository.findByInformation_InformationId(informationId);
-        return comments.stream().map(Comment::toDto).collect(Collectors.toList());
+        return commentRepository.findByInformation_InformationId(informationId).stream()
+            .map(Comment::toDto).collect(Collectors.toList());
     }
 
-    //댓글 수정
     @Transactional
-    public Comment updateComment(Long informationId, Long commentId, Long memberId,
-        CommentRequest commentRequest) {
-
-        Comment comment = commentRepository.findById(commentId)
-            .orElseThrow(() -> new IllegalArgumentException("Comment not found" + commentId));
-
-        // 작성자(memberId) 체크
+    public Comment updateComment(Long commentId, Long memberId, CommentRequest commentRequest) {
+        var comment = commentRepository.findById(commentId)
+            .orElseThrow(() -> new IllegalArgumentException("Comment not found: " + commentId));
         if (!comment.getMember().getId().equals(memberId)) {
             throw new RuntimeException("수정 권한이 없습니다.");
         }
-
         comment.updateComment(commentRequest.getContent());
-
         return comment;
     }
 
-    //댓글 삭제
-    public void deleteComment(Long informationId, Long commentId, Long memberId) {
-        Comment comment = commentRepository.findById(commentId)
+    public void deleteCommentByAuthor(Long commentId, Long authorId) {
+        var comment = commentRepository.findById(commentId)
             .orElseThrow(() -> new IllegalArgumentException("Comment not found: " + commentId));
-
-        // 작성자(memberId) 체크
-        if (!comment.getMember().getId().equals(memberId)) {
-            throw new RuntimeException("삭제 권한이 없습니다.");
+        var information = comment.getInformation();
+        if (!information.getMember().getId().equals(authorId)) {
+            throw new RuntimeException("글 작성자만 댓글을 삭제할 수 있습니다.");
         }
-
         commentRepository.delete(comment);
     }
-
 }

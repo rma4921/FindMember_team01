@@ -1,6 +1,7 @@
 package com.estsoft.findmember_team01.information.dto;
 
 import com.estsoft.findmember_team01.information.domain.Information;
+import com.estsoft.findmember_team01.information.domain.Status;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,6 +13,7 @@ public class InformationView {
     private String title;
     private String content;
     private String writer;
+    private Status status;
     private Long writerId;
     private int commentCount;
     private LocalDateTime createdAt;
@@ -23,6 +25,7 @@ public class InformationView {
             .title(info.getTitle())
             .content(info.getContent())
             .writer(info.getMember().getNickname())
+            .status(info.getStatus())
             .writerId(info.getMember().getId())
             .commentCount(info.getComments().size())
             .createdAt(info.getCreateAt())

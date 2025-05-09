@@ -8,7 +8,19 @@
 <body>
 <main class="container detail">
     <!-- 제목 -->
-    <h1 th:text="${post.title}" class="detail-title">제목</h1>
+    <h1 class="detail-title">
+        <span th:text="${post.title}">제목</span>
+
+        <!-- 게시글 신고 버튼 -->
+        <form th:action="@{/information/report}" method="post"
+              style="display:inline; margin-left: 10px;">
+            <input type="hidden" name="targetType" value="POST"/>
+            <input type="hidden" name="targetId" th:value="${post.id}"/>
+            <input type="text" name="reason" placeholder="신고 사유" required
+                   style="height: 24px; font-size: 12px;"/>
+            <button type="submit" class="report-btn">신고</button>
+        </form>
+    </h1>
 
     <!-- 메타 정보 -->
     <div class="detail-meta">
@@ -42,6 +54,14 @@
             </button>
         </form>
 
+        <form
+            th:if="${loginMemberId == post.writerId and post.status != null and post.status.name() == 'UNSOLVED'}"
+            th:action="@{'/information/solve/' + ${post.id}}"
+            method="post"
+            style="display:inline;">
+            <button type="submit" class="solve-btn">해결하기</button>
+        </form>
+
         <a th:href="@{/information}" class="back-btn">뒤로가기</a>
 
     </div>
@@ -54,7 +74,6 @@
         <h3>댓글</h3>
         <form th:action="@{/information/comments}" method="post" class="comment-form">
             <input type="hidden" name="informationId" th:value="${post.id}"/>
-            <input type="hidden" name="memberId" value="2"/>
             <textarea name="content" placeholder="댓글을 입력하세요" required></textarea>
             <button type="submit">등록</button>
         </form>
@@ -67,7 +86,25 @@
                     <span class="comment-date"
                           th:text="${#temporals.format(comment.createdAt, 'yy.MM.dd HH:mm')}">2025.05.07</span>
                 </div>
+                <!-- 댓글 신고 버튼 -->
+                <form th:action="@{/information/report}" method="post"
+                      style="display:inline; margin-left: 10px;">
+                    <input type="hidden" name="targetType" value="COMMENT"/>
+                    <input type="hidden" name="targetId" th:value="${comment.id}"/>
+                    <input type="text" name="reason" placeholder="신고 사유" required
+                           style="height: 20px; font-size: 11px;"/>
+                    <button type="submit" class="report-btn">신고</button>
+                </form>
                 <div class="comment-text" th:text="${comment.content}">댓글 내용</div>
+
+                <!-- 글 작성자만 댓글 삭제 가능 -->
+                <form th:if="${loginMemberId == post.writerId}"
+                      th:action="@{'/information/comments/delete/' + ${comment.id}}"
+                      method="post" style="display:inline;">
+                    <button type="submit" class="delete-btn"
+                            onclick="return confirm('댓글을 삭제하시겠습니까?')">댓글 삭제
+                    </button>
+                </form>
             </div>
         </div>
     </section>

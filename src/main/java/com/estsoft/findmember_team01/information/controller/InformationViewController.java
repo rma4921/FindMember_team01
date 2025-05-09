@@ -1,12 +1,16 @@
 package com.estsoft.findmember_team01.information.controller;
 
+import com.estsoft.findmember_team01.information.domain.Comment;
 import com.estsoft.findmember_team01.information.domain.Information;
+import com.estsoft.findmember_team01.information.domain.Status;
+import com.estsoft.findmember_team01.information.domain.TargetType;
 import com.estsoft.findmember_team01.information.dto.CommentRequest;
 import com.estsoft.findmember_team01.information.dto.CommentView;
 import com.estsoft.findmember_team01.information.dto.InformationRequest;
 import com.estsoft.findmember_team01.information.dto.InformationView;
 import com.estsoft.findmember_team01.information.service.CommentService;
 import com.estsoft.findmember_team01.information.service.InformationService;
+import com.estsoft.findmember_team01.information.service.ReportService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,6 +32,7 @@ public class InformationViewController {
 
     private final InformationService informationService;
     private final CommentService commentService;
+    private final ReportService reportService;
 
     // 상세 페이지
     @GetMapping("/{id}")
@@ -40,7 +45,7 @@ public class InformationViewController {
         model.addAttribute("comments", info.getComments().stream()
             .map(CommentView::from)
             .collect(Collectors.toList()));
-        model.addAttribute("loginMemberId", loginMember != null ? loginMember.getId() : null); // 💡 추가
+        model.addAttribute("loginMemberId", loginMember != null ? loginMember.getId() : null);
 
         return "informationdetail";
     }
@@ -49,25 +54,26 @@ public class InformationViewController {
     @GetMapping("/write")
     public String showWriteForm(Model model) {
         InformationRequest dto = new InformationRequest();
-        dto.setMemberId(2L);  // 여기서 미리 값 넣기
         model.addAttribute("informationRequest", dto);
         return "informationWrite";
     }
 
     // 글 등록 후 리다이렉션
     @PostMapping
-    public String saveInformation(@ModelAttribute InformationRequest request) {
+    public String saveInformation(@ModelAttribute InformationRequest request,
+        @AuthenticationPrincipal Member loginMember) {
+        request.setMemberId(loginMember.getId());
         Information saved = informationService.addInformation(request);
-        return "redirect:/information/" + saved.getInformationId();  // ⚠️ 정확한 ID 사용
+        return "redirect:/information/" + saved.getInformationId();
     }
 
     // 댓글 등록
     @PostMapping("/comments")
     public String addComment(@RequestParam Long informationId,
-        @RequestParam Long memberId,
+        @AuthenticationPrincipal Member loginMember,
         @RequestParam String content) {
         CommentRequest request = new CommentRequest(content);
-        commentService.addComment(informationId, memberId, request);
+        commentService.addComment(informationId, loginMember.getId(), request);
         return "redirect:/information/" + informationId;
     }
 
@@ -129,14 +135,78 @@ public class InformationViewController {
     }
 
     @GetMapping("/search")
-    public String searchInformation(@RequestParam("keyword") String keyword, Model model) {
-        List<Information> results = informationService.searchByKeyword(keyword);
-        List<InformationView> views = results.stream()
+    public String search(
+        @RequestParam(required = false) String status,
+        @RequestParam(required = false) String keyword,
+        @RequestParam(defaultValue = "0") int page,
+        Model model
+    ) {
+        Status filterStatus = null;
+        if ("SOLVED".equalsIgnoreCase(status)) {
+            filterStatus = Status.SOLVED;
+        } else if ("UNSOLVED".equalsIgnoreCase(status)) {
+            filterStatus = Status.UNSOLVED;
+        }
+
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createAt").descending());
+        Page<Information> filtered = informationService.searchByStatusAndKeywordPaged(filterStatus,
+            keyword, pageable);
+
+        List<InformationView> posts = filtered.stream()
             .map(InformationView::from)
             .toList();
 
-        model.addAttribute("posts", views);
-        return "information";  // 기존 목록 화면 재사용
+        model.addAttribute("posts", posts);
+        model.addAttribute("currentPage", filtered.getNumber());
+        model.addAttribute("totalPages", filtered.getTotalPages());
+        model.addAttribute("selectedStatus", status);
+        model.addAttribute("keyword", keyword);
+        return "information";
+    }
+
+    @PostMapping("/solve/{id}")
+    public String solveInformation(@PathVariable Long id,
+        @AuthenticationPrincipal Member member) {
+        informationService.markAsSolved(id, member.getId());
+        return "redirect:/information/" + id;
+    }
+
+    @PostMapping("/comments/delete/{commentId}")
+    public String deleteComment(@PathVariable Long commentId,
+        @AuthenticationPrincipal Member loginMember) {
+
+        Comment comment = commentService.findById(commentId);
+        Information info = comment.getInformation(); // 댓글이 달린 글
+
+        // 글 작성자만 삭제 가능
+        if (!info.getMember().getId().equals(loginMember.getId())) {
+            throw new AccessDeniedException("글 작성자만 댓글을 삭제할 수 있습니다.");
+        }
+
+        commentService.deleteComment(commentId);
+        return "redirect:/information/" + info.getInformationId();
+    }
+
+    @PostMapping("/report")
+    public String handleReport(
+        @RequestParam("targetType") String type,
+        @RequestParam("targetId") Long targetId,
+        @RequestParam("reason") String reason,
+        @AuthenticationPrincipal Member loginMember
+    ) {
+        if (loginMember == null) {
+            throw new IllegalStateException("로그인이 필요합니다.");
+        }
+
+        TargetType targetType = TargetType.valueOf(type.toUpperCase());
+
+        reportService.submitReport(loginMember.getId(), targetType, targetId, reason);
+
+        String redirectUrl = (targetType == TargetType.POST)
+            ? "/information/" + targetId
+            : "/information/" + reportService.findPostIdByCommentId(targetId);
+
+        return "redirect:" + redirectUrl;
     }
 
 }

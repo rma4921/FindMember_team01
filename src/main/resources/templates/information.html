@@ -27,16 +27,31 @@
         </div>
 
         <div class="tab-menu">
-            <a th:href="@{/information}" class="tab active">전체</a>
-            <a th:href="@{/information?status=solved}" class="tab">해결</a>
-            <a th:href="@{/information?status=unsolved}" class="tab">미해결</a>
+            <a th:href="@{/information/search(status='ALL', keyword=${keyword})}"
+               class="tab"
+               th:classappend="${selectedStatus == null or selectedStatus == 'ALL'} ? 'active'">
+                전체
+            </a>
+            <a th:href="@{/information/search(status='SOLVED', keyword=${keyword})}"
+               class="tab"
+               th:classappend="${selectedStatus == 'SOLVED'} ? 'active'">
+                해결
+            </a>
+            <a th:href="@{/information/search(status='UNSOLVED', keyword=${keyword})}"
+               class="tab"
+               th:classappend="${selectedStatus == 'UNSOLVED'} ? 'active'">
+                미해결
+            </a>
         </div>
+
 
         <div class="filter-box">
             <div class="filter-top">
+                <!-- 검색창 -->
                 <form th:action="@{/information/search}" method="get">
-                    <input type="text" name="keyword" placeholder="검색어"/>
-                    <button class="search-btn">검색</button>
+                    <input type="text" name="keyword" placeholder="검색어" th:value="${keyword}"/>
+                    <input type="hidden" name="status" th:value="${selectedStatus}"/>
+                    <button type="submit">검색</button>
                 </form>
             </div>
             <div class="filter-bottom">
@@ -54,10 +69,18 @@
         </div>
 
         <div class="posts">
+            <!-- 제목 링크 -->
             <div class="post" th:each="post : ${posts}">
                 <a th:href="@{'/information/' + ${post.id}}">
-                    <div class="post-title" th:text="${post.title}">제목</div>
+                    <div class="post-title">
+                        <span th:text="${post.title}">제목</span>
+                        <span class="status-badge"
+                              th:text="${post.status.name() == 'SOLVED' ? '해결' : '미해결'}"
+                              th:classappend="${post.status.name() == 'SOLVED' ? 'solved' : 'unsolved'}">
+                        </span>
+                    </div>
                 </a>
+                <!-- 작성자, 날짜 -->
                 <div class="post-meta">
                     <span th:text="${post.writer}">닉네임</span> ·
                     <span th:text="${#temporals.format(post.createdAt, 'yyyy.MM.dd')}"></span>
@@ -69,7 +92,7 @@
         <!-- 페이징 -->
         <div class="pagination" th:if="${totalPages != null and totalPages > 0}">
             <a th:each="page : ${#numbers.sequence(0, totalPages - 1)}"
-               th:href="@{'/information?page=' + ${page}}"
+               th:href="@{/information/search(status=${selectedStatus}, keyword=${keyword}, page=${page})}"
                th:text="${page + 1}"
                th:classappend="${page == currentPage} ? 'active'">
             </a>

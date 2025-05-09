@@ -215,20 +215,6 @@ body {
     margin-bottom: 12px;
 }
 
-.tag {
-    background-color: #00c83f;
-    color: white;
-    padding: 4px 12px;
-    font-size: 12px;
-    border-radius: 999px;
-    display: inline-block;
-}
-
-.tag.solved {
-    background-color: #ccc;
-    color: black;
-}
-
 .post-title {
     font-weight: bold;
     margin: 8px 0 4px;
@@ -264,4 +250,37 @@ body {
 .pagination a.active {
     border: 1px solid #00c83f;
     background-color: white;
+}
+
+.solved {
+    background-color: #00c83f;
+}
+
+.unsolved {
+    background-color: #ff5f5f;
+}
+
+.status-badge {
+    margin-left: 10px;
+    padding: 2px 8px;
+    font-size: 12px;
+    border-radius: 999px;
+    font-weight: bold;
+    vertical-align: middle;
+}
+
+.status-badge.solved {
+    background-color: #00c83f;
+    color: white;
+}
+
+.status-badge.unsolved {
+    background-color: #ccc;
+    color: #333;
+}
+
+.post-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
