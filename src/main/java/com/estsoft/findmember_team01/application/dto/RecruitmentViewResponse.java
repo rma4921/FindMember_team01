@@ -26,6 +26,7 @@ public class RecruitmentViewResponse {
 
     private Boolean status;
     private Long level;
+    private Boolean hide_status;
 
     public RecruitmentViewResponse(Recruitment recruitment) {
         this.recruitmentId = recruitment.getRecruitmentId();
@@ -37,5 +38,6 @@ public class RecruitmentViewResponse {
         this.deadline = recruitment.getDeadline();
         this.status = recruitment.getStatus();
         this.level = recruitment.getLevel();
+        this.hide_status = recruitment.getHide_status();
     }
 }

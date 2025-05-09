@@ -30,14 +30,14 @@
         <div class="header-actions">
             <div class="left-actions">
                 <form th:if="${!report.status}"
-                      th:action="@{/api/admin/posts/{id}(id=${report.reportId})}" method="post">
+                      th:action="@{/api/admin/reports/{id}(id=${report.reportId})}" method="post">
                     <input type="hidden" name="_method" value="put"/>
                     <input type="hidden" name="status" value="true"/>
                     <button type="submit" class="btn btn-accept">신고 처리</button>
                 </form>
 
                 <form id="deleteForm"
-                      th:action="@{/api/admin/posts/{id}(id=${report.reportId})}"
+                      th:action="@{/api/admin/reports/{id}(id=${report.reportId})}"
                       method="post"
                       onsubmit="return confirmDelete();">
                     <input type="hidden" name="_method" value="DELETE"/>
@@ -51,7 +51,10 @@
         <p th:text="${report.reason}">신고 사유</p>
     </div>
     <div class="header-top header-row">
-        <a th:href="@{/api/admin/posts}" class="btn btn-back">뒤로가기</a>
+        <a th:href="@{/api/admin/posts/{id}(id=${report.getTargetId()})}"
+           class="btn btn-move">이동
+        </a>
+        <a th:href="@{/api/admin/reports}" class="btn btn-back">뒤로가기</a>
     </div>
 </div>
 <script src="/js/detail.js"></script>

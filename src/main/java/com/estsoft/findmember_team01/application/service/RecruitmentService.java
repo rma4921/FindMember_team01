@@ -143,5 +143,14 @@ public class RecruitmentService {
         return recruitmentRepository.findByStatusAndKeyword(status, keyword, pageable);
     }
 
+    @Transactional
+    public void hideUpdate(Long id, RecruitmentRequest requestDto) {
+        Recruitment recruitment = recruitmentRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+
+        if (requestDto.getHide_status() != null) {
+            recruitment.setHide_status(requestDto.getHide_status());
+        }
+    }
 
 }
