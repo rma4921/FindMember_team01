@@ -12,15 +12,12 @@ public interface ReportRepository extends JpaRepository<Report, Long> {
 
     Page<Report> findByStatus(Boolean status, Pageable pageable);
 
-    Page<Report> findByReasonContaining(
-        String content, Pageable pageable);
+    Page<Report> findByReasonContaining(String content, Pageable pageable);
 
     @Query("SELECT r FROM Report r WHERE (r.reason LIKE %:keyword%)")
-    Page<Report> findByKeyword(
-        @Param("keyword") String keyword, Pageable pageable);
+    Page<Report> findByKeyword(@Param("keyword") String keyword, Pageable pageable);
 
     @Query("SELECT r FROM Report r WHERE r.status = :status AND (r.reason LIKE %:keyword%)")
-    Page<Report> findByStatusAndKeyword(
-        @Param("status") int status, @Param("keyword") String keyword,
-        Pageable pageable);
+    Page<Report> findByStatusAndKeyword(@Param("status") int status,
+        @Param("keyword") String keyword, Pageable pageable);
 }

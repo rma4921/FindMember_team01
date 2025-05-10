@@ -8,13 +8,11 @@
 </head>
 <body>
 
-
 <div class="detail-container">
     <div class="detail-header">
         <div class="header-top">
             <h2 th:text="${recruitment.title}"></h2>
             <div class="detail-meta">
-                <!-- 작성일과 수정일 비교 -->
                 <th:block th:if="${recruitment.createdAt == recruitment.updatedAt}">
                     <span>작성일 [[${#temporals.format(recruitment.createdAt, 'yy.MM.dd HH:mm')}]]</span>
                 </th:block>
@@ -25,7 +23,6 @@
             </div>
         </div>
         <div class="header-actions">
-            <!-- 왼쪽 영역: 수정/삭제 -->
             <div class="left-actions">
                 <div class="application-buttons">
                     <form id="deleteForm"

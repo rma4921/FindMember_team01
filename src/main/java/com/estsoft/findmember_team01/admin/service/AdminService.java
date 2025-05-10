@@ -1,9 +1,9 @@
 package com.estsoft.findmember_team01.admin.service;
 
-import com.estsoft.findmember_team01.exception.NotExistsIdException;
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
-
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,9 @@ public class AdminService {
 
     private final MemberRepository memberRepository;
 
-    // 유저 레벨 수정
     public void updateUserLevel(Long memberId, int level) {
         Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
 
         member.addExp(level);
         memberRepository.save(member);
@@ -26,7 +25,15 @@ public class AdminService {
     @Transactional
     public void changeRole(Long memberId, String role) {
         Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new NotExistsIdException(memberId));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
+
+        if (role.equals("ADMIN")) {
+            member.updateLevel(0L);
+        } else if (role.equals("MASTER")) {
+            member.updateLevel(7L);
+        } else {
+            member.updateLevel(1L);
+        }
 
         member.updateRole(role);
     }

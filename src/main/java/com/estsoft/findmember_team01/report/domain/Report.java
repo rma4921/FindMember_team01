@@ -34,7 +34,7 @@ public class Report {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member; // 신고한 회원
+    private Member member;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

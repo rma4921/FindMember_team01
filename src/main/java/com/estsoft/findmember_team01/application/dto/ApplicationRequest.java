@@ -14,12 +14,10 @@ public class ApplicationRequest {
     private Long memberId;
     private String content;
 
-
     @Builder
     public ApplicationRequest(Long recruitmentId, Long memberId, String content) {
         this.recruitmentId = recruitmentId;
         this.memberId = memberId;
         this.content = content;
     }
-
 }

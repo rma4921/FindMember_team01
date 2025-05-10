@@ -11,49 +11,49 @@ const rule3 = document.getElementById("rule3");
 let isEmailValid = false;
 
 function validateEmail() {
-  const email = emailInput.value;
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  isEmailValid = emailRegex.test(email);
+    const email = emailInput.value;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    isEmailValid = emailRegex.test(email);
 
-  if (!isEmailValid) {
-    emailError.style.display = "block";
-  } else {
-    emailError.style.display = "none";
-  }
+    if (!isEmailValid) {
+        emailError.style.display = "block";
+    } else {
+        emailError.style.display = "none";
+    }
 
-  updateSubmitState(isEmailValid);
+    updateSubmitState(isEmailValid);
 }
 
 function validatePassword() {
-  const password = passwordInput.value;
+    const password = passwordInput.value;
 
-  const hasLetter = /[a-zA-Z]/.test(password);
-  const hasDigit = /[0-9]/.test(password);
-  const hasSpecial = /[^a-zA-Z0-9]/.test(password);
-  const typeCount = [hasLetter, hasDigit, hasSpecial].filter(Boolean).length;
-  updateRule(rule1, typeCount >= 2);
+    const hasLetter = /[a-zA-Z]/.test(password);
+    const hasDigit = /[0-9]/.test(password);
+    const hasSpecial = /[^a-zA-Z0-9]/.test(password);
+    const typeCount = [hasLetter, hasDigit, hasSpecial].filter(Boolean).length;
+    updateRule(rule1, typeCount >= 2);
 
-  const noSpace = !/\s/.test(password);
-  updateRule(rule2, password.length >= 8 && password.length <= 32 && noSpace);
+    const noSpace = !/\s/.test(password);
+    updateRule(rule2, password.length >= 8 && password.length <= 32 && noSpace);
 
-  const noThreeSame = password.length >= 3 && !/(.)\1\1/.test(password);
-  updateRule(rule3, noThreeSame);
+    const noThreeSame = password.length >= 3 && !/(.)\1\1/.test(password);
+    updateRule(rule3, noThreeSame);
 
-  updateSubmitState();
+    updateSubmitState();
 }
 
 function updateRule(element, isValid) {
-  element.style.color = isValid ? "black" : "#666666";
+    element.style.color = isValid ? "black" : "#666666";
 }
 
 function updateSubmitState() {
-  const allValid =
-      rule1.style.color === "black" &&
-      rule2.style.color === "black" &&
-      passwordInput.value === confirmPasswordInput.value &&
-      isEmailValid;
+    const allValid =
+        rule1.style.color === "black" &&
+        rule2.style.color === "black" &&
+        passwordInput.value === confirmPasswordInput.value &&
+        isEmailValid;
 
-  submitBtn.disabled = !allValid;
+    submitBtn.disabled = !allValid;
 }
 
 emailInput.addEventListener("input", validateEmail);

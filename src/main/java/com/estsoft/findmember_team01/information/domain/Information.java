@@ -1,8 +1,21 @@
 package com.estsoft.findmember_team01.information.domain;
 
+import com.estsoft.findmember_team01.comment.domain.Comment;
 import com.estsoft.findmember_team01.information.dto.InformationResponse;
 import com.estsoft.findmember_team01.member.domain.Member;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -12,8 +25,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -56,18 +67,15 @@ public class Information {
         this.member = member;
     }
 
-    //수정
     public void updateInformation(String title, String content) {
         this.title = title;
         this.content = content;
     }
 
-    //Dto
     public InformationResponse toDto() {
         return new InformationResponse(this);
     }
 
-    //상태
     public void setStatus(Status status) {
         this.status = status;
     }

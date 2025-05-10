@@ -12,14 +12,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface InformationRepository extends JpaRepository<Information, Long> {
 
-    // status가 null값이면 전체 keyword, status 둘다 있으면 조건에 맞게 필터링
-    @Query("SELECT i FROM Information i " +
-        "WHERE (:status IS NULL OR i.status = :status) " +
-        "AND (LOWER(i.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
-        "OR LOWER(i.content) LIKE LOWER(CONCAT('%', :keyword, '%')))")
-    Page<Information> findByStatusAndKeywordPaged(
-        @Param("status") Status status,
-        @Param("keyword") String keyword,
-        Pageable pageable
-    );
+    @Query("SELECT i FROM Information i " + "WHERE (:status IS NULL OR i.status = :status) "
+        + "AND (LOWER(i.title) LIKE LOWER(CONCAT('%', :keyword, '%')) "
+        + "OR LOWER(i.content) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+    Page<Information> findByStatusAndKeywordPaged(@Param("status") Status status,
+        @Param("keyword") String keyword, Pageable pageable);
 }

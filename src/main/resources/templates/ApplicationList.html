@@ -17,7 +17,6 @@
                        class="btn btn-back">뒤로가기</a>
                 </div>
 
-                <!-- 검색 및 정렬 -->
                 <form
                     th:action="@{/api/posts/{recruitmentId}/apply(recruitmentId=${recruitmentId})}"
                     method="get" class="search-area">
@@ -31,14 +30,13 @@
                         <input type="hidden" name="sort" th:value="${param.sort} ?: 'latest'"/>
                         <a href="#"
                            th:onclick="|this.closest('form').sort.value='latest'; this.closest('form').submit(); return false;|"
-                           th:classappend="${param.sort} == 'latest' ? 'active'">최신순</a>
+                           th:classappend="${param.sort == 'latest'} ? 'active'">최신순</a>
                         <a href="#"
                            th:onclick="|this.closest('form').sort.value='oldest'; this.closest('form').submit(); return false;|"
-                           th:classappend="${param.sort} == 'oldest' ? 'active'">오래된순</a>
+                           th:classappend="${param.sort == 'oldest'} ? 'active'">오래된순</a>
                     </div>
                 </form>
 
-                <!-- 지원서 리스트 -->
                 <div class="post-list">
                     <div class="post-item" th:each="app : ${applicationList}">
                         <div class="post-left">
@@ -53,7 +51,6 @@
                     </div>
                 </div>
 
-                <!-- 페이징 -->
                 <div class="pagination" th:if="${page.totalPages > 1}">
                     <a th:each="i : ${#numbers.sequence(0, page.totalPages - 1)}"
                        th:href="@{/api/posts/{recruitmentId}/apply(recruitmentId=${recruitmentId}, page=${i}, sort=${param.sort}, titleKeyword=${param.titleKeyword})}"

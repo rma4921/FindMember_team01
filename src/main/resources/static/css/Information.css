@@ -1,5 +1,3 @@
-/* index.css - Q&A 목록 전용 스타일 */
-
 body {
     margin: 0;
     font-family: 'Inter', sans-serif;
@@ -317,6 +315,6 @@ body {
 
 .logout-btn:hover,
 .login-btn:hover {
-    background-color: #d32f2f; /* hover 시 빨간색 */
+    background-color: #d32f2f;
 }
 
