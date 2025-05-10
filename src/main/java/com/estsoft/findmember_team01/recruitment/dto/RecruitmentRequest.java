@@ -1,7 +1,7 @@
-package com.estsoft.findmember_team01.application.dto;
+package com.estsoft.findmember_team01.recruitment.dto;
 
-import com.estsoft.findmember_team01.application.domain.Recruitment;
 import com.estsoft.findmember_team01.member.domain.Member;
+import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;

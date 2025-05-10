@@ -1,42 +1,36 @@
-package com.estsoft.findmember_team01.application.dto;
+package com.estsoft.findmember_team01.recruitment.dto;
 
-import com.estsoft.findmember_team01.application.domain.Recruitment;
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class RecruitmentViewResponse {
+public class RecruitmentResponse {
 
     private Long recruitmentId;
+    private Long memberId;
     private String title;
     private String content;
-    private String nickname;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdAt;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime deadline;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updatedAt;
-
+    private LocalDateTime deadline;
     private Boolean status;
+    private Boolean end_status;
     private Long level;
     private Boolean hide_status;
 
-    public RecruitmentViewResponse(Recruitment recruitment) {
+    @Builder
+    public RecruitmentResponse(Recruitment recruitment) {
         this.recruitmentId = recruitment.getRecruitmentId();
+        this.memberId = recruitment.getMember().getId();
         this.title = recruitment.getTitle();
         this.content = recruitment.getContent();
-        this.nickname = recruitment.getMember().getNickname();
         this.createdAt = recruitment.getCreatedAt();
         this.updatedAt = recruitment.getUpdatedAt();
         this.deadline = recruitment.getDeadline();
         this.status = recruitment.getStatus();
+        this.end_status = recruitment.getEnd_status();
         this.level = recruitment.getLevel();
         this.hide_status = recruitment.getHide_status();
     }

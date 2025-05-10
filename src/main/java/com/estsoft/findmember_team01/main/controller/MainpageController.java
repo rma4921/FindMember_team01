@@ -1,8 +1,8 @@
-package com.estsoft.findmember_team01.member.controller;
+package com.estsoft.findmember_team01.main.controller;
 
-import com.estsoft.findmember_team01.application.domain.Recruitment;
-import com.estsoft.findmember_team01.application.dto.RecruitmentViewResponse;
-import com.estsoft.findmember_team01.application.service.RecruitmentService;
+import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
+import com.estsoft.findmember_team01.recruitment.dto.RecruitmentViewResponse;
+import com.estsoft.findmember_team01.recruitment.service.RecruitmentService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;

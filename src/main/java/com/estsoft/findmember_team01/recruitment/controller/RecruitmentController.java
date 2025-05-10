@@ -1,10 +1,10 @@
-package com.estsoft.findmember_team01.application.controller;
+package com.estsoft.findmember_team01.recruitment.controller;
 
-import com.estsoft.findmember_team01.application.dto.RecruitmentRequest;
-import com.estsoft.findmember_team01.application.dto.RecruitmentResponse;
-import com.estsoft.findmember_team01.application.service.RecruitmentService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
+import com.estsoft.findmember_team01.recruitment.dto.RecruitmentRequest;
+import com.estsoft.findmember_team01.recruitment.dto.RecruitmentResponse;
+import com.estsoft.findmember_team01.recruitment.service.RecruitmentService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

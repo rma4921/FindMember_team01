@@ -1,7 +1,7 @@
-package com.estsoft.findmember_team01.member.controller;
+package com.estsoft.findmember_team01.login.controller;
 
+import com.estsoft.findmember_team01.login.dto.LoginRequest;
 import com.estsoft.findmember_team01.member.domain.Member;
-import com.estsoft.findmember_team01.member.dto.LoginRequest;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.member.service.MemberService;
 import lombok.RequiredArgsConstructor;

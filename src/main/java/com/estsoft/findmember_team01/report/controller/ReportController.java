@@ -1,6 +1,6 @@
 package com.estsoft.findmember_team01.report.controller;
 
-import com.estsoft.findmember_team01.information.service.CommentService;
+import com.estsoft.findmember_team01.comment.service.CommentService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.report.domain.Report;
 import com.estsoft.findmember_team01.report.domain.ReportTargetType;

@@ -1,9 +1,9 @@
-package com.estsoft.findmember_team01.information.service;
+package com.estsoft.findmember_team01.comment.service;
 
-import com.estsoft.findmember_team01.information.domain.Comment;
-import com.estsoft.findmember_team01.information.dto.CommentRequest;
-import com.estsoft.findmember_team01.information.dto.CommentResponse;
-import com.estsoft.findmember_team01.information.repository.CommentRepository;
+import com.estsoft.findmember_team01.comment.domain.Comment;
+import com.estsoft.findmember_team01.comment.dto.CommentRequest;
+import com.estsoft.findmember_team01.comment.dto.CommentResponse;
+import com.estsoft.findmember_team01.comment.repository.CommentRepository;
 import com.estsoft.findmember_team01.information.repository.InformationRepository;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;

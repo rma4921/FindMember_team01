@@ -1,7 +1,7 @@
 package com.estsoft.findmember_team01.member.service;
 
+import com.estsoft.findmember_team01.login.dto.LoginRequest;
 import com.estsoft.findmember_team01.member.domain.Member;
-import com.estsoft.findmember_team01.member.dto.LoginRequest;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

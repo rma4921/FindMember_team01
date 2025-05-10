@@ -1,7 +1,7 @@
-package com.estsoft.findmember_team01.information.dto;
+package com.estsoft.findmember_team01.comment.dto;
 
 
-import com.estsoft.findmember_team01.information.domain.Comment;
+import com.estsoft.findmember_team01.comment.domain.Comment;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDateTime;

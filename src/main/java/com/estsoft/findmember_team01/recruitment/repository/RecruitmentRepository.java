@@ -1,6 +1,6 @@
-package com.estsoft.findmember_team01.application.repository;
+package com.estsoft.findmember_team01.recruitment.repository;
 
-import com.estsoft.findmember_team01.application.domain.Recruitment;
+import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,15 +1,15 @@
-package com.estsoft.findmember_team01.application.service;
+package com.estsoft.findmember_team01.recruitment.service;
 
 import com.estsoft.findmember_team01.application.domain.Application;
 import com.estsoft.findmember_team01.application.domain.ApplicationStatus;
-import com.estsoft.findmember_team01.application.domain.Recruitment;
-import com.estsoft.findmember_team01.application.dto.RecruitmentRequest;
-import com.estsoft.findmember_team01.application.dto.RecruitmentResponse;
 import com.estsoft.findmember_team01.application.repository.ApplicationRepository;
-import com.estsoft.findmember_team01.application.repository.RecruitmentRepository;
 import com.estsoft.findmember_team01.exception.NotExistsIdException;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
+import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
+import com.estsoft.findmember_team01.recruitment.dto.RecruitmentRequest;
+import com.estsoft.findmember_team01.recruitment.dto.RecruitmentResponse;
+import com.estsoft.findmember_team01.recruitment.repository.RecruitmentRepository;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

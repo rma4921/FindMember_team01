@@ -1,4 +1,4 @@
-package com.estsoft.findmember_team01.information.dto;
+package com.estsoft.findmember_team01.comment.dto;
 
 
 import lombok.AllArgsConstructor;

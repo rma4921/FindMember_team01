@@ -1,13 +1,13 @@
 package com.estsoft.findmember_team01.information.controller;
 
-import com.estsoft.findmember_team01.information.domain.Comment;
+import com.estsoft.findmember_team01.comment.domain.Comment;
+import com.estsoft.findmember_team01.comment.dto.CommentRequest;
+import com.estsoft.findmember_team01.comment.dto.CommentView;
+import com.estsoft.findmember_team01.comment.service.CommentService;
 import com.estsoft.findmember_team01.information.domain.Information;
 import com.estsoft.findmember_team01.information.domain.Status;
-import com.estsoft.findmember_team01.information.dto.CommentRequest;
-import com.estsoft.findmember_team01.information.dto.CommentView;
 import com.estsoft.findmember_team01.information.dto.InformationRequest;
 import com.estsoft.findmember_team01.information.dto.InformationView;
-import com.estsoft.findmember_team01.information.service.CommentService;
 import com.estsoft.findmember_team01.information.service.InformationService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import java.util.List;

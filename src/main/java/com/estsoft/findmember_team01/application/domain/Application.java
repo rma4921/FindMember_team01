@@ -1,6 +1,7 @@
 package com.estsoft.findmember_team01.application.domain;
 
 import com.estsoft.findmember_team01.member.domain.Member;
+import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;

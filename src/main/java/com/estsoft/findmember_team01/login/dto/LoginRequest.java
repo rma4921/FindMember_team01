@@ -1,4 +1,4 @@
-package com.estsoft.findmember_team01.member.dto;
+package com.estsoft.findmember_team01.login.dto;
 
 import lombok.Getter;
 import lombok.Setter;

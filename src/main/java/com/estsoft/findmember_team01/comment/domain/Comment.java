@@ -1,17 +1,24 @@
-package com.estsoft.findmember_team01.information.domain;
+package com.estsoft.findmember_team01.comment.domain;
 
 
-import com.estsoft.findmember_team01.information.dto.CommentResponse;
+import com.estsoft.findmember_team01.comment.dto.CommentResponse;
+import com.estsoft.findmember_team01.information.domain.Information;
 import com.estsoft.findmember_team01.member.domain.Member;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
-import java.time.LocalDateTime;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)

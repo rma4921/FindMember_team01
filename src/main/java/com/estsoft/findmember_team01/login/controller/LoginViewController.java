@@ -1,4 +1,4 @@
-package com.estsoft.findmember_team01.member.controller;
+package com.estsoft.findmember_team01.login.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;

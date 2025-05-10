@@ -1,7 +1,7 @@
 package com.estsoft.findmember_team01.configuration;
 
-import com.estsoft.findmember_team01.member.handler.CustomLogoutSuccessHandler;
-import com.estsoft.findmember_team01.member.handler.UserAuthenticationSuccessHandler;
+import com.estsoft.findmember_team01.login.handler.CustomLogoutSuccessHandler;
+import com.estsoft.findmember_team01.login.handler.UserAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

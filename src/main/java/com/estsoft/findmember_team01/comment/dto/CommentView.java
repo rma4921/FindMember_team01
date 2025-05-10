@@ -1,6 +1,6 @@
-package com.estsoft.findmember_team01.information.dto;
+package com.estsoft.findmember_team01.comment.dto;
 
-import com.estsoft.findmember_team01.information.domain.Comment;
+import com.estsoft.findmember_team01.comment.domain.Comment;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;

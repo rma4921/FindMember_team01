@@ -1,4 +1,4 @@
-package com.estsoft.findmember_team01.member.handler;
+package com.estsoft.findmember_team01.login.handler;
 
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;

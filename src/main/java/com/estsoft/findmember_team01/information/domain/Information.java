@@ -1,5 +1,6 @@
 package com.estsoft.findmember_team01.information.domain;
 
+import com.estsoft.findmember_team01.comment.domain.Comment;
 import com.estsoft.findmember_team01.information.dto.InformationResponse;
 import com.estsoft.findmember_team01.member.domain.Member;
 import jakarta.persistence.CascadeType;
