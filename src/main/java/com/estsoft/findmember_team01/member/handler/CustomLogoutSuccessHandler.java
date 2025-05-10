@@ -15,20 +15,18 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     private final MemberRepository memberRepository;
 
-    // 로그아웃 핸들러
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException {
         if (authentication != null && authentication.isAuthenticated()) {
             String email = authentication.getName();
 
-            memberRepository.findByEmail(email)
-                .ifPresent(member -> {
-                    member.updateLogoutInfo();
-                    memberRepository.save(member);
-                });
+            memberRepository.findByEmail(email).ifPresent(member -> {
+                member.updateLogoutInfo();
+                memberRepository.save(member);
+            });
         }
-        
+
         response.sendRedirect("/api/posts");
     }
 }

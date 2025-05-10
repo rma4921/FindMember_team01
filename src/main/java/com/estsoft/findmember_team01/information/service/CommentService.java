@@ -1,17 +1,15 @@
 package com.estsoft.findmember_team01.information.service;
 
 import com.estsoft.findmember_team01.information.domain.Comment;
-import com.estsoft.findmember_team01.information.domain.Information;
 import com.estsoft.findmember_team01.information.dto.CommentRequest;
 import com.estsoft.findmember_team01.information.dto.CommentResponse;
 import com.estsoft.findmember_team01.information.repository.CommentRepository;
 import com.estsoft.findmember_team01.information.repository.InformationRepository;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CommentService {
@@ -21,8 +19,7 @@ public class CommentService {
     private final InformationRepository informationRepository;
 
     public CommentService(CommentRepository commentRepository,
-        InformationRepository informationRepository,
-        MemberRepository memberRepository) {
+        InformationRepository informationRepository, MemberRepository memberRepository) {
         this.commentRepository = commentRepository;
         this.informationRepository = informationRepository;
         this.memberRepository = memberRepository;
@@ -37,16 +34,16 @@ public class CommentService {
         commentRepository.deleteById(commentId);
     }
 
-    public CommentResponse addComment(Long informationId, Long memberId, CommentRequest commentRequest) {
+    public CommentResponse addComment(Long informationId, Long memberId,
+        CommentRequest commentRequest) {
         var information = informationRepository.findById(informationId)
             .orElseThrow(() -> new RuntimeException("Information not found"));
         var member = memberRepository.findById(memberId)
             .orElseThrow(() -> new RuntimeException("Member not found"));
 
-        var comment = commentRepository.save(Comment.builder()
-            .content(commentRequest.getContent())
-            .member(member)
-            .information(information).build());
+        var comment = commentRepository.save(
+            Comment.builder().content(commentRequest.getContent()).member(member)
+                .information(information).build());
 
         return comment.toDto();
     }

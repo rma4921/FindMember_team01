@@ -20,7 +20,8 @@ public class InformationService {
     private final MemberRepository memberRepository;
     private final InformationRepository informationRepository;
 
-    public InformationService(InformationRepository informationRepository, MemberRepository memberRepository) {
+    public InformationService(InformationRepository informationRepository,
+        MemberRepository memberRepository) {
         this.informationRepository = informationRepository;
         this.memberRepository = memberRepository;
     }
@@ -38,11 +39,8 @@ public class InformationService {
         var member = memberRepository.findById(request.getMemberId())
             .orElseThrow(() -> new RuntimeException("Member not found"));
 
-        var information = Information.builder()
-            .title(request.getTitle())
-            .content(request.getContent())
-            .member(member)
-            .build();
+        var information = Information.builder().title(request.getTitle())
+            .content(request.getContent()).member(member).build();
 
         return informationRepository.save(information);
     }
@@ -63,8 +61,11 @@ public class InformationService {
         return informationRepository.findAll(pageable);
     }
 
-    public Page<Information> searchByStatusAndKeywordPaged(Status status, String keyword, Pageable pageable) {
-        if (keyword == null || keyword.trim().isEmpty()) keyword = "";
+    public Page<Information> searchByStatusAndKeywordPaged(Status status, String keyword,
+        Pageable pageable) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            keyword = "";
+        }
         return informationRepository.findByStatusAndKeywordPaged(status, keyword, pageable);
     }
 

@@ -20,18 +20,15 @@ public class LoginController {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
-    // 회원 가입 메서드
     @PostMapping("/api/user/signup")
     public String signup(@ModelAttribute LoginRequest request) {
         memberService.save(request);
         return "redirect:/login";
     }
 
-    // 회원 탈퇴 메서드
     @DeleteMapping("/api/user/{id}")
     public String deleteMember(@PathVariable Long id, Authentication authentication) {
         String currentEmail = authentication.getName();
-        System.out.println("현재 이메일: " + currentEmail);
         Member member = memberRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException(id + "는 존재하지 않는 사용자입니다."));
 

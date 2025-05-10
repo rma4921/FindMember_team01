@@ -22,8 +22,7 @@ public class LoginViewController {
 
         String referer = request.getHeader("Referer");
 
-        if (referer != null && !referer.contains("/login")
-            && !referer.contains("/signup")
+        if (referer != null && !referer.contains("/login") && !referer.contains("/signup")
             && !referer.contains("/logout")) {
             request.getSession().setAttribute("prevPage", referer);
         }
@@ -34,11 +33,6 @@ public class LoginViewController {
     @GetMapping("/signup")
     public String signUpView() {
         return "signup";
-    }
-
-    @GetMapping("/main")
-    public String mainView() {
-        return "main";
     }
 
     // 마이페이지 테스트용

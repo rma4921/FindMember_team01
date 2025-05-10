@@ -22,16 +22,11 @@ public class MainpageController {
         this.recruitmentService = recruitmentService;
     }
 
-    // 전체 게시글 조회
     @GetMapping("/api/posts")
-    public String getRecruitments(
-        @RequestParam(defaultValue = "0") int page,
+    public String getRecruitments(@RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "createdAt") String sortBy,
         @RequestParam(defaultValue = "-1") int status,
-        @RequestParam(required = false) String keyword,
-        Model model,
-        HttpServletRequest request
-    ) {
+        @RequestParam(required = false) String keyword, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         model.addAttribute("memberId", session.getAttribute("memberId"));
         model.addAttribute("nickname", session.getAttribute("memberNickname"));
@@ -42,26 +37,19 @@ public class MainpageController {
         boolean hasStatus = status != -1;
 
         if (hasKeyword && hasStatus) {
-            // status, keyword 둘 다 필터링
             boardPage = recruitmentService.getRecruitmentsByStatusAndKeyword(page, sortBy, status,
                 keyword);
         } else if (hasKeyword) {
-            // keyword 필터링
             boardPage = recruitmentService.getRecruitmentsWithKeyword(page, sortBy, keyword);
         } else if (hasStatus) {
-            // status 필터링
             boardPage = recruitmentService.getRecruitmentsByStatus(page, sortBy, status);
         } else {
-            // 아무것도 없으면 전체 조회
             boardPage = recruitmentService.getRecruitments(page, sortBy);
         }
 
-        List<RecruitmentViewResponse> recruitmentList = boardPage.getContent().stream()
-            .filter(recruitment -> recruitment.getHide_status() == null
-                || !recruitment.getHide_status())
-            // 숨겨진 게시글 필터링
-            .map(RecruitmentViewResponse::new)
-            .collect(Collectors.toList());
+        List<RecruitmentViewResponse> recruitmentList = boardPage.getContent().stream().filter(
+                recruitment -> recruitment.getHide_status() == null || !recruitment.getHide_status())
+            .map(RecruitmentViewResponse::new).collect(Collectors.toList());
 
         int totalPages = boardPage.getTotalPages();
         int currentPage = page;
@@ -79,6 +67,5 @@ public class MainpageController {
 
         return "mainpage";
     }
-
 }
 

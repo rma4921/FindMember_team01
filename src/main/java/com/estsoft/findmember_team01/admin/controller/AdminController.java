@@ -36,13 +36,9 @@ public class AdminController {
     private final MemberService memberService;
     private final RecruitmentService recruitmentService;
 
-    // 전체 회원 목록 조회
     @GetMapping("/api/admin/users")
-    public String getMembers(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(required = false) String keyword,
-        Model model
-    ) {
+    public String getMembers(@RequestParam(defaultValue = "0") int page,
+        @RequestParam(required = false) String keyword, Model model) {
         Pageable pageable = PageRequest.of(page, 10);
 
         Page<Member> boardPage;
@@ -53,10 +49,8 @@ public class AdminController {
             boardPage = memberService.getMembers(pageable);
         }
 
-        List<MemberViewResponse> memberList = boardPage.getContent()
-            .stream()
-            .map(MemberViewResponse::new)
-            .collect(Collectors.toList());
+        List<MemberViewResponse> memberList = boardPage.getContent().stream()
+            .map(MemberViewResponse::new).collect(Collectors.toList());
 
         int totalPages = boardPage.getTotalPages();
         int currentPage = page;
@@ -73,7 +67,6 @@ public class AdminController {
         return "admin";
     }
 
-    // 사용자 레벨 조정 메서드
     @ResponseBody
     @PutMapping("/api/admin/users/{id}/level")
     public ResponseEntity<String> updateUserLevel(@PathVariable Long id,
@@ -83,20 +76,17 @@ public class AdminController {
     }
 
     @PostMapping("/api/admin/users/{id}/role")
-    public String changeMemberRole(@PathVariable Long id,
-        @RequestParam String role) {
+    public String changeMemberRole(@PathVariable Long id, @RequestParam String role) {
         adminService.changeRole(id, role);
 
         return "redirect:/api/admin/users";
     }
 
     @GetMapping("/api/admin/posts")
-    public String getRecruitments(
-        @RequestParam(defaultValue = "0") int page,
+    public String getRecruitments(@RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "createdAt") String sortBy,
         @RequestParam(defaultValue = "-1") int status,
-        @RequestParam(required = false) String keyword,
-        Model model) {
+        @RequestParam(required = false) String keyword, Model model) {
 
         Page<Recruitment> boardPage;
 
@@ -104,24 +94,18 @@ public class AdminController {
         boolean hasStatus = status != -1;
 
         if (hasKeyword && hasStatus) {
-            // status, keyword 둘 다 필터링
             boardPage = recruitmentService.getRecruitmentsByStatusAndKeyword(page, sortBy, status,
                 keyword);
         } else if (hasKeyword) {
-            // keyword 필터링
             boardPage = recruitmentService.getRecruitmentsWithKeyword(page, sortBy, keyword);
         } else if (hasStatus) {
-            // status 필터링
             boardPage = recruitmentService.getRecruitmentsByStatus(page, sortBy, status);
         } else {
-            // 아무것도 없으면 전체 조회
             boardPage = recruitmentService.getRecruitments(page, sortBy);
         }
 
-        List<RecruitmentViewResponse> recruitmentList = boardPage.getContent()
-            .stream()
-            .map(RecruitmentViewResponse::new)
-            .collect(Collectors.toList());
+        List<RecruitmentViewResponse> recruitmentList = boardPage.getContent().stream()
+            .map(RecruitmentViewResponse::new).collect(Collectors.toList());
 
         int totalPages = boardPage.getTotalPages();
         int currentPage = page;
@@ -140,7 +124,6 @@ public class AdminController {
         return "adminPostsList";
     }
 
-    // 모집글 상세 페이지
     @GetMapping("/api/admin/posts/{id}")
     public String detail(@PathVariable("id") Long id, Model model) {
         RecruitmentResponse recruitment = recruitmentService.getRecruitmentById(id);
@@ -158,8 +141,7 @@ public class AdminController {
 
     @DeleteMapping("/api/admin/posts/{id}")
     public String deleteRecruitmentByAdmin(@PathVariable Long id) {
-        recruitmentService.deleteRecruitment(id); // 작성자 체크 없이 삭제
+        recruitmentService.deleteRecruitment(id);
         return "redirect:/api/admin/posts";
     }
-
 }

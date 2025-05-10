@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ReportRequest {
 
-    private Long memberId; // 신고한 사람 ID
+    private Long memberId;
     private ReportTargetType targetType;
     private Long targetId;
     private String reason;

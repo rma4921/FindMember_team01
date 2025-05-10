@@ -5,7 +5,6 @@ import com.estsoft.findmember_team01.application.dto.RecruitmentResponse;
 import com.estsoft.findmember_team01.application.service.RecruitmentService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
-import com.estsoft.findmember_team01.member.service.MemberService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -25,17 +24,14 @@ public class RecruitmentController {
 
     private final RecruitmentService recruitmentService;
     private final MemberRepository memberRepository;
-    private final MemberService memberService;
 
-
-    // 모집글 작성 처리
     @PostMapping("/create")
     public String createRecruitment(@ModelAttribute RecruitmentRequest requestDto,
         HttpSession session) {
         Long memberId = (Long) session.getAttribute("memberId");
 
         if (memberId == null) {
-            return "redirect:/login"; // 로그인 안 했을 경우
+            return "redirect:/login";
         }
 
         Member member = memberRepository.findById(memberId)
@@ -48,8 +44,6 @@ public class RecruitmentController {
         return "redirect:/api/posts";
     }
 
-
-    // 모집글 상세 페이지
     @GetMapping("/{id}")
     public String detail(@PathVariable("id") Long id, Model model, HttpSession session) {
         Long memberId = (Long) session.getAttribute("memberId");
@@ -58,9 +52,8 @@ public class RecruitmentController {
         model.addAttribute("memberId", memberId);
 
         if (memberId != null) {
-            Member member = memberRepository.findById(memberId)
-                .orElseThrow(
-                    () -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. id=" + memberId));
+            Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. id=" + memberId));
             Long memberLevel = member.getLevel();
             model.addAttribute("memberLevel", memberLevel);
         }
@@ -68,8 +61,6 @@ public class RecruitmentController {
         return "detail";
     }
 
-
-    //모집글 수정
     @PutMapping("/{id}")
     public String updateRecruitment(@PathVariable Long id,
         @ModelAttribute RecruitmentRequest requestDto) {
@@ -77,12 +68,9 @@ public class RecruitmentController {
         return "redirect:/api/posts/" + id;
     }
 
-    //모집글 삭제
     @DeleteMapping("/{id}")
     public String deleteRecruitment(@PathVariable Long id) {
         recruitmentService.deleteRecruitment(id);
         return "redirect:/api/posts";
     }
-
-
 }

@@ -91,17 +91,8 @@ public class Recruitment {
     }
 
     public Recruitment toEntity(Member member) {
-        return Recruitment.builder()
-            .member(member)
-            .title(this.title)
-            .content(this.content)
-            .deadline(this.deadline)
-            .status(this.status)
-            .end_status(this.end_status)
-            .level(this.level)
-            .hide_status(this.hide_status)
-            .build();
+        return Recruitment.builder().member(member).title(this.title).content(this.content)
+            .deadline(this.deadline).status(this.status).end_status(this.end_status)
+            .level(this.level).hide_status(this.hide_status).build();
     }
-
-
 }

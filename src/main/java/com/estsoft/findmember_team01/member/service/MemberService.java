@@ -27,21 +27,17 @@ public class MemberService {
         return memberRepository.findAll(pageable);
     }
 
-    // 멤버 닉네임 검색
     public Page<Member> getMembersWithKeyword(String keyword, Pageable pageable) {
         return memberRepository.findByKeyword(keyword, pageable);
     }
 
-    // 회원가입 정보 저장
     public void save(LoginRequest dto) {
-        System.out.println("SAVE 실행");
         String nickname = generateUniqueNickname();
         Member member = new Member(dto.getEmail(), encoder.encode(dto.getPassword()), nickname);
         member.updateRoleByLevel();
         memberRepository.save(member);
     }
 
-    // 닉네임 자동 설정
     private String generateUniqueNickname() {
         String nickname;
         do {
@@ -50,43 +46,10 @@ public class MemberService {
         return nickname;
     }
 
-    // 회원 탈퇴
     public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
     }
 
-//    // 팀원 모집 table을 사용해야 함. 논의해보기
-//    public void completeProject(Long projectId) {
-//        int completeExp = 20;
-//
-//        Project project = projectRepository.findById(projectId)
-//            .orElseThrow(() -> new IllegalArgumentException("해당 프로젝트가 존재하지 않습니다."));
-//        // applicationRepository에 List<Application> findByRecruitmentIdAndStatusTrue(Long projectId); 추가해야 함.
-//        List<Application> applications = applicationRepository.findByRecruitmentIdAndStatusTrue(projectId);
-//
-//        for (Application application : applications) {
-//            Member member = application.getMember(); // application에 getMember() 구현해야 함. ManyToOne 설정되어야 함.
-//            member.addExp(completeExp);
-//            member.updateRoleByLevel();
-//            memberRepository.save(member);
-//
-//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//            if (auth != null &&
-//                auth.getName().equals(member.getEmail())
-//            ) {
-//                UserDetails user = userDetailsService.loadUserByUsername(member.getEmail());
-//                Authentication newAuth = new UsernamePasswordAuthenticationToken(user,
-//                    auth.getCredentials(), user.getAuthorities());
-//
-//                SecurityContextHolder.getContext().setAuthentication(newAuth);
-//            }
-//        }
-//        // 여기도 맞춰야 함. 프로젝트
-//        project.complete(true);
-//        projectRepository.save(project);
-//    }
-
-    // 레벨에 따른 권한 부여 테스트
     public void experienceHandler(String email, int exp) {
         Member member = memberRepository.findByEmail(email)
             .orElseThrow(() -> new IllegalArgumentException(email + "에 해당하는 정보를 찾을 수 없습니다."));
@@ -96,17 +59,11 @@ public class MemberService {
         memberRepository.save(member);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        auth.getAuthorities().forEach(authority -> {
-            System.out.println("처음 권한: " + authority.getAuthority());
-        });
 
         if (auth != null && auth.getName().equals(email)) {
             UserDetails user = userDetailsService.loadUserByUsername(email);
             Authentication newAuth = new UsernamePasswordAuthenticationToken(user,
                 auth.getCredentials(), user.getAuthorities());
-            newAuth.getAuthorities().forEach(authority -> {
-                System.out.println("수정된 권한: " + authority.getAuthority());
-            });
 
             SecurityContextHolder.getContext().setAuthentication(newAuth);
         }

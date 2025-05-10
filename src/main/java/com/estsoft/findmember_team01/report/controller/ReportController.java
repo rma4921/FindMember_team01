@@ -1,8 +1,8 @@
 package com.estsoft.findmember_team01.report.controller;
 
-import com.estsoft.findmember_team01.report.domain.Report;
 import com.estsoft.findmember_team01.information.service.CommentService;
 import com.estsoft.findmember_team01.member.domain.Member;
+import com.estsoft.findmember_team01.report.domain.Report;
 import com.estsoft.findmember_team01.report.domain.ReportTargetType;
 import com.estsoft.findmember_team01.report.dto.ReportRequest;
 import com.estsoft.findmember_team01.report.dto.ReportResponse;
@@ -44,16 +44,11 @@ public class ReportController {
         return "redirect:/api/posts/" + id;
     }
 
-    //신고 목록 조회
     @GetMapping("/api/admin/reports")
-    public String getReport(
-        @RequestParam(defaultValue = "0") int page,
+    public String getReport(@RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "createdAt") String sortBy,
         @RequestParam(defaultValue = "-1") int status,
-        @RequestParam(required = false) String keyword,
-        Model model,
-        HttpServletRequest request
-    ) {
+        @RequestParam(required = false) String keyword, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         model.addAttribute("memberId", session.getAttribute("memberId"));
         model.addAttribute("nickname", session.getAttribute("memberNickname"));
@@ -64,24 +59,17 @@ public class ReportController {
         boolean hasStatus = status != -1;
 
         if (hasKeyword && hasStatus) {
-            // status, keyword 둘 다 필터링
-            boardPage = reportService.getReportByStatusAndKeyword(page, sortBy, status,
-                keyword);
+            boardPage = reportService.getReportByStatusAndKeyword(page, sortBy, status, keyword);
         } else if (hasKeyword) {
-            // keyword 필터링
             boardPage = reportService.getReportWithKeyword(page, sortBy, keyword);
         } else if (hasStatus) {
-            // status 필터링
             boardPage = reportService.getReportByStatus(page, sortBy, status);
         } else {
-            // 아무것도 없으면 전체 조회
             boardPage = reportService.getReport(page, sortBy);
         }
 
-        List<ReportResponse> reportList = boardPage.getContent()
-            .stream()
-            .map(ReportResponse::toEntity)
-            .collect(Collectors.toList());
+        List<ReportResponse> reportList = boardPage.getContent().stream()
+            .map(ReportResponse::toEntity).collect(Collectors.toList());
 
         int totalPages = boardPage.getTotalPages();
         int currentPage = page;
@@ -102,8 +90,8 @@ public class ReportController {
 
     @GetMapping("/api/admin/reports/{id}")
     public String reportDetail(@PathVariable("id") Long id, Model model) {
-        ReportResponse report = reportService.getReportById(id);  // 이름 변경
-        model.addAttribute("report", report);  // 모델에 report로 저장
+        ReportResponse report = reportService.getReportById(id);
+        model.addAttribute("report", report);
 
         return "reportDetail";
     }
@@ -130,8 +118,7 @@ public class ReportController {
         if (request.getTargetType() == ReportTargetType.POST) {
             redirectUrl = "/information/" + request.getTargetId();
         } else if (request.getTargetType() == ReportTargetType.COMMENT) {
-            Long postId = commentService.findById(request.getTargetId())
-                .getInformation()
+            Long postId = commentService.findById(request.getTargetId()).getInformation()
                 .getInformationId();
             redirectUrl = "/information/" + postId;
         } else {
@@ -140,5 +127,4 @@ public class ReportController {
 
         return "redirect:" + redirectUrl;
     }
-
 }

@@ -172,7 +172,7 @@ nav ul li {
 }
 
 .right-actions {
-    margin-left: auto; /* 없으면 왼쪽으로 붙을 수 있음 */
+    margin-left: auto;
 }
 
 .application-buttons {

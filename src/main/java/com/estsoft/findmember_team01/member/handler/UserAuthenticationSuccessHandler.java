@@ -17,7 +17,6 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
 
     private final MemberRepository memberRepository;
 
-    // 인증 핸들러
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
         Authentication authentication) throws IOException, ServletException {

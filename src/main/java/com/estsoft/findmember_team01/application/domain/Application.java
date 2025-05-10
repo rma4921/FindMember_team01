@@ -1,6 +1,5 @@
 package com.estsoft.findmember_team01.application.domain;
 
-
 import com.estsoft.findmember_team01.member.domain.Member;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -51,7 +50,6 @@ public class Application {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ApplicationStatus status;
-
 
     @Builder
     public Application(Recruitment recruitment, Member member, String content,

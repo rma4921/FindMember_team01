@@ -1,7 +1,5 @@
 package com.estsoft.findmember_team01.report.service;
 
-import com.estsoft.findmember_team01.information.domain.Comment;
-import com.estsoft.findmember_team01.information.repository.CommentRepository;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.report.domain.Report;
@@ -28,13 +26,8 @@ public class ReportService {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new IllegalArgumentException("신고자 정보를 찾을 수 없습니다: " + memberId));
 
-        Report report = Report.builder()
-            .member(member)
-            .targetType(request.getTargetType())
-            .targetId(request.getTargetId())
-            .reason(request.getReason())
-            .status(false)
-            .build();
+        Report report = Report.builder().member(member).targetType(request.getTargetType())
+            .targetId(request.getTargetId()).reason(request.getReason()).status(false).build();
 
         reportRepository.save(report);
     }
@@ -48,19 +41,18 @@ public class ReportService {
     public Page<Report> getReportByStatus(int page, String sortBy, int status) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sortBy).descending());
         if (status == 0) {
-            return reportRepository.findByStatus(false, pageable);  // 모집완료
+            return reportRepository.findByStatus(false, pageable);
         } else if (status == 1) {
-            return reportRepository.findByStatus(true, pageable);  // 모집중
+            return reportRepository.findByStatus(true, pageable);
         }
-        return reportRepository.findAll(pageable);  // 전체
+        return reportRepository.findAll(pageable);
     }
 
     public Page<Report> getReportWithKeyword(int page, String sortBy, String keyword) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sortBy).descending());
 
         if (keyword != null && !keyword.isEmpty()) {
-            return reportRepository.findByReasonContaining(keyword,
-                pageable);
+            return reportRepository.findByReasonContaining(keyword, pageable);
         } else {
             return reportRepository.findAll(pageable);
         }

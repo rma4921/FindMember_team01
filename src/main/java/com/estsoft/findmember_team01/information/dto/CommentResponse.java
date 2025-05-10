@@ -4,11 +4,10 @@ package com.estsoft.findmember_team01.information.dto;
 import com.estsoft.findmember_team01.information.domain.Comment;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.time.LocalDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor
@@ -30,5 +29,4 @@ public class CommentResponse {
         this.content = comment.getContent();
         this.createdAt = comment.getCreateAt();
     }
-
 }

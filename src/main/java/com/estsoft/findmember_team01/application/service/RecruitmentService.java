@@ -35,11 +35,8 @@ public class RecruitmentService {
 
     public List<RecruitmentResponse> getAllRecruitments() {
         List<Recruitment> recruitments = recruitmentRepository.findAll();
-        return recruitments.stream()
-            .map(RecruitmentResponse::new)
-            .toList();
+        return recruitments.stream().map(RecruitmentResponse::new).toList();
     }
-
 
     @Transactional
     public void saveRecruitment(RecruitmentRequest requestDto) {
@@ -54,13 +51,11 @@ public class RecruitmentService {
         recruitmentRepository.save(recruitment);
     }
 
-
     @Transactional
     public RecruitmentResponse getRecruitmentById(Long id) {
         Recruitment recruitment = recruitmentRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("해당 모집글이 없습니다: " + id));
-        System.out.println("레벨: " + recruitment.getLevel());
-        System.out.println("세션:");
+
         return new RecruitmentResponse(recruitment);
     }
 
@@ -86,9 +81,7 @@ public class RecruitmentService {
             writer.addExp(20);
 
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null &&
-                auth.getName().equals(writer.getEmail())
-            ) {
+            if (auth != null && auth.getName().equals(writer.getEmail())) {
                 UserDetails user = userDetailsService.loadUserByUsername(writer.getEmail());
                 Authentication newAuth = new UsernamePasswordAuthenticationToken(user,
                     auth.getCredentials(), user.getAuthorities());
@@ -96,10 +89,8 @@ public class RecruitmentService {
                 SecurityContextHolder.getContext().setAuthentication(newAuth);
             }
             memberRepository.save(writer);
-
         }
     }
-
 
     @Transactional
     public void deleteRecruitment(Long id) {
@@ -119,11 +110,11 @@ public class RecruitmentService {
     public Page<Recruitment> getRecruitmentsByStatus(int page, String sortBy, int status) {
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sortBy).descending());
         if (status == 0) {
-            return recruitmentRepository.findByStatus(false, pageable);  // 모집완료
+            return recruitmentRepository.findByStatus(false, pageable);
         } else if (status == 1) {
-            return recruitmentRepository.findByStatus(true, pageable);  // 모집중
+            return recruitmentRepository.findByStatus(true, pageable);
         }
-        return recruitmentRepository.findAll(pageable);  // 전체
+        return recruitmentRepository.findAll(pageable);
     }
 
     public Page<Recruitment> getRecruitmentsWithKeyword(int page, String sortBy, String keyword) {
@@ -152,5 +143,4 @@ public class RecruitmentService {
             recruitment.setHide_status(requestDto.getHide_status());
         }
     }
-
 }

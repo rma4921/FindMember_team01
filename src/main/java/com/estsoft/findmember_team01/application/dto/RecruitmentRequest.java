@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class RecruitmentRequest {
 
-    private Long memberId;  // 작성자 ID
+    private Long memberId;
     private String title;
     private String content;
     private LocalDateTime deadline;
@@ -23,9 +23,8 @@ public class RecruitmentRequest {
     private Boolean hide_status;
 
     @Builder
-    public RecruitmentRequest(Long memberId, String title, String content,
-        LocalDateTime deadline, Boolean status, Boolean end_status, Long level,
-        Boolean hide_status) {
+    public RecruitmentRequest(Long memberId, String title, String content, LocalDateTime deadline,
+        Boolean status, Boolean end_status, Long level, Boolean hide_status) {
         this.memberId = memberId;
         this.title = title;
         this.content = content;
@@ -37,15 +36,8 @@ public class RecruitmentRequest {
     }
 
     public Recruitment toEntity(Member member) {
-        return Recruitment.builder()
-            .member(member)
-            .title(this.title)
-            .content(this.content)
-            .deadline(this.deadline)
-            .status(true)
-            .end_status(false)
-            .level(this.level)
-            .hide_status(this.hide_status)
-            .build();
+        return Recruitment.builder().member(member).title(this.title).content(this.content)
+            .deadline(this.deadline).status(true).end_status(false).level(this.level)
+            .hide_status(this.hide_status).build();
     }
 }
