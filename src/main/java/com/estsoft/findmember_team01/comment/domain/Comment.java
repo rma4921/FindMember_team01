@@ -1,6 +1,5 @@
 package com.estsoft.findmember_team01.comment.domain;
 
-
 import com.estsoft.findmember_team01.comment.dto.CommentResponse;
 import com.estsoft.findmember_team01.information.domain.Information;
 import com.estsoft.findmember_team01.member.domain.Member;

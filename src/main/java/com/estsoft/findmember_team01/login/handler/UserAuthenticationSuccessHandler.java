@@ -1,5 +1,7 @@
 package com.estsoft.findmember_team01.login.handler;
 
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import jakarta.servlet.ServletException;
@@ -24,7 +26,7 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         String userAgent = request.getHeader("User-Agent");
 
         Member member = memberRepository.findByEmail(email)
-            .orElseThrow(() -> new IllegalArgumentException(email + "에 해당하는 사용자 정보를 찾을 수 없습니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
         member.updateLoginInfo(userAgent);
         memberRepository.save(member);
 

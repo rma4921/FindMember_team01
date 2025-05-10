@@ -5,6 +5,8 @@ import com.estsoft.findmember_team01.application.domain.ApplicationStatus;
 import com.estsoft.findmember_team01.application.dto.ApplicationRequest;
 import com.estsoft.findmember_team01.application.dto.ApplicationResponse;
 import com.estsoft.findmember_team01.application.repository.ApplicationRepository;
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
@@ -31,10 +33,10 @@ public class ApplicationService {
     @Transactional
     public void applyToRecruitment(ApplicationRequest dto) {
         Recruitment recruitment = recruitmentRepository.findById(dto.getRecruitmentId())
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 모집글입니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.RECRUITMENT_NOT_FOUND));
 
         Member member = memberRepository.findById(dto.getMemberId())
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
 
         Application application = Application.builder().recruitment(recruitment).member(member)
             .content(dto.getContent()).status(ApplicationStatus.PENDING).build();
@@ -62,7 +64,7 @@ public class ApplicationService {
     @Transactional
     public void updateStatus(Long id, ApplicationStatus status) {
         Application application = applicationRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("지원서를 찾을 수 없습니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.APPLICATION_NOT_FOUND));
         application.updateStatus(status);
     }
 

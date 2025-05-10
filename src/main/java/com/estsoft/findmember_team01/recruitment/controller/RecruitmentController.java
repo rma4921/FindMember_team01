@@ -1,5 +1,7 @@
 package com.estsoft.findmember_team01.recruitment.controller;
 
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.recruitment.dto.RecruitmentRequest;
@@ -35,7 +37,7 @@ public class RecruitmentController {
         }
 
         Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
 
         requestDto.setMemberId(member.getId());
 
@@ -52,8 +54,8 @@ public class RecruitmentController {
         model.addAttribute("memberId", memberId);
 
         if (memberId != null) {
-            Member member = memberRepository.findById(memberId).orElseThrow(
-                () -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. id=" + memberId));
+            Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
             Long memberLevel = member.getLevel();
             model.addAttribute("memberLevel", memberLevel);
         }

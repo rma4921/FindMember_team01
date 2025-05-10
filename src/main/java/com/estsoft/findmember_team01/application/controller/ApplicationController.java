@@ -6,6 +6,8 @@ import com.estsoft.findmember_team01.application.dto.ApplicationRequest;
 import com.estsoft.findmember_team01.application.dto.ApplicationResponse;
 import com.estsoft.findmember_team01.application.repository.ApplicationRepository;
 import com.estsoft.findmember_team01.application.service.ApplicationService;
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -79,7 +81,8 @@ public class ApplicationController {
     @GetMapping("/{recruitmentId}/apply/{id}")
     public String detailApplication(@PathVariable Long id, Model model) {
         Application application = applicationRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("지원서를 찾을 수 없습니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.APPLICATION_NOT_FOUND));
+
         ApplicationResponse dto = applicationService.getDetailApplication(application);
         model.addAttribute("applicationDto", dto);
         return "ApplicationDetail";

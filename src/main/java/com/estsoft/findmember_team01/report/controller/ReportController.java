@@ -1,6 +1,8 @@
 package com.estsoft.findmember_team01.report.controller;
 
 import com.estsoft.findmember_team01.comment.service.CommentService;
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.report.domain.Report;
 import com.estsoft.findmember_team01.report.domain.ReportTargetType;
@@ -36,7 +38,7 @@ public class ReportController {
         HttpSession session) {
         Long memberId = (Long) session.getAttribute("memberId");
         if (memberId == null) {
-            throw new IllegalStateException("로그인이 필요합니다.");
+            throw new GlobalException(GlobalExceptionType.LOGIN_REQUIRED);
         }
 
         reportService.submitReport(memberId, request);
@@ -122,7 +124,7 @@ public class ReportController {
                 .getInformationId();
             redirectUrl = "/information/" + postId;
         } else {
-            throw new IllegalArgumentException("지원하지 않는 신고 타입입니다.");
+            throw new GlobalException(GlobalExceptionType.UNSUPPORTED_REPORT_TYPE);
         }
 
         return "redirect:" + redirectUrl;

@@ -3,7 +3,8 @@ package com.estsoft.findmember_team01.recruitment.service;
 import com.estsoft.findmember_team01.application.domain.Application;
 import com.estsoft.findmember_team01.application.domain.ApplicationStatus;
 import com.estsoft.findmember_team01.application.repository.ApplicationRepository;
-import com.estsoft.findmember_team01.exception.NotExistsIdException;
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
@@ -41,11 +42,11 @@ public class RecruitmentService {
     @Transactional
     public void saveRecruitment(RecruitmentRequest requestDto) {
         if (requestDto.getMemberId() == null) {
-            throw new IllegalArgumentException("작성자 정보가 없습니다.");
+            throw new GlobalException(GlobalExceptionType.AUTHOR_NOT_EXIST);
         }
 
         Member member = memberRepository.findById(requestDto.getMemberId())
-            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원입니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
 
         Recruitment recruitment = requestDto.toEntity(member);
         recruitmentRepository.save(recruitment);
@@ -54,7 +55,7 @@ public class RecruitmentService {
     @Transactional
     public RecruitmentResponse getRecruitmentById(Long id) {
         Recruitment recruitment = recruitmentRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 모집글이 없습니다: " + id));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.RECRUITMENT_NOT_FOUND));
 
         return new RecruitmentResponse(recruitment);
     }
@@ -62,7 +63,7 @@ public class RecruitmentService {
     @Transactional
     public void update(Long id, RecruitmentRequest requestDto) {
         Recruitment recruitment = recruitmentRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 모집글이 없습니다: " + id));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.RECRUITMENT_NOT_FOUND));
 
         boolean beforeEndStatus = recruitment.getEnd_status();
         recruitment.updateFromDto(requestDto);
@@ -104,7 +105,8 @@ public class RecruitmentService {
     }
 
     public Recruitment findPostById(Long id) {
-        return recruitmentRepository.findById(id).orElseThrow(() -> new NotExistsIdException(id));
+        return recruitmentRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.RECRUITMENT_NOT_FOUND));
     }
 
     public Page<Recruitment> getRecruitmentsByStatus(int page, String sortBy, int status) {
@@ -137,7 +139,7 @@ public class RecruitmentService {
     @Transactional
     public void hideUpdate(Long id, RecruitmentRequest requestDto) {
         Recruitment recruitment = recruitmentRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.RECRUITMENT_NOT_FOUND));
 
         if (requestDto.getHide_status() != null) {
             recruitment.setHide_status(requestDto.getHide_status());

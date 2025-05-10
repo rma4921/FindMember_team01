@@ -1,5 +1,7 @@
 package com.estsoft.findmember_team01.login.controller;
 
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.login.dto.LoginRequest;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
@@ -30,7 +32,7 @@ public class LoginController {
     public String deleteMember(@PathVariable Long id, Authentication authentication) {
         String currentEmail = authentication.getName();
         Member member = memberRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException(id + "는 존재하지 않는 사용자입니다."));
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
 
         if (!member.getEmail().equals(currentEmail)) {
             return "redirect:/api/posts";

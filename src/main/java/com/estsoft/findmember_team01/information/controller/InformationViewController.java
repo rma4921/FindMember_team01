@@ -4,6 +4,8 @@ import com.estsoft.findmember_team01.comment.domain.Comment;
 import com.estsoft.findmember_team01.comment.dto.CommentRequest;
 import com.estsoft.findmember_team01.comment.dto.CommentView;
 import com.estsoft.findmember_team01.comment.service.CommentService;
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
 import com.estsoft.findmember_team01.information.domain.Information;
 import com.estsoft.findmember_team01.information.domain.Status;
 import com.estsoft.findmember_team01.information.dto.InformationRequest;
@@ -17,7 +19,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,7 +98,7 @@ public class InformationViewController {
         Information information = informationService.findInformationById(id);
 
         if (!information.getMember().getId().equals(loginUser.getId())) {
-            throw new AccessDeniedException("작성자만 수정할 수 있습니다.");
+            throw new GlobalException(GlobalExceptionType.ONLY_AUTHOR_CAN_UPDATE);
         }
 
         InformationRequest request = new InformationRequest(information.getTitle(),
@@ -121,7 +122,7 @@ public class InformationViewController {
     public String deleteInformation(@PathVariable Long id, @AuthenticationPrincipal Member member) {
         Information info = informationService.findInformationById(id);
         if (!info.getMember().getId().equals(member.getId())) {
-            throw new AccessDeniedException("작성자만 삭제할 수 있습니다.");
+            throw new GlobalException(GlobalExceptionType.ONLY_AUTHOR_CAN_DELETE);
         }
         informationService.deleteInformation(id);
 
@@ -169,7 +170,7 @@ public class InformationViewController {
         Information info = comment.getInformation();
 
         if (!info.getMember().getId().equals(loginMember.getId())) {
-            throw new AccessDeniedException("글 작성자만 댓글을 삭제할 수 있습니다.");
+            throw new GlobalException(GlobalExceptionType.ONLY_AUTHOR_CAN_DELETE);
         }
 
         commentService.deleteComment(commentId);
