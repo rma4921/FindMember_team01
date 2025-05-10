@@ -20,7 +20,7 @@ public class RecruitmentRequest {
     private Boolean status;
     private Boolean end_status;
     private Long level;
-    private Boolean hide_status;
+    private Boolean hide_status = false;
 
     @Builder
     public RecruitmentRequest(Long memberId, String title, String content, LocalDateTime deadline,

@@ -63,9 +63,9 @@ public class Recruitment {
     private Boolean end_status = false;
 
     private Long level;
-
+    
     @Column(name = "hide_status", nullable = false)
-    private Boolean hide_status;
+    private Boolean hide_status = false;
 
     @Builder
     public Recruitment(Member member, String title, String content, LocalDateTime deadline,
