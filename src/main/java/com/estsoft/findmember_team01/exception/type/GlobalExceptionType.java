@@ -23,6 +23,6 @@ public enum GlobalExceptionType {
     ;
 
     private final String message;
-    private HttpStatus status;
+    private final HttpStatus status;
 
 }
