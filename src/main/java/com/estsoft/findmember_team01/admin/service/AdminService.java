@@ -27,6 +27,14 @@ public class AdminService {
         Member member = memberRepository.findById(memberId)
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND));
 
+        if (role.equals("ADMIN")) {
+            member.updateLevel(0L);
+        } else if (role.equals("MASTER")) {
+            member.updateLevel(7L);
+        } else {
+            member.updateLevel(1L);
+        }
+
         member.updateRole(role);
     }
 }

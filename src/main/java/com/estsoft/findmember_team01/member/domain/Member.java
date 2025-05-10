@@ -70,6 +70,10 @@ public class Member implements UserDetails {
         this.role = "USER";
     }
 
+    public void updateLevel(Long newLevel) {
+        this.level = newLevel;
+    }
+
     public void updateRoleByLevel() {
         if (this.level == 0) {
             this.role = "ADMIN";
