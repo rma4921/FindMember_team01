@@ -24,16 +24,10 @@ public class ReportResponse {
     private String nickname;
 
     public static ReportResponse toEntity(Report report) {
-        return ReportResponse.builder()
-            .reportId(report.getReportId())
-            .memberId(report.getMember().getId())
-            .targetType(report.getTargetType())
-            .targetId(report.getTargetId())
-            .reason(report.getReason())
-            .createdAt(report.getCreatedAt())
-            .status(report.getStatus())
-            .nickname(report.getMember().getNickname())
-            .build();
+        return ReportResponse.builder().reportId(report.getReportId())
+            .memberId(report.getMember().getId()).targetType(report.getTargetType())
+            .targetId(report.getTargetId()).reason(report.getReason())
+            .createdAt(report.getCreatedAt()).status(report.getStatus())
+            .nickname(report.getMember().getNickname()).build();
     }
-
 }
