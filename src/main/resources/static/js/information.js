@@ -50,8 +50,8 @@ function checkRole(event) {
 
     if (!allowed.includes(role)) {
         alert('MASTER 이상 등급만 댓글을 작성할 수 있습니다.' + role);
-        return false; // 제출 방지
+        return false;
     }
-    return true; // 제출 허용
+    return true;
 }
 
