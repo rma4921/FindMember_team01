@@ -1,0 +1,110 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+}
+
+.header {
+    max-width: 75px;
+    background: #7FFF7F;
+    padding: 12px 20px;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 40px auto;
+    display: flex;
+    gap: 60px;
+}
+
+.left-section {
+    text-align: center;
+    width: 300px;
+}
+
+.left-section img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border: 2px dashed #ccc;
+    border-radius: 100px;
+}
+
+.change-img-btn {
+    margin-top: 10px;
+}
+
+.level {
+    margin-top: 20px;
+}
+
+.level img {
+    width: 32px;
+    height: 32px;
+}
+
+.right-section {
+    flex-grow: 1;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    width: 80px;
+    font-weight: bold;
+}
+
+.form-group input {
+    flex-grow: 1;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background-color: white;
+    border: 1px solid #999;
+}
+
+.btn-submit {
+    background-color: #00cc66;
+    color: white;
+}
+
+.withdraw {
+    font-size: 12px;
+    top: 360px;
+    position: fixed;
+    text-align: left;
+}
+
+.withdraw a {
+    color: black;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+input[type="file"] {
+    display: none;
+}

@@ -3,6 +3,7 @@ package com.estsoft.findmember_team01.configuration;
 import com.estsoft.findmember_team01.login.handler.CustomLogoutSuccessHandler;
 import com.estsoft.findmember_team01.login.handler.UserAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,10 +12,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebSecurityConfig {
+public class WebSecurityConfig implements WebMvcConfigurer {
 
     private final CustomLogoutSuccessHandler logoutSuccessHandler;
     private final UserAuthenticationSuccessHandler loginSuccessHandler;
@@ -30,6 +34,7 @@ public class WebSecurityConfig {
         httpSecurity.authorizeHttpRequests(
             auth -> auth.requestMatchers("/login", "/signup", "/user").permitAll()
                 .requestMatchers("/api/user/signup", "/logout").permitAll()
+                .requestMatchers("/profile/**").permitAll()
                 .requestMatchers("/api/posts", "/api/posts/**").permitAll()
                 .requestMatchers("/information/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/user/*").authenticated()
@@ -53,5 +58,23 @@ public class WebSecurityConfig {
     @Bean
     public HiddenHttpMethodFilter hiddenHttpMethodFilter() {
         return new HiddenHttpMethodFilter();
+    }
+
+    @Value("${file.upload-dir}")
+    private String uploadDir;
+
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // "/images/uploads/**" 요청을 로컬 파일시스템의 "uploads/" 디렉토리에서 찾게끔 매핑
+        registry.addResourceHandler("/images/uploads/**")
+            .addResourceLocations("file:" + uploadDir + "/");
+    }
+
+
+    @Override
+    // 기본 URL -> profile 페이지로 리다이렉트
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addRedirectViewController("/", "/profile");
     }
 }
