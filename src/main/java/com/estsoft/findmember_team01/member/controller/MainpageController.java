@@ -57,9 +57,10 @@ public class MainpageController {
         }
 
         List<RecruitmentViewResponse> recruitmentList = boardPage.getContent().stream()
-            .filter(recruitment -> recruitment.getHide_status() == null
-                || !recruitment.getHide_status())
-            // 숨겨진 게시글 필터링
+            .filter(recruitment ->
+                (recruitment.getHide_status() == null || !recruitment.getHide_status()) &&
+                    (recruitment.getEnd_status() == null || !recruitment.getEnd_status())
+            )
             .map(RecruitmentViewResponse::new)
             .collect(Collectors.toList());
 

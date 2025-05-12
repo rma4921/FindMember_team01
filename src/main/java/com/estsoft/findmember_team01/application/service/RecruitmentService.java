@@ -152,5 +152,6 @@ public class RecruitmentService {
             recruitment.setHide_status(requestDto.getHide_status());
         }
     }
+    
 
 }

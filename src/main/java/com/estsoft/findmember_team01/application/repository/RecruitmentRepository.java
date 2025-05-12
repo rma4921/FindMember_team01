@@ -22,4 +22,5 @@ public interface RecruitmentRepository extends JpaRepository<Recruitment, Long> 
     Page<Recruitment> findByStatusAndKeyword(
         @Param("status") int status, @Param("keyword") String keyword,
         Pageable pageable);
+
 }

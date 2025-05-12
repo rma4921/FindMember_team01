@@ -25,6 +25,7 @@ public class RecruitmentViewResponse {
     private LocalDateTime updatedAt;
 
     private Boolean status;
+    private Boolean end_status;
     private Long level;
     private Boolean hide_status;
 
@@ -37,6 +38,7 @@ public class RecruitmentViewResponse {
         this.updatedAt = recruitment.getUpdatedAt();
         this.deadline = recruitment.getDeadline();
         this.status = recruitment.getStatus();
+        this.end_status = recruitment.getEnd_status();
         this.level = recruitment.getLevel();
         this.hide_status = recruitment.getHide_status();
     }
