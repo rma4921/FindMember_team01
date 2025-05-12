@@ -1,37 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>게시글 상세보기</title>
-  <link rel="stylesheet" href="/css/detail.css">
-  <link rel="stylesheet" href="/css/modal.css">
+    <meta charset="UTF-8">
+    <title>게시글 상세보기</title>
+    <link rel="stylesheet" href="/css/detail.css">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
 <body>
 
 
 <div class="detail-container">
-  <div class="detail-header">
-    <div class="header-top">
-      <h2 th:text="${recruitment.title}"></h2>
-      <div class="detail-meta">
-        <th:block th:if="${recruitment.createdAt == recruitment.updatedAt}">
-          <span>작성일 [[${#temporals.format(recruitment.createdAt, 'yy.MM.dd HH:mm')}]]</span>
-        </th:block>
-        <th:block th:if="${recruitment.createdAt != recruitment.updatedAt}">
-          <span>수정일 [[${#temporals.format(recruitment.updatedAt, 'yy.MM.dd HH:mm')}]]</span>
-        </th:block>
-        <span>완료된 프로젝트</span>
-      </div>
-    </div>
-    <div class="header-actions">
-  </div>
+    <div class="detail-header">
+        <div class="header-top">
+            <h2 th:text="${recruitment.title}"></h2>
+            <div class="detail-meta">
+                <th:block th:if="${recruitment.createdAt == recruitment.updatedAt}">
+                    <span>작성일 [[${#temporals.format(recruitment.createdAt, 'yy.MM.dd HH:mm')}]]</span>
+                </th:block>
+                <th:block th:if="${recruitment.createdAt != recruitment.updatedAt}">
+                    <span>수정일 [[${#temporals.format(recruitment.updatedAt, 'yy.MM.dd HH:mm')}]]</span>
+                </th:block>
+                <span>완료된 프로젝트</span>
+            </div>
+        </div>
+        <div class="header-actions">
+        </div>
 
-  <div class="detail-content">
-    <p th:text="${recruitment.content}">프로젝트 내용</p>
-  </div>
-  <div class="header-top header-row">
-    <a th:href="@{/api/posts}" class="btn btn-back">뒤로가기</a>
-  </div>
+        <div class="detail-content">
+            <p th:text="${recruitment.content}">프로젝트 내용</p>
+        </div>
+        <div class="header-top header-row">
+            <a th:href="@{/api/posts}" class="btn btn-back">뒤로가기</a>
+        </div>
+    </div>
 </div>
 <script src="/js/detail.js"></script>
 </body>
