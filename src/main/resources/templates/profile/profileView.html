@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>프로필 조회</title>
-    <link rel="stylesheet" href="/css/profileView.css">
+    <link rel="stylesheet" th:href="@{/css/profile/profileView.css}">
 </head>
 <body>
 <div class="header">
@@ -14,11 +14,11 @@
     <div class="left-section">
         <img th:if="${user.profileImageUrl != null}"
              th:src="${user.profileImageUrl}"
-             alt="프로필 이미지" />
+             alt="프로필 이미지"/>
 
         <img th:unless="${user.profileImageUrl != null}"
              th:src="@{/images/default-profile.png}"
-             alt="기본 프로필 이미지" />
+             alt="기본 프로필 이미지"/>
         <h4 th:text="${user.nickname}">닉네임</h4>
 
         <div class="level">
@@ -42,7 +42,7 @@
                 <div class="post-title" th:text="${post.title}">팀 프로젝트</div>
                 <div class="post-content" th:text="${post.content}">멋진거 할사람 구함~</div>
                 <div class="post-meta">
-<!--                    <span th:text="${#dates.format(post.modifiedAt, 'yyyy. MM. dd. HH:mm')}">작성시간</span>-->
+                    <!--                    <span th:text="${#dates.format(post.modifiedAt, 'yyyy. MM. dd. HH:mm')}">작성시간</span>-->
                 </div>
             </div>
             <div class="post" th:if="${post == null}">
