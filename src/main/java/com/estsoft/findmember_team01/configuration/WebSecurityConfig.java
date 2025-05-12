@@ -34,7 +34,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         httpSecurity.authorizeHttpRequests(
             auth -> auth.requestMatchers("/login", "/signup", "/user").permitAll()
                 .requestMatchers("/api/user/signup", "/logout").permitAll()
-                    .requestMatchers( "/profile/**").permitAll()
+                .requestMatchers("/profile/**").permitAll()
                 .requestMatchers("/api/posts", "/api/posts/**").permitAll()
                 .requestMatchers("/information/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/user/*").authenticated()
@@ -68,13 +68,12 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // "/images/uploads/**" 요청을 로컬 파일시스템의 "uploads/" 디렉토리에서 찾게끔 매핑
         registry.addResourceHandler("/images/uploads/**")
-                .addResourceLocations("file:" + uploadDir + "/");
+            .addResourceLocations("file:" + uploadDir + "/");
     }
 
 
     @Override
     // 기본 URL -> profile 페이지로 리다이렉트
-
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/", "/profile");
     }

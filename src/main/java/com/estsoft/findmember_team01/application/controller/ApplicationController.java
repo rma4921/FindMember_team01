@@ -94,20 +94,19 @@ public class ApplicationController {
         @PathVariable Long id,
         Model model,
         HttpSession session) {
+
         Long memberId = (Long) session.getAttribute("memberId");
         if (memberId == null) {
             throw new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND);
         }
         Application application = applicationRepository.findById(id)
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.APPLICATION_NOT_FOUND));
+        // 해당 지원서의 모집글 ID가 URL의 recruitmentId와 일치하는지 검증 (보안 강화)
         if (!application.getRecruitment().getRecruitmentId().equals(recruitmentId)) {
-            log.info("{}{} is not equal", application.getRecruitment().getRecruitmentId(),
-                recruitmentId);
             throw new GlobalException(GlobalExceptionType.Cannot_Access);
         }
+        // 로그인한 사용자가 모집글 작성자인지 확인
         if (!application.getRecruitment().getMember().getId().equals(memberId)) {
-            log.info("접근 시도한 memberId: {}, 모집글 작성자 memberId: {}", memberId,
-                application.getRecruitment().getMember().getId());
             throw new GlobalException(GlobalExceptionType.Cannot_Access);
         }
         ApplicationResponse dto = applicationService.getDetailApplication(application);
