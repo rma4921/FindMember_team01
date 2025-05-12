@@ -67,7 +67,7 @@ public class RecruitmentController {
             model.addAttribute("memberLevel", memberLevel);
         }
 
-        return "detail";
+        return "recruitment/detail";
     }
 
     @PutMapping("/{id}")
@@ -135,7 +135,7 @@ public class RecruitmentController {
         model.addAttribute("status", status);
         model.addAttribute("keyword", hasKeyword ? keyword : "");
 
-        return "completePosts";
+        return "completePosts/completePosts";
     }
 
     @GetMapping("/complete/{id}")
@@ -154,7 +154,7 @@ public class RecruitmentController {
             model.addAttribute("memberLevel", memberLevel);
         }
 
-        return "completePostsDetail";
+        return "completePosts/completePostsDetail";
     }
 
 }

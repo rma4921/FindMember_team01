@@ -96,7 +96,7 @@ public class ReportController {
         model.addAttribute("status", status);
         model.addAttribute("keyword", hasKeyword ? keyword : "");
 
-        return "reportList";
+        return "report/reportList";
     }
 
     @GetMapping("/api/admin/reports/{id}")
@@ -104,7 +104,7 @@ public class ReportController {
         ReportResponse report = reportService.getReportById(id);
         model.addAttribute("report", report);
 
-        return "reportDetail";
+        return "report/reportDetail";
     }
 
     @PutMapping("/api/admin/reports/{id}")

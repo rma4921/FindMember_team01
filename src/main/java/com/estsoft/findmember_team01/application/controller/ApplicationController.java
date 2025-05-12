@@ -86,7 +86,7 @@ public class ApplicationController {
         model.addAttribute("recruitmentId", recruitmentId);
         model.addAttribute("param", paramMap);
 
-        return "ApplicationList";
+        return "application/ApplicationList";
     }
 
     @GetMapping("/{recruitmentId}/apply/{id}")
@@ -105,7 +105,7 @@ public class ApplicationController {
 
         ApplicationResponse dto = applicationService.getDetailApplication(application);
         model.addAttribute("applicationDto", dto);
-        return "ApplicationDetail";
+        return "application/ApplicationDetail";
     }
 
     @PutMapping("/{recruitmentId}/apply/{id}")

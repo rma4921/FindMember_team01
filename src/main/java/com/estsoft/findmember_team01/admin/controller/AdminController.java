@@ -64,7 +64,7 @@ public class AdminController {
         model.addAttribute("endPage", endPage);
         model.addAttribute("keyword", keyword != null ? keyword : "");
 
-        return "admin";
+        return "admin/admin";
     }
 
     @ResponseBody
@@ -121,7 +121,7 @@ public class AdminController {
         model.addAttribute("status", status);
         model.addAttribute("keyword", hasKeyword ? keyword : "");
 
-        return "adminPostsList";
+        return "admin/adminPostsList";
     }
 
     @GetMapping("/api/admin/posts/{id}")
@@ -129,7 +129,7 @@ public class AdminController {
         RecruitmentResponse recruitment = recruitmentService.getRecruitmentById(id);
         model.addAttribute("recruitment", recruitment);
 
-        return "adminPostsDetail";
+        return "admin/adminPostsDetail";
     }
 
     @PutMapping("/api/admin/posts/{id}")
