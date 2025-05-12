@@ -32,7 +32,7 @@ public class LoginViewController {
 
     @GetMapping("/signup")
     public String signUpView() {
-        return "signup";
+        return "login/signup";
     }
 
     // 마이페이지 테스트용
