@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-// 저장/수정용 DTO
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,9 +18,6 @@ public class InformationRequest {
     private Long memberId;
 
     public Information toEntity() {
-        return Information.builder()
-            .title(title)
-            .content(content)
-            .build();
+        return Information.builder().title(title).content(content).build();
     }
 }

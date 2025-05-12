@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 @Builder
 public class InformationView {
+
     private Long id;
     private String title;
     private String content;
@@ -20,16 +21,10 @@ public class InformationView {
     private LocalDateTime modifiedAt;
 
     public static InformationView from(Information info) {
-        return InformationView.builder()
-            .id(info.getInformationId())
-            .title(info.getTitle())
-            .content(info.getContent())
-            .writer(info.getMember().getNickname())
-            .status(info.getStatus())
-            .writerId(info.getMember().getId())
-            .commentCount(info.getComments().size())
-            .createdAt(info.getCreateAt())
-            .modifiedAt(info.getUpdateAt())
-            .build();
+        return InformationView.builder().id(info.getInformationId()).title(info.getTitle())
+            .content(info.getContent()).writer(info.getMember().getNickname())
+            .status(info.getStatus()).writerId(info.getMember().getId())
+            .commentCount(info.getComments().size()).createdAt(info.getCreateAt())
+            .modifiedAt(info.getUpdateAt()).build();
     }
 }

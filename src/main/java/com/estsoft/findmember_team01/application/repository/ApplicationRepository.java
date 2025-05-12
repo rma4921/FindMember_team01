@@ -13,12 +13,10 @@ public interface ApplicationRepository extends JpaRepository<Application, Long> 
 
     List<Application> findByRecruitment_RecruitmentId(Long recruitmentId);
 
-    @Query("SELECT a FROM Application a " +
-        "WHERE a.recruitment.recruitmentId = :recruitmentId " +
-        "AND (:title IS NULL OR a.recruitment.title LIKE %:title%)")
+    @Query("SELECT a FROM Application a " + "WHERE a.recruitment.recruitmentId = :recruitmentId "
+        + "AND (:title IS NULL OR a.recruitment.title LIKE %:title%)")
     Page<Application> findBySearchConditions(@Param("recruitmentId") Long recruitmentId,
-        @Param("title") String title,
-        Pageable pageable);
+        @Param("title") String title, Pageable pageable);
 
     List<Application> findByRecruitment_RecruitmentIdAndStatus(Long recruitmentId,
         ApplicationStatus status);
