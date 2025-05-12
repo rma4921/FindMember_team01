@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>신고 상세보기</title>
-    <link rel="stylesheet" href="/css/detail.css">
-    <link rel="stylesheet" href="/css/modal.css">
+    <link rel="stylesheet" href="/css/comment/detail.css">
+    <link rel="stylesheet" href="/css/comment/modal.css">
 </head>
 <body>
 
@@ -54,7 +54,7 @@
            th:href="@{'/api/admin/posts/' + ${report.targetId}}"
            class="btn btn-move">이동</a>
 
-        <a th:if="${report.targetType.name() == 'COMMENT' or report.targetType.name() == 'INFORMATION'}"
+        <a th:if="${report.targetType.name() == 'COMMENT'}"
            th:href="@{'/api/admin/information/' + ${report.targetId}}"
            class="btn btn-move">이동</a>
 
@@ -62,6 +62,9 @@
            th:href="@{'/api/admin/users'}"
            class="btn btn-move">이동</a>
 
+        <a th:if="${report.targetType.name() == 'INFORMATION'}"
+           th:href="@{'/api/admin/information/' + ${report.targetId}}"
+           class="btn btn-move">이동</a>
 
         <a th:href="@{/api/admin/reports}" class="btn btn-back">뒤로가기</a>
     </div>

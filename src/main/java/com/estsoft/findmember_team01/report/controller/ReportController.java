@@ -1,8 +1,13 @@
 package com.estsoft.findmember_team01.report.controller;
 
+import com.estsoft.findmember_team01.comment.dto.CommentView;
 import com.estsoft.findmember_team01.comment.service.CommentService;
 import com.estsoft.findmember_team01.exception.GlobalException;
 import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
+import com.estsoft.findmember_team01.information.domain.Information;
+import com.estsoft.findmember_team01.information.domain.Status;
+import com.estsoft.findmember_team01.information.dto.InformationView;
+import com.estsoft.findmember_team01.information.service.InformationService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.report.domain.Report;
 import com.estsoft.findmember_team01.report.domain.ReportTargetType;
@@ -15,6 +20,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,6 +40,7 @@ public class ReportController {
 
     private final ReportService reportService;
     private final CommentService commentService;
+    private final InformationService informationService;
 
     @PostMapping("/api/posts/{id}/report")
     public String submitReport(@PathVariable("id") Long id, @ModelAttribute ReportRequest request,
@@ -128,5 +137,73 @@ public class ReportController {
         }
 
         return "redirect:" + redirectUrl;
+    }
+
+
+    //목록
+    @GetMapping("/api/admin/information")
+    public String getAdminInformationList(@RequestParam(defaultValue = "0") int page,
+        @RequestParam(required = false) String keyword,
+        @RequestParam(required = false) String status,
+        Model model) {
+        Status filterStatus = null;
+        if ("SOLVED".equalsIgnoreCase(status)) {
+            filterStatus = Status.SOLVED;
+        } else if ("UNSOLVED".equalsIgnoreCase(status)) {
+            filterStatus = Status.UNSOLVED;
+        }
+
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createAt").descending());
+        Page<Information> pageInfo = informationService.searchByStatusAndKeywordPaged(filterStatus,
+            keyword, pageable);
+
+        List<InformationView> informationList = pageInfo.getContent().stream()
+            .map(InformationView::from).toList();
+
+        model.addAttribute("informationList", informationList);
+        model.addAttribute("currentPage", pageInfo.getNumber());
+        model.addAttribute("totalPages", pageInfo.getTotalPages());
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("selectedStatus", status);
+
+        return "adminInformationList";
+    }
+
+
+    @GetMapping("/api/admin/information/{id}")
+    public String getAdminInformationDetail(@PathVariable Long id, Model model) {
+        Information info = informationService.findInformationById(id);
+
+        model.addAttribute("post", InformationView.from(info));
+        model.addAttribute("comments", info.getComments().stream()
+            .map(CommentView::from).collect(Collectors.toList()));
+
+        return "adminInformationDetail";
+    }
+
+    @PostMapping("/api/admin/information/delete/{id}")
+    public String deleteInformationByAdmin(@PathVariable Long id) {
+        informationService.deleteInformation(id);
+        return "redirect:/api/admin/information";
+    }
+
+    @PostMapping("/api/admin/comments/delete/{id}")
+    public String deleteCommentByAdmin(@PathVariable Long id) {
+        Long postId = commentService.findById(id).getInformation().getInformationId();
+        commentService.deleteComment(id);
+        return "redirect:/api/admin/information/" + postId;
+    }
+
+    @PutMapping("/api/admin/information/hide/{id}")
+    public String toggleInformationHide(@PathVariable Long id, @RequestParam boolean hide_status) {
+        informationService.updateHideStatus(id, hide_status);
+        return "redirect:/api/admin/information/" + id;
+    }
+
+    @PutMapping("/api/admin/comments/hide/{id}")
+    public String toggleCommentHide(@PathVariable Long id, @RequestParam boolean hide_status) {
+        commentService.updateHideStatus(id, hide_status);
+        Long infoId = commentService.findById(id).getInformation().getInformationId();
+        return "redirect:/api/admin/information/" + infoId;
     }
 }
