@@ -90,10 +90,8 @@ public class ApplicationController {
     }
 
     @GetMapping("/{recruitmentId}/apply/{id}")
-    public String detailApplication(@PathVariable Long recruitmentId,
-        @PathVariable Long id,
-        Model model,
-        HttpSession session) {
+    public String detailApplication(@PathVariable Long recruitmentId, @PathVariable Long id,
+        Model model, HttpSession session) {
 
         Long memberId = (Long) session.getAttribute("memberId");
         if (memberId == null) {
@@ -101,11 +99,11 @@ public class ApplicationController {
         }
         Application application = applicationRepository.findById(id)
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.APPLICATION_NOT_FOUND));
-        // 해당 지원서의 모집글 ID가 URL의 recruitmentId와 일치하는지 검증 (보안 강화)
+
         if (!application.getRecruitment().getRecruitmentId().equals(recruitmentId)) {
             throw new GlobalException(GlobalExceptionType.Cannot_Access);
         }
-        // 로그인한 사용자가 모집글 작성자인지 확인
+
         if (!application.getRecruitment().getMember().getId().equals(memberId)) {
             throw new GlobalException(GlobalExceptionType.Cannot_Access);
         }

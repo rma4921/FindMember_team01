@@ -139,13 +139,10 @@ public class ReportController {
         return "redirect:" + redirectUrl;
     }
 
-
-    //목록
     @GetMapping("/api/admin/information")
     public String getAdminInformationList(@RequestParam(defaultValue = "0") int page,
         @RequestParam(required = false) String keyword,
-        @RequestParam(required = false) String status,
-        Model model) {
+        @RequestParam(required = false) String status, Model model) {
         Status filterStatus = null;
         if ("SOLVED".equalsIgnoreCase(status)) {
             filterStatus = Status.SOLVED;
@@ -169,14 +166,13 @@ public class ReportController {
         return "adminInformationList";
     }
 
-
     @GetMapping("/api/admin/information/{id}")
     public String getAdminInformationDetail(@PathVariable Long id, Model model) {
         Information info = informationService.findInformationById(id);
 
         model.addAttribute("post", InformationView.from(info));
-        model.addAttribute("comments", info.getComments().stream()
-            .map(CommentView::from).collect(Collectors.toList()));
+        model.addAttribute("comments",
+            info.getComments().stream().map(CommentView::from).collect(Collectors.toList()));
 
         return "adminInformationDetail";
     }

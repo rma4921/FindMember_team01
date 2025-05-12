@@ -47,13 +47,10 @@ public class MainpageController {
             boardPage = recruitmentService.getRecruitments(page, sortBy);
         }
 
-        List<RecruitmentViewResponse> recruitmentList = boardPage.getContent().stream()
-            .filter(recruitment ->
-                (recruitment.getHide_status() == null || !recruitment.getHide_status()) &&
-                    (recruitment.getEnd_status() == null || !recruitment.getEnd_status())
-            )
-            .map(RecruitmentViewResponse::new)
-            .collect(Collectors.toList());
+        List<RecruitmentViewResponse> recruitmentList = boardPage.getContent().stream().filter(
+                recruitment -> (recruitment.getHide_status() == null || !recruitment.getHide_status())
+                    && (recruitment.getEnd_status() == null || !recruitment.getEnd_status()))
+            .map(RecruitmentViewResponse::new).collect(Collectors.toList());
 
         int totalPages = boardPage.getTotalPages();
         int currentPage = page;
