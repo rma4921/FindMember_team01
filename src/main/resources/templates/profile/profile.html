@@ -15,7 +15,6 @@
         <div class="left-section">
             <img id="profileImage" th:src="@{${imagePath}}" alt="프로필 이미지"/>
 
-            <!-- 이미지 전용 업로드 폼 -->
             <form th:action="@{/user/{id}/image(id=${user.id})}"
                   method="post"
                   enctype="multipart/form-data">
@@ -40,7 +39,6 @@
         </div>
 
         <div class="right-section">
-            <!-- 텍스트(이름/닉네임/이메일/기술스택) 전용 업데이트 폼 -->
             <form th:action="@{/user/{id}/update(id=${user.id})}"
                   method="post">
                 <div class="form-group">
