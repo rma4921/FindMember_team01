@@ -6,9 +6,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class FindMemberTeam01Application {
-
+public class Team01ProfileApplication {
     public static void main(String[] args) {
-        SpringApplication.run(FindMemberTeam01Application.class, args);
+        SpringApplication.run(Team01ProfileApplication.class, args);
     }
 }
