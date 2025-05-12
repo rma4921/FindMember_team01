@@ -53,7 +53,7 @@ public class InformationViewController {
         model.addAttribute("loginMemberId", loginMember != null ? loginMember.getId() : null);
         model.addAttribute("loginMember", loginMember);
 
-        return "informationdetail";
+        return "information/informationdetail";
     }
 
     @GetMapping("/write")
@@ -61,7 +61,7 @@ public class InformationViewController {
         InformationRequest dto = new InformationRequest();
         model.addAttribute("informationRequest", dto);
 
-        return "informationWrite";
+        return "information/informationWrite";
     }
 
     @PostMapping
@@ -112,7 +112,7 @@ public class InformationViewController {
         model.addAttribute("currentPage", pageInfo.getNumber());
         model.addAttribute("totalPages", pageInfo.getTotalPages());
 
-        return "information";
+        return "information/information";
     }
 
     @GetMapping("/edit/{id}")
@@ -130,7 +130,7 @@ public class InformationViewController {
         model.addAttribute("informationRequest", request);
         model.addAttribute("informationId", id);
 
-        return "informationEdit";
+        return "information/informationEdit";
     }
 
     @PostMapping("/edit/{id}")
@@ -175,7 +175,7 @@ public class InformationViewController {
         model.addAttribute("selectedStatus", status);
         model.addAttribute("keyword", keyword);
 
-        return "information";
+        return "information/information";
     }
 
     @PostMapping("/solve/{id}")

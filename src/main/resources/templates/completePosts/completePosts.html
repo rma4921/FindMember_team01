@@ -29,45 +29,34 @@
             <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
         </form>
 
-        <a class="btn btn-outline-primary btn-sm" th:href="@{/login}"
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/templates/login}"
            th:if="${session.memberId == null}">로그인</a>
     </div>
 </nav>
 <div class="banner">
-    <div class="banner-title">프로젝트 팀원을 모집해보세요.</div>
-    <div class="banner-subtitle">협업을 통한 경험 노하우 쌓기!</div>
+    <div class="banner-title">완료된 프로젝트를 둘러보세요</div>
+    <div class="banner-subtitle">여러가지 내용들을 확인하기</div>
 </div>
 <div class="container mt-2 mb-2" style="padding: 0 10%;">
     <div class="mb-4" style="display: flex; flex-direction: column; margin-bottom: 10px;">
-        <nav class="filter-nav mb-3">
-            <a class="filter-btn" href="/api/posts?status=-1"
-               th:classappend="${status == -1 ? 'font-weight-bold' : ''}">전체</a>
-            <a class="filter-btn" href="/api/posts?status=1"
-               th:classappend="${status == 1 ? 'font-weight-bold' : ''}">모집중</a>
-            <a class="filter-btn" href="/api/posts?status=0"
-               th:classappend="${status == 0 ? 'font-weight-bold' : ''}">모집완료</a>
-        </nav>
         <div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
-            <form action="/api/posts" method="get"
+            <form action="/api/posts/complete" method="get"
                   style="display: flex; align-items: center; width: 100%; margin-bottom: 10px;">
-                <input name="keyword" placeholder="원하는 사이드 프로젝트 검색" style="flex-grow: 1;"
+                <input name="keyword" placeholder="완료된 프로젝트 검색" style="flex-grow: 1;"
                        th:value="${keyword} ?: ''"
                        type="text"/>
                 <button class="btn btn-primary ml-3" type="submit">검색</button>
             </form>
-            <button class="write-button" style="position: relative" onclick="openModal()">✏️
-                글쓰기
-            </button>
         </div>
     </div>
     <div>
-        <div class="mb-4 post-item" th:each="item : ${recruitmentList}">
-            <a class="stretched-link" th:href="@{/api/posts/{id}(id=${item.recruitmentId})}">
+        <div class="mb-4 post-item" th:each="item : ${recruitmentList}"
+             th:if="${item.end_status} == true">
+            <a class="stretched-link"
+               th:href="@{/api/posts/complete/{id}(id=${item.recruitmentId})}">
                 <h5 class="d-flex align-items-center">
                     <span class="badge badge-success mr-2" style="background-color: #28a745;"
-                          th:if="${item.status}">모집중</span>
-                    <span class="badge badge-dark mr-2" style="background-color: #acacac;"
-                          th:unless="${item.status}">모집완료</span>
+                          th:if="${item.end_status} == true">프로젝트 완료</span>
                     <span th:text="${item.title}">제목</span>
                 </h5>
                 <p class="text-truncate" style="max-height: 3.6em; overflow: hidden;">
@@ -91,76 +80,26 @@
             <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
                 <a class="page-link"
                    tabindex="-1"
-                   th:href="@{'/api/posts'(page=${currentPage - 1}, sortBy=${sortBy},
+                   th:href="@{'/api/admin/posts'(page=${currentPage - 1}, sortBy=${sortBy},
                      status=${status != -1 ? status : null},
                      keyword=${keyword != null and keyword != '' ? keyword : null})}">«</a>
             </li>
             <li class="page-item" th:classappend="${i == currentPage} ? 'active'"
                 th:each="i : ${#numbers.sequence(startPage, endPage)}">
                 <a class="page-link"
-                   th:href="@{'/api/posts'(page=${i}, sortBy=${sortBy},
+                   th:href="@{'/api/admin/posts'(page=${i}, sortBy=${sortBy},
                      status=${status != -1 ? status : null},
                      keyword=${keyword != null and keyword != '' ? keyword : null})}"
                    th:text="${i + 1}">1</a>
             </li>
             <li class="page-item" th:classappend="${currentPage == totalPages - 1} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{'/api/posts'(page=${currentPage + 1}, sortBy=${sortBy},
+                   th:href="@{'/api/admin/posts'(page=${currentPage + 1}, sortBy=${sortBy},
                      status=${status != -1 ? status : null},
                      keyword=${keyword != null and keyword != '' ? keyword : null})}">»</a>
             </li>
         </ul>
     </nav>
-</div>
-<div class="modal-overlay" id="modalOverlay"></div>
-<div class="modal-box" id="writeModal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-
-        <h2 class="modal-heading">팀 프로젝트</h2>
-
-        <div class="alert-box success-alert">
-            예시를 참고해 작성해주세요.
-        </div>
-
-        <form id="writeForm" method="post" th:action="@{/api/posts/create}">
-            <input class="title-input" id="title" name="title" placeholder="제목" required
-                   type="text"/>
-            <div class="toolbar">
-                <button type="button">B</button>
-                <button type="button">I</button>
-                <button type="button">S</button>
-                <button type="button">링크</button>
-                <button type="button">H1</button>
-                <button type="button">H2</button>
-                <button type="button">번호</button>
-                <button type="button">글머리</button>
-                <button type="button">구분선</button>
-                <button type="button">코드</button>
-            </div>
-
-            <textarea class="editor-content" id="content" name="content" required rows="18">
-[팀 프로젝트 모집 내용 예시]
-・ 프로젝트 주제 :
-・ 프로젝트 목표 :
-・ 예상 프로젝트 일정(횟수) :
-・ 예상 커리큘럼 간략히 :
-・ 모집 인원 :
-・ 프로젝트 관련 주의사항 :
-            </textarea>
-
-            <div class="modal-button-row">
-                <label for="requiredLevel"><strong>지원 가능 최소 레벨</strong></label>
-                <input id="requiredLevel" max="10" min="0"
-                       name="requiredLevel" placeholder="예: 3 (해당 레벨 이상만 지원 가능)" required step="1"
-                       style="padding: 10px; margin-bottom: 15px;"
-                       type="number"
-                       value="0"/>
-                <button class="btn-cancel" onclick="closeModal()" type="button">취소</button>
-                <button class="btn-submit" type="submit">등록</button>
-            </div>
-        </form>
-    </div>
 </div>
 </body>
 </html>

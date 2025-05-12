@@ -27,7 +27,7 @@ public class LoginViewController {
             request.getSession().setAttribute("prevPage", referer);
         }
 
-        return "login";
+        return "login/login";
     }
 
     @GetMapping("/signup")
