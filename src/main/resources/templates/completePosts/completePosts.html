@@ -20,8 +20,17 @@
             <a class="nav-item nav-link" href="/information">질의응답</a>
         </div>
     </div>
-    <div class="navbar-nav ml-auto">
-        <h4>ADMIN</h4>
+    <div class="d-flex align-items-center ms-auto">
+    <span class="me-2 fw-bold"
+          th:if="${session.memberNickname != null}"
+          th:text="${session.memberNickname + '님'}">nickname</span>
+
+        <form method="post" th:action="@{/logout}" th:if="${session.memberId != null}">
+            <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
+        </form>
+
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/templates/login}"
+           th:if="${session.memberId == null}">로그인</a>
     </div>
 </nav>
 <div class="banner">
@@ -33,7 +42,7 @@
         <div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
             <form action="/api/posts/complete" method="get"
                   style="display: flex; align-items: center; width: 100%; margin-bottom: 10px;">
-                <input name="keyword" placeholder="원하는 사이드 프로젝트 검색" style="flex-grow: 1;"
+                <input name="keyword" placeholder="완료된 프로젝트 검색" style="flex-grow: 1;"
                        th:value="${keyword} ?: ''"
                        type="text"/>
                 <button class="btn btn-primary ml-3" type="submit">검색</button>

@@ -69,7 +69,7 @@ public class MainpageController {
         model.addAttribute("status", status);
         model.addAttribute("keyword", hasKeyword ? keyword : "");
 
-        return "mainpage";
+        return "main/mainpage";
     }
 }
 

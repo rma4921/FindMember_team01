@@ -50,9 +50,19 @@
         <p th:text="${report.reason}">신고 사유</p>
     </div>
     <div class="header-top header-row">
-        <a th:href="@{/api/admin/posts/{id}(id=${report.getTargetId()})}"
-           class="btn btn-move">이동
-        </a>
+        <a th:if="${report.targetType.name() == 'POST'}"
+           th:href="@{'/api/admin/posts/' + ${report.targetId}}"
+           class="btn btn-move">이동</a>
+
+        <a th:if="${report.targetType.name() == 'COMMENT' or report.targetType.name() == 'INFORMATION'}"
+           th:href="@{'/api/admin/information/' + ${report.targetId}}"
+           class="btn btn-move">이동</a>
+
+        <a th:if="${report.targetType.name() == 'MEMBER'}"
+           th:href="@{'/api/admin/users'}"
+           class="btn btn-move">이동</a>
+
+
         <a th:href="@{/api/admin/reports}" class="btn btn-back">뒤로가기</a>
     </div>
 </div>

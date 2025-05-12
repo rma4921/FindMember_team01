@@ -87,7 +87,7 @@ public class ReportController {
         model.addAttribute("status", status);
         model.addAttribute("keyword", hasKeyword ? keyword : "");
 
-        return "reportList";
+        return "report/reportList";
     }
 
     @GetMapping("/api/admin/reports/{id}")
@@ -95,7 +95,7 @@ public class ReportController {
         ReportResponse report = reportService.getReportById(id);
         model.addAttribute("report", report);
 
-        return "reportDetail";
+        return "report/reportDetail";
     }
 
     @PutMapping("/api/admin/reports/{id}")
@@ -117,7 +117,7 @@ public class ReportController {
         reportService.submitReport(loginMember.getId(), request);
 
         String redirectUrl;
-        if (request.getTargetType() == ReportTargetType.POST) {
+        if (request.getTargetType() == ReportTargetType.INFORMATION) {
             redirectUrl = "/information/" + request.getTargetId();
         } else if (request.getTargetType() == ReportTargetType.COMMENT) {
             Long postId = commentService.findById(request.getTargetId()).getInformation()
