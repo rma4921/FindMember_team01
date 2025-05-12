@@ -51,6 +51,7 @@ public class InformationViewController {
 
         model.addAttribute("comments", visibleComments);
         model.addAttribute("loginMemberId", loginMember != null ? loginMember.getId() : null);
+        model.addAttribute("loginMember", loginMember);
 
         return "information/informationdetail";
     }
@@ -80,12 +81,16 @@ public class InformationViewController {
     public String addComment(@RequestParam Long informationId,
         @AuthenticationPrincipal Member loginMember, @RequestParam String content) {
         List<String> allowedRoles = List.of("ADMIN", "MASTER");
+
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+
+        System.out.println("ROLE: " + loginMember.getRole());
+
         if (!allowedRoles.contains(loginMember.getRole())) {
             throw new GlobalException(GlobalExceptionType.FORBIDDEN_COMMENT);
 
-        }
-        if (loginMember == null) {
-            return "redirect:/login";
         }
 
         CommentRequest request = new CommentRequest(content);

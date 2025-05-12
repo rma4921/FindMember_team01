@@ -69,6 +69,7 @@
         <form th:action="@{/information/comments}" method="post" class="comment-form"
               onsubmit="return checkRole(event)">
             <input type="hidden" name="informationId" th:value="${post.id}"/>
+            <input type="hidden" id="role" th:value="${loginMember.role}" />
             <textarea name="content" placeholder="댓글을 입력하세요" required></textarea>
             <button type="submit">등록</button>
         </form>
