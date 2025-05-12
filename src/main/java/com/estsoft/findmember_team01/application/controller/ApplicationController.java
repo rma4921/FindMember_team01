@@ -90,23 +90,31 @@ public class ApplicationController {
     }
 
     @GetMapping("/{recruitmentId}/apply/{id}")
-    public String detailApplication(@PathVariable Long id, Model model, HttpSession session) {
-
+    public String detailApplication(@PathVariable Long recruitmentId,
+        @PathVariable Long id,
+        Model model,
+        HttpSession session) {
         Long memberId = (Long) session.getAttribute("memberId");
         if (memberId == null) {
             throw new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND);
         }
-        Recruitment recruitment = recruitmentService.findPostById(id);
-        if (!memberId.equals(recruitment.getMember().getId())) {
-            throw new GlobalException(GlobalExceptionType.Cannot_Access);
-        }
         Application application = applicationRepository.findById(id)
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.APPLICATION_NOT_FOUND));
-
+        if (!application.getRecruitment().getRecruitmentId().equals(recruitmentId)) {
+            log.info("{}{} is not equal", application.getRecruitment().getRecruitmentId(),
+                recruitmentId);
+            throw new GlobalException(GlobalExceptionType.Cannot_Access);
+        }
+        if (!application.getRecruitment().getMember().getId().equals(memberId)) {
+            log.info("접근 시도한 memberId: {}, 모집글 작성자 memberId: {}", memberId,
+                application.getRecruitment().getMember().getId());
+            throw new GlobalException(GlobalExceptionType.Cannot_Access);
+        }
         ApplicationResponse dto = applicationService.getDetailApplication(application);
         model.addAttribute("applicationDto", dto);
         return "application/ApplicationDetail";
     }
+
 
     @PutMapping("/{recruitmentId}/apply/{id}")
     public String updateApplicationStatus(@PathVariable Long id,
