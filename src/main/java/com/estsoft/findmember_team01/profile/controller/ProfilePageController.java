@@ -27,7 +27,6 @@ public class ProfilePageController {
     // 1) 설정 화면
     @GetMapping("/{id}")
     public String showProfile(@PathVariable Long id, Model model) {
-        MemberDTO user = userService.getUser(id);
         model.addAttribute("user", userService.getUser(id));
         return "profile/profile";
     }
@@ -56,6 +55,6 @@ public class ProfilePageController {
         PostDTO post = userService.getLatestPostByUser(id);
         model.addAttribute("user", user);
         model.addAttribute("post", post);
-        return "profileView";
+        return "profile/profileView";
     }
 }
