@@ -8,6 +8,8 @@ import com.estsoft.findmember_team01.application.repository.ApplicationRepositor
 import com.estsoft.findmember_team01.application.service.ApplicationService;
 import com.estsoft.findmember_team01.exception.GlobalException;
 import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
+import com.estsoft.findmember_team01.recruitment.domain.Recruitment;
+import com.estsoft.findmember_team01.recruitment.service.RecruitmentService;
 import jakarta.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,11 +33,13 @@ public class ApplicationController {
 
     private final ApplicationService applicationService;
     private final ApplicationRepository applicationRepository;
+    private final RecruitmentService recruitmentService;
 
     public ApplicationController(ApplicationService applicationService,
-        ApplicationRepository applicationRepository) {
+        ApplicationRepository applicationRepository, RecruitmentService recruitmentService) {
         this.applicationService = applicationService;
         this.applicationRepository = applicationRepository;
+        this.recruitmentService = recruitmentService;
     }
 
     @PostMapping("/{recruitmentId}/apply")
@@ -59,8 +63,15 @@ public class ApplicationController {
     public String showApplications(@PathVariable Long recruitmentId,
         @RequestParam(value = "page", defaultValue = "0") int page,
         @RequestParam(required = false) String titleKeyword,
-        @RequestParam(defaultValue = "latest") String sort, Model model) {
-
+        @RequestParam(defaultValue = "latest") String sort, Model model, HttpSession session) {
+        Long memberId = (Long) session.getAttribute("memberId");
+        if (memberId == null) {
+            throw new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND);
+        }
+        Recruitment recruitment = recruitmentService.findPostById(recruitmentId);
+        if (!memberId.equals(recruitment.getMember().getId())) {
+            throw new GlobalException(GlobalExceptionType.Cannot_Access);
+        }
         Page<Application> applicationPage = applicationService.searchApplications(recruitmentId,
             titleKeyword, sort, page, 10);
 
@@ -79,7 +90,16 @@ public class ApplicationController {
     }
 
     @GetMapping("/{recruitmentId}/apply/{id}")
-    public String detailApplication(@PathVariable Long id, Model model) {
+    public String detailApplication(@PathVariable Long id, Model model, HttpSession session) {
+
+        Long memberId = (Long) session.getAttribute("memberId");
+        if (memberId == null) {
+            throw new GlobalException(GlobalExceptionType.MEMBER_NOT_FOUND);
+        }
+        Recruitment recruitment = recruitmentService.findPostById(id);
+        if (!memberId.equals(recruitment.getMember().getId())) {
+            throw new GlobalException(GlobalExceptionType.Cannot_Access);
+        }
         Application application = applicationRepository.findById(id)
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.APPLICATION_NOT_FOUND));
 

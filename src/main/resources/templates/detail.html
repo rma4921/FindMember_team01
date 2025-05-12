@@ -101,7 +101,9 @@
             <select name="end_status">
                 <option th:value="false" th:selected="${recruitment.end_status} == false">진행중
                 </option>
-                <option th:value="true" th:selected="${recruitment.end_status} == true">진행완료
+                <option th:value="true"
+                        th:selected="${recruitment.end_status} == true and ${recruitment.status} == false">
+                    진행완료
                 </option>
             </select>
             <input type="number" name="level" th:value="${recruitment.level}">
