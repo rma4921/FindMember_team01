@@ -18,4 +18,3 @@ public class ApplicationResponse {
     private String applicantEmail;
     private Long recruitmentId;
 }
-
