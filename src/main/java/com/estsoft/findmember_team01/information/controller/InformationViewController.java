@@ -55,7 +55,6 @@ public class InformationViewController {
         return "informationdetail";
     }
 
-
     @GetMapping("/write")
     public String showWriteForm(Model model) {
         InformationRequest dto = new InformationRequest();
@@ -77,11 +76,14 @@ public class InformationViewController {
         return "redirect:/information/" + saved.getInformationId();
     }
 
-
     @PostMapping("/comments")
     public String addComment(@RequestParam Long informationId,
-        @AuthenticationPrincipal Member loginMember,
-        @RequestParam String content) {
+        @AuthenticationPrincipal Member loginMember, @RequestParam String content) {
+        List<String> allowedRoles = List.of("ADMIN", "MASTER");
+        if (!allowedRoles.contains(loginMember.getRole())) {
+            throw new GlobalException(GlobalExceptionType.FORBIDDEN_COMMENT);
+
+        }
         if (loginMember == null) {
             return "redirect:/login";
         }
@@ -193,6 +195,4 @@ public class InformationViewController {
 
         return "redirect:/information/" + info.getInformationId();
     }
-
-
 }

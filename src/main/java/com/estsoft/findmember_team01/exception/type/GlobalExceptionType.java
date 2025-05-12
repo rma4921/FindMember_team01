@@ -20,6 +20,8 @@ public enum GlobalExceptionType {
     ONLY_AUTHOR_CAN_DELETE("작성자만 삭제할 수 있습니다.", HttpStatus.FORBIDDEN),
     ONLY_AUTHOR_CAN_UPDATE("작성자만 수정할 수 있습니다.", HttpStatus.FORBIDDEN),
     UNSUPPORTED_REPORT_TYPE("지원하지 않는 신고 타입입니다.", HttpStatus.BAD_REQUEST),
+    FORBIDDEN_COMMENT("MASTER 이상 등급만 댓글을 작성할 수 있습니다.", HttpStatus.FORBIDDEN),
+    Cannot_Access("접근 권한이 없습니다.", HttpStatus.FORBIDDEN),
     CONTENT_HIDDEN("숨겨진 게시글입니다.", HttpStatus.FORBIDDEN),
     ;
 

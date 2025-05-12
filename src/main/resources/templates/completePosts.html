@@ -13,13 +13,11 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="navbar mr-auto">
-        <a class="navbar-brand" href="#">Team 1</a>
+        <a class="navbar-brand" href="/api/posts">Team 1</a>
         <div class="navbar-nav mr-auto">
-            <a class="nav-item nav-link" href="#">회원 조회</a>
-            <a class="nav-item nav-link" href="#">회원 관리</a>
-            <a class="nav-item nav-link" href="/api/admin/reports">신고 관리</a>
-            <a class="nav-item nav-link" href="/api/admin/posts">팀원 모집</a>
-            <a class="nav-item nav-link" href="/api/admin/information">질의응답</a>
+            <a class="nav-item nav-link" href="/api/posts">팀원 모집</a>
+            <a class="nav-item nav-link" href="/api/posts/complete">완료된 프로젝트</a>
+            <a class="nav-item nav-link" href="/information">질의응답</a>
         </div>
     </div>
     <div class="navbar-nav ml-auto">
@@ -27,21 +25,13 @@
     </div>
 </nav>
 <div class="banner">
-    <div class="banner-title">프로젝트 팀원을 모집해보세요.</div>
-    <div class="banner-subtitle">협업을 통한 경험 노하우 쌓기!</div>
+    <div class="banner-title">완료된 프로젝트를 둘러보세요</div>
+    <div class="banner-subtitle">여러가지 내용들을 확인하기</div>
 </div>
 <div class="container mt-2 mb-2" style="padding: 0 10%;">
     <div class="mb-4" style="display: flex; flex-direction: column; margin-bottom: 10px;">
-        <nav class="filter-nav mb-3">
-            <a class="filter-btn" href="/api/admin/posts?status=-1"
-               th:classappend="${status == -1 ? 'font-weight-bold' : ''}">전체</a>
-            <a class="filter-btn" href="/api/admin/posts?status=1"
-               th:classappend="${status == 1 ? 'font-weight-bold' : ''}">모집중</a>
-            <a class="filter-btn" href="/api/admin/posts?status=0"
-               th:classappend="${status == 0 ? 'font-weight-bold' : ''}">모집완료</a>
-        </nav>
         <div style="display: flex; flex-direction: column; align-items: flex-end; width: 100%;">
-            <form action="/api/posts" method="get"
+            <form action="/api/posts/complete" method="get"
                   style="display: flex; align-items: center; width: 100%; margin-bottom: 10px;">
                 <input name="keyword" placeholder="원하는 사이드 프로젝트 검색" style="flex-grow: 1;"
                        th:value="${keyword} ?: ''"
@@ -51,13 +41,13 @@
         </div>
     </div>
     <div>
-        <div class="mb-4 post-item" th:each="item : ${recruitmentList}">
-            <a class="stretched-link" th:href="@{/api/admin/posts/{id}(id=${item.recruitmentId})}">
+        <div class="mb-4 post-item" th:each="item : ${recruitmentList}"
+             th:if="${item.end_status} == true">
+            <a class="stretched-link"
+               th:href="@{/api/posts/complete/{id}(id=${item.recruitmentId})}">
                 <h5 class="d-flex align-items-center">
                     <span class="badge badge-success mr-2" style="background-color: #28a745;"
-                          th:if="${item.status}">모집중</span>
-                    <span class="badge badge-dark mr-2" style="background-color: #acacac;"
-                          th:unless="${item.status}">모집완료</span>
+                          th:if="${item.end_status} == true">프로젝트 완료</span>
                     <span th:text="${item.title}">제목</span>
                 </h5>
                 <p class="text-truncate" style="max-height: 3.6em; overflow: hidden;">

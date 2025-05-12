@@ -5,9 +5,9 @@
     <title>메인페이지</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           rel="stylesheet">
-    <link href="/css/mainpage.css" rel="stylesheet">
-    <link href="/css/modal.css" rel="stylesheet">
-    <link href="/css/list.css" rel="stylesheet">
+    <link href="/css/main/mainpage.css" rel="stylesheet">
+    <link href="/css/comment/modal.css" rel="stylesheet">
+    <link href="/css/comment/list.css" rel="stylesheet">
     <script src="/js/mainPage.js"></script>
 </head>
 <body>
@@ -16,7 +16,7 @@
         <a class="navbar-brand" href="/api/posts">Team 1</a>
         <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="/api/posts">팀원 모집</a>
-            <a class="nav-item nav-link" href="#">완료된 프로젝트</a>
+            <a class="nav-item nav-link" href="/api/posts/complete">완료된 프로젝트</a>
             <a class="nav-item nav-link" href="/information">질의응답</a>
         </div>
     </div>
@@ -29,7 +29,8 @@
             <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
         </form>
 
-        <a class="btn btn-outline-primary btn-sm" th:href="@{/login}" th:if="${session.memberId == null}">로그인</a>
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/login}"
+           th:if="${session.memberId == null}">로그인</a>
     </div>
 </nav>
 <div class="banner">
