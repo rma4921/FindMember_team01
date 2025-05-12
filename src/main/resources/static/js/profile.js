@@ -8,7 +8,6 @@ function submitForm() {
         techStack: document.getElementById("techStack").value
     };
 
-
 }
 
 function confirmDelete(id) {
@@ -16,9 +15,9 @@ function confirmDelete(id) {
         fetch(`/api/user/${id}`, {
             method: "DELETE"
         })
-            .then(() => {
-                alert("탈퇴 완료");
-                window.location.href = "/";
-            });
+        .then(() => {
+            alert("탈퇴 완료");
+            window.location.href = "/api/posts";
+        });
     }
 }
