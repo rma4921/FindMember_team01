@@ -13,7 +13,7 @@
 
         <form th:action="@{/information/report}" method="post"
               style="display:inline; margin-left: 10px;">
-            <input type="hidden" name="targetType" value="POST"/>
+            <input type="hidden" name="targetType" value="INFORMATION"/>
             <input type="hidden" name="targetId" th:value="${post.id}"/>
             <input type="text" name="reason" placeholder="신고 사유" required
                    style="height: 24px; font-size: 12px;"/>

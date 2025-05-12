@@ -75,4 +75,12 @@ public class CommentService {
         }
         commentRepository.delete(comment);
     }
+
+    @Transactional
+    public void updateHideStatus(Long id, boolean hideStatus) {
+        Comment comment = commentRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.COMMENT_NOT_FOUND));
+
+        comment.toggleHideStatus(hideStatus);
+    }
 }

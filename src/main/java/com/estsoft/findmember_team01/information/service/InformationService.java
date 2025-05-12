@@ -9,6 +9,7 @@ import com.estsoft.findmember_team01.information.repository.InformationRepositor
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import java.util.List;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
@@ -59,7 +60,7 @@ public class InformationService {
     }
 
     public Page<Information> findAllPaged(Pageable pageable) {
-        return informationRepository.findAll(pageable);
+        return informationRepository.findByHideStatusFalse(pageable);
     }
 
     public Page<Information> searchByStatusAndKeywordPaged(Status status, String keyword,
@@ -78,5 +79,41 @@ public class InformationService {
             throw new GlobalException(GlobalExceptionType.ONLY_AUTHOR_CAN_UPDATE);
         }
         info.setStatus(Status.SOLVED);
+    }
+
+    public Page<Information> searchByKeywordPaged(String keyword, int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createAt").descending());
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            return informationRepository.findByTitleContainingOrContentContaining(keyword, keyword,
+                pageable);
+        } else {
+            return informationRepository.findAll(pageable);
+        }
+    }
+
+    @Transactional
+    public void updateHideStatus(Long id, boolean hideStatus) {
+        Information information = informationRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.INFORMATION_NOT_FOUND));
+
+        information.toggleHideStatus(hideStatus);
+    }
+
+    public Information findVisibleInformationById(Long id) {
+        Information info = informationRepository.findById(id)
+            .orElseThrow(() -> new GlobalException(GlobalExceptionType.INFORMATION_NOT_FOUND));
+
+        if (info.getHideStatus()) {
+            throw new GlobalException(GlobalExceptionType.CONTENT_HIDDEN); // 숨긴 글은 차단
+        }
+
+        return info;
+    }
+
+    public Page<Information> searchVisibleByStatusAndKeywordPaged(Status status, String keyword, Pageable pageable) {
+        if (keyword == null || keyword.trim().isEmpty()) {
+            keyword = "";
+        }
+        return informationRepository.findVisibleByStatusAndKeyword(status, keyword, pageable);
     }
 }

@@ -60,6 +60,9 @@ public class Information {
     @OneToMany(mappedBy = "information", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
+    @Column(nullable = false)
+    private Boolean hideStatus = false;
+
     @Builder
     public Information(String title, String content, Member member) {
         this.title = title;
@@ -78,5 +81,9 @@ public class Information {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public void toggleHideStatus(boolean hidden) {
+        this.hideStatus = hidden;
     }
 }

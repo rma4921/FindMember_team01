@@ -44,6 +44,9 @@ public class Comment {
     @CreatedDate
     private LocalDateTime createAt;
 
+    @Column(nullable = false)
+    private Boolean hideStatus = false;
+
     @Builder
     public Comment(String content, Information information, Member member) {
         this.content = content;
@@ -57,6 +60,10 @@ public class Comment {
 
     public CommentResponse toDto() {
         return new CommentResponse(this);
+    }
+
+    public void toggleHideStatus(boolean hidden) {
+        this.hideStatus = hidden;
     }
 
 }

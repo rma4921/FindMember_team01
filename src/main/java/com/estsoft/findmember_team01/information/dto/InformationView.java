@@ -17,6 +17,7 @@ public class InformationView {
     private Status status;
     private Long writerId;
     private int commentCount;
+    private Boolean hideStatus;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -25,6 +26,6 @@ public class InformationView {
             .content(info.getContent()).writer(info.getMember().getNickname())
             .status(info.getStatus()).writerId(info.getMember().getId())
             .commentCount(info.getComments().size()).createdAt(info.getCreateAt())
-            .modifiedAt(info.getUpdateAt()).build();
+            .modifiedAt(info.getUpdateAt()).hideStatus(info.getHideStatus()).build();
     }
 }
