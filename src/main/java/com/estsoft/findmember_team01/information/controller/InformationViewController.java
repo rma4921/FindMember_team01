@@ -70,6 +70,11 @@ public class InformationViewController {
     @PostMapping("/comments")
     public String addComment(@RequestParam Long informationId,
         @AuthenticationPrincipal Member loginMember, @RequestParam String content) {
+        List<String> allowedRoles = List.of("ADMIN", "MASTER");
+        if (!allowedRoles.contains(loginMember.getRole())) {
+            throw new GlobalException(GlobalExceptionType.FORBIDDEN_COMMENT);
+            
+        }
         CommentRequest request = new CommentRequest(content);
         commentService.addComment(informationId, loginMember.getId(), request);
 

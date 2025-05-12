@@ -6,6 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/informationDetail.css}">
 </head>
 <body>
+<input type="hidden" id="memberRole" th:value="${memberRole}"/>
 <main class="container detail">
     <h1 class="detail-title">
         <span th:text="${post.title}">제목</span>
@@ -65,7 +66,8 @@
 
     <section class="comment-section">
         <h3>댓글</h3>
-        <form th:action="@{/information/comments}" method="post" class="comment-form">
+        <form th:action="@{/information/comments}" method="post" class="comment-form"
+              onsubmit="return checkRole(event)">
             <input type="hidden" name="informationId" th:value="${post.id}"/>
             <textarea name="content" placeholder="댓글을 입력하세요" required></textarea>
             <button type="submit">등록</button>
