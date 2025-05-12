@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${post.title}">Q&A 상세</title>
+    <link rel="stylesheet" th:href="@{/css/informationDetail.css}">
+</head>
+<body>
+<main class="container detail">
+    <h1 class="detail-title" th:text="${post.title}">제목</h1>
+
+    <div class="detail-meta">
+        <span th:text="'작성일: ' + ${#temporals.format(post.createdAt, 'yy.MM.dd HH:mm')}"></span>
+        <span th:text="'수정일: ' + ${#temporals.format(post.modifiedAt, 'yy.MM.dd HH:mm')}"></span>
+        <span th:text="'댓글: ' + ${post.commentCount}"></span>
+        <span th:text="${post.status.name() == 'SOLVED' ? '해결 완료' : '미해결'}"
+              style="margin-left: 10px; font-weight: bold;"></span>
+    </div>
+
+    <div class="detail-actions" style="display: flex; gap: 10px; align-items: center;">
+        <!-- 삭제 -->
+        <form th:action="@{/api/admin/information/delete/{id}(id=${post.id})}" method="post">
+            <button type="submit" class="action-btn"
+                    onclick="return confirm('정말 이 게시글을 삭제하시겠습니까?');">게시글 삭제
+            </button>
+        </form>
+
+        <!-- 숨기기 -->
+        <form th:action="@{/api/admin/information/hide/{id}(id=${post.id})}" method="post">
+            <input type="hidden" name="_method" value="put"/>
+            <input type="hidden" name="hide_status" th:value="${post.hideStatus ? false : true}"/>
+            <button type="submit"
+                    th:text="${post.hideStatus ? '꺼내기' : '숨기기'}"
+                    class="action-btn">숨기기
+            </button>
+        </form>
+
+        <!-- 뒤로가기 -->
+        <a th:href="@{/api/admin/information}" class="back-btn">뒤로가기</a>
+    </div>
+
+    <div class="detail-body" th:text="${post.content}">본문 내용</div>
+
+    <section class="comment-section">
+        <h3>댓글</h3>
+
+        <div class="comment-list">
+            <div class="comment-item" th:each="comment : ${comments}">
+                <div class="comment-meta">
+                    <span class="comment-author" th:text="${comment.writer}">닉네임</span>
+                    <span class="comment-date"
+                          th:text="${#temporals.format(comment.createdAt, 'yy.MM.dd HH:mm')}">날짜</span>
+                </div>
+
+                <div class="comment-text" th:text="${comment.content}">댓글 내용</div>
+
+                <!-- ✅ 버튼 영역: 가로 정렬 -->
+                <div style="display: flex; gap: 8px; margin-top: 5px;">
+                    <!-- 댓글 삭제 -->
+                    <form th:action="@{/api/admin/comments/delete/{id}(id=${comment.id})}"
+                          method="post">
+                        <button type="submit" class="action-btn"
+                                onclick="return confirm('이 댓글을 삭제하시겠습니까?');">댓글 삭제
+                        </button>
+                    </form>
+
+                    <!-- 댓글 숨기기 -->
+                    <form th:action="@{/api/admin/comments/hide/{id}(id=${comment.id})}"
+                          method="post">
+                        <input type="hidden" name="_method" value="put"/>
+                        <input type="hidden" name="hide_status"
+                               th:value="${comment.hideStatus ? false : true}"/>
+                        <button type="submit" th:text="${comment.hideStatus ? '꺼내기' : '숨기기'}" class="action-btn">숨기기
+                        </button>
+                    </form>
+                </div>
+            </div>
+    </section>
+</main>
+</body>
+</html>

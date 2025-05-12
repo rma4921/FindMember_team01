@@ -13,10 +13,11 @@ public class CommentView {
     private String writer;
     private String content;
     private LocalDateTime createdAt;
+    private Boolean hideStatus;
 
     public static CommentView from(Comment comment) {
         return CommentView.builder().id(comment.getCommentId())
             .writer(comment.getMember().getNickname()).content(comment.getContent())
-            .createdAt(comment.getCreateAt()).build();
+            .createdAt(comment.getCreateAt()).hideStatus(comment.getHideStatus()).build();
     }
 }

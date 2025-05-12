@@ -17,4 +17,17 @@ public interface InformationRepository extends JpaRepository<Information, Long> 
         + "OR LOWER(i.content) LIKE LOWER(CONCAT('%', :keyword, '%')))")
     Page<Information> findByStatusAndKeywordPaged(@Param("status") Status status,
         @Param("keyword") String keyword, Pageable pageable);
+
+    Page<Information> findByTitleContainingOrContentContaining(String titleKeyword, String contentKeyword, Pageable pageable);
+
+    Page<Information> findByHideStatusFalse(Pageable pageable);
+
+    @Query("SELECT i FROM Information i " +
+        "WHERE i.hideStatus = false " +
+        "AND (:status IS NULL OR i.status = :status) " +
+        "AND (LOWER(i.title) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+        "OR LOWER(i.content) LIKE LOWER(CONCAT('%', :keyword, '%')))")
+    Page<Information> findVisibleByStatusAndKeyword(@Param("status") Status status,
+        @Param("keyword") String keyword,
+        Pageable pageable);
 }

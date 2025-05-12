@@ -40,15 +40,21 @@ public class InformationViewController {
     @GetMapping("/{id}")
     public String showDetail(@PathVariable Long id, Model model,
         @AuthenticationPrincipal Member loginMember) {
-        Information info = informationService.findInformationById(id);
+        Information info = informationService.findVisibleInformationById(id);
 
         model.addAttribute("post", InformationView.from(info));
-        model.addAttribute("comments",
-            info.getComments().stream().map(CommentView::from).collect(Collectors.toList()));
+
+        List<CommentView> visibleComments = info.getComments().stream()
+            .filter(comment -> !comment.getHideStatus())
+            .map(CommentView::from)
+            .collect(Collectors.toList());
+
+        model.addAttribute("comments", visibleComments);
         model.addAttribute("loginMemberId", loginMember != null ? loginMember.getId() : null);
 
         return "informationdetail";
     }
+
 
     @GetMapping("/write")
     public String showWriteForm(Model model) {
@@ -61,15 +67,25 @@ public class InformationViewController {
     @PostMapping
     public String saveInformation(@ModelAttribute InformationRequest request,
         @AuthenticationPrincipal Member loginMember) {
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+
         request.setMemberId(loginMember.getId());
         Information saved = informationService.addInformation(request);
 
         return "redirect:/information/" + saved.getInformationId();
     }
 
+
     @PostMapping("/comments")
     public String addComment(@RequestParam Long informationId,
-        @AuthenticationPrincipal Member loginMember, @RequestParam String content) {
+        @AuthenticationPrincipal Member loginMember,
+        @RequestParam String content) {
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+
         CommentRequest request = new CommentRequest(content);
         commentService.addComment(informationId, loginMember.getId(), request);
 
@@ -141,8 +157,8 @@ public class InformationViewController {
         }
 
         Pageable pageable = PageRequest.of(page, 10, Sort.by("createAt").descending());
-        Page<Information> filtered = informationService.searchByStatusAndKeywordPaged(filterStatus,
-            keyword, pageable);
+        Page<Information> filtered = informationService.searchVisibleByStatusAndKeywordPaged(
+            filterStatus, keyword, pageable);
 
         List<InformationView> posts = filtered.stream().map(InformationView::from).toList();
 
@@ -177,4 +193,6 @@ public class InformationViewController {
 
         return "redirect:/information/" + info.getInformationId();
     }
+
+
 }
