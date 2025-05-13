@@ -27,7 +27,7 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    @DeleteMapping("/profile/{id}")
+    @DeleteMapping("/api/profile/{id}")
     public String deleteMember(@PathVariable Long id, Authentication authentication) {
         String currentEmail = authentication.getName();
         Member member = memberRepository.findById(id)
