@@ -3,7 +3,7 @@ package com.estsoft.findmember_team01.profile.controller;
 import com.estsoft.findmember_team01.profile.dto.MemberDTO;
 import com.estsoft.findmember_team01.profile.dto.PostDTO;
 import com.estsoft.findmember_team01.profile.service.FileStorageService;
-import com.estsoft.findmember_team01.profile.service.UserService;
+import com.estsoft.findmember_team01.profile.service.ProfileService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,22 +18,22 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/member")
+public class ProfileController {
 
-    private final UserService userService;
+    private final ProfileService profileService;
     private final FileStorageService fileStorageService;
 
     @GetMapping("/{id}/profile")
     public String getProfilePage(@PathVariable Long id, Model model) {
-        MemberDTO user = userService.getUser(id);
-        model.addAttribute("user", user);
+        MemberDTO member = profileService.getUser(id);
+        model.addAttribute("member", member);
         return "profile/profile";
     }
 
     @PostMapping("/{id}/update")
     public String updateUserText(@PathVariable Long id, @ModelAttribute MemberDTO memberDTO) {
-        userService.updateUser(id, memberDTO);
+        profileService.updateUser(id, memberDTO);
         return "redirect:/profile/view/" + id;
     }
 
@@ -42,16 +42,16 @@ public class UserController {
         @RequestParam("file") MultipartFile file) throws IOException {
         if (file != null && !file.isEmpty()) {
             String filename = fileStorageService.store(file);
-            userService.updateProfileImage(id, filename);
+            profileService.updateProfileImage(id, filename);
         }
         return "redirect:/profile/view/" + id;
     }
 
     @GetMapping("/{id}/view")
     public String getProfileViewPage(@PathVariable Long id, Model model) {
-        MemberDTO user = userService.getUser(id);
-        PostDTO post = userService.getLatestPostByUser(id);
-        model.addAttribute("user", user);
+        MemberDTO member = profileService.getUser(id);
+        PostDTO post = profileService.getLatestPostByUser(id);
+        model.addAttribute("member", member);
         model.addAttribute("post", post);
         return "profile/profileView";
     }

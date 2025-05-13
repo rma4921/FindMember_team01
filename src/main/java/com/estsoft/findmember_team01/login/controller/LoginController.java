@@ -8,7 +8,6 @@ import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +27,7 @@ public class LoginController {
         return "redirect:/login";
     }
 
-    @DeleteMapping("/api/user/{id}")
+    @DeleteMapping("/profile/{id}")
     public String deleteMember(@PathVariable Long id, Authentication authentication) {
         String currentEmail = authentication.getName();
         Member member = memberRepository.findById(id)
@@ -39,8 +38,7 @@ public class LoginController {
         }
 
         memberService.deleteMember(id);
-        SecurityContextHolder.clearContext();
 
-        return "redirect:/login";
+        return "redirect:/logout";
     }
 }
