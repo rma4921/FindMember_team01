@@ -12,7 +12,7 @@
         <h3>Q&A</h3>
         <div class="write-guide">예시를 참고해 작성해주세요.</div>
     </header>
-    <form th:action="@{/information}" method="post" th:object="${informationRequest}"
+    <form th:action="@{/api/information}" method="post" th:object="${informationRequest}"
           class="write-form">
         <label for="title">제목</label>
         <input type="text" th:field="*{title}" id="title" placeholder="제목을 입력하세요" required>
@@ -24,7 +24,7 @@
         </div>
 
         <div class="write-actions">
-            <a th:href="@{/information}" class="cancel-btn">취소</a>
+            <a th:href="@{/api/information}" class="cancel-btn">취소</a>
             <button type="submit" class="submit-btn">등록</button>
         </div>
     </form>

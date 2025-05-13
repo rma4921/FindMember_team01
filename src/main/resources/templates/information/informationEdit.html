@@ -13,7 +13,7 @@
         <div class="write-guide">작성했던 내용을 수정해주세요.</div>
     </header>
 
-    <form th:action="@{'/information/edit/' + ${informationId}}" method="post"
+    <form th:action="@{'/api/information/edit/' + ${informationId}}" method="post"
           th:object="${informationRequest}" class="write-form">
         <input type="hidden" th:field="*{memberId}"/>
 

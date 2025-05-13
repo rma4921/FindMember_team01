@@ -54,7 +54,7 @@
                           th:if="${item.status == true}">처리완료</span>
                     <span
                         th:if="${item.targetType == T(com.estsoft.findmember_team01.report.domain.ReportTargetType).POST}"
-                        th:text="'게시물'">게시물 신고</span>
+                        th:text="'팀원 모집 게시물'">게시물 신고</span>
                     <span
                         th:if="${item.targetType == T(com.estsoft.findmember_team01.report.domain.ReportTargetType).MEMBER}"
                         th:text="'유저'">유저 신고</span>
@@ -63,7 +63,7 @@
                         th:text="'댓글'">댓글 신고</span>
                     <span
                         th:if="${item.targetType == T(com.estsoft.findmember_team01.report.domain.ReportTargetType).INFORMATION}"
-                        th:text="'게시물'">게시물 신고</span>
+                        th:text="'질의응답 게시물'">질의응답 게시물 신고</span>
 
                 </h5>
                 <p class="text-truncate" style="max-height: 3.6em; overflow: hidden;">
