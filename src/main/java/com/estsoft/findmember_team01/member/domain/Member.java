@@ -47,7 +47,6 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private Integer exp;
 
-
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -63,7 +62,6 @@ public class Member implements UserDetails {
 
     @Column(length = 200)
     private String profileImageUrl;
-
 
     public Member(String email, String password, String nickname) {
         this.email = email;
