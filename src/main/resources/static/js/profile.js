@@ -9,15 +9,3 @@ function submitForm() {
     };
 
 }
-
-function confirmDelete(id) {
-    if (confirm("정말 탈퇴하시겠습니까?")) {
-        fetch(`/api/user/${id}`, {
-            method: "DELETE"
-        })
-        .then(() => {
-            alert("탈퇴 완료");
-            window.location.href = "/api/posts";
-        });
-    }
-}
