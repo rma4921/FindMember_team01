@@ -104,13 +104,14 @@ public class InformationService {
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.INFORMATION_NOT_FOUND));
 
         if (info.getHideStatus()) {
-            throw new GlobalException(GlobalExceptionType.CONTENT_HIDDEN); // 숨긴 글은 차단
+            throw new GlobalException(GlobalExceptionType.CONTENT_HIDDEN);
         }
 
         return info;
     }
 
-    public Page<Information> searchVisibleByStatusAndKeywordPaged(Status status, String keyword, Pageable pageable) {
+    public Page<Information> searchVisibleByStatusAndKeywordPaged(Status status, String keyword,
+        Pageable pageable) {
         if (keyword == null || keyword.trim().isEmpty()) {
             keyword = "";
         }

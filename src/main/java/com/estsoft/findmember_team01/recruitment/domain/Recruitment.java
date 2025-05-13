@@ -63,7 +63,7 @@ public class Recruitment {
     private Boolean end_status = false;
 
     private Long level;
-    
+
     @Column(name = "hide_status", nullable = false)
     private Boolean hide_status = false;
 

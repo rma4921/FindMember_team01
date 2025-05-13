@@ -1,12 +1,8 @@
 package com.estsoft.findmember_team01.report.service;
 
-import com.estsoft.findmember_team01.comment.domain.Comment;
-import com.estsoft.findmember_team01.comment.repository.CommentRepository;
 import com.estsoft.findmember_team01.comment.service.CommentService;
 import com.estsoft.findmember_team01.exception.GlobalException;
 import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
-import com.estsoft.findmember_team01.information.domain.Information;
-import com.estsoft.findmember_team01.information.repository.InformationRepository;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.member.repository.MemberRepository;
 import com.estsoft.findmember_team01.report.domain.Report;
@@ -101,10 +97,10 @@ public class ReportService {
         Long postId = null;
 
         if (report.getTargetType() == ReportTargetType.INFORMATION) {
-            postId = report.getTargetId(); // 자기 자신
+            postId = report.getTargetId();
         } else if (report.getTargetType() == ReportTargetType.COMMENT) {
-            postId = commentService.findById(report.getTargetId())
-                .getInformation().getInformationId();
+            postId = commentService.findById(report.getTargetId()).getInformation()
+                .getInformationId();
         }
 
         return InformationReportResponse.from(report, postId);

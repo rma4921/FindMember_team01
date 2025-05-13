@@ -32,10 +32,10 @@ public class Member implements UserDetails {
     @Column(nullable = false, unique = true, length = 50)
     private String email;
 
-    @Column(nullable = false, length = 32)
+    @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false, unique = true, length = 10)
+    @Column(nullable = false, unique = true, length = 50)
     private String nickname;
 
     @Column(nullable = false)
@@ -46,6 +46,7 @@ public class Member implements UserDetails {
 
     @Column(nullable = false)
     private Integer exp;
+
 
     @CreatedDate
     private LocalDateTime createdAt;
@@ -59,6 +60,10 @@ public class Member implements UserDetails {
 
     @Column(length = 10)
     private String role;
+
+    @Column(length = 200)
+    private String profileImageUrl;
+
 
     public Member(String email, String password, String nickname) {
         this.email = email;
@@ -122,5 +127,17 @@ public class Member implements UserDetails {
 
     public void updateRole(String newRole) {
         this.role = newRole;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public void updateTech(String tech) {
+        this.tech = tech;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
     }
 }

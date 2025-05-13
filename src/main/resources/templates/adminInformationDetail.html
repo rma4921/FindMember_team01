@@ -70,11 +70,13 @@
                         <input type="hidden" name="_method" value="put"/>
                         <input type="hidden" name="hide_status"
                                th:value="${comment.hideStatus ? false : true}"/>
-                        <button type="submit" th:text="${comment.hideStatus ? '꺼내기' : '숨기기'}" class="action-btn">숨기기
+                        <button type="submit" th:text="${comment.hideStatus ? '꺼내기' : '숨기기'}"
+                                class="action-btn">숨기기
                         </button>
                     </form>
                 </div>
             </div>
+        </div>
     </section>
 </main>
 </body>

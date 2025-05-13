@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>프로필 조회</title>
+    <link rel="stylesheet" th:href="@{/css/profile/profileView.css}">
+</head>
+<body>
+<div class="header">
+    <div onclick="location.href='/'">TEAM1</div>
+</div>
+
+<div class="container">
+    <div class="left-section">
+        <img th:if="${user.profileImageUrl != null}"
+             th:src="${user.profileImageUrl}"
+             alt="프로필 이미지"/>
+
+        <img th:unless="${user.profileImageUrl != null}"
+             th:src="@{/images/default-profile.png}"
+             alt="기본 프로필 이미지"/>
+        <h4 th:text="${user.nickname}">닉네임</h4>
+
+        <div class="level">
+            <p th:text="'Lv. ' + ${user.level}">레벨</p>
+        </div>
+    </div>
+
+    <div class="right-section">
+        <div class="tech-stack">
+            <h3>기술스택</h3>
+            <p th:if="${user.tech != null and !#strings.isEmpty(user.tech)}"
+               th:text="${user.tech}">Java, Spring, MySQL</p>
+            <p th:unless="${user.tech != null and !#strings.isEmpty(user.tech)}">
+                등록된 기술스택이 없습니다.
+            </p>
+        </div>
+
+        <div class="post-section">
+            <h3>작성글</h3>
+            <div class="post" th:if="${post != null}">
+                <div class="post-title" th:text="${post.title}">팀 프로젝트</div>
+                <div class="post-content" th:text="${post.content}">멋진거 할사람 구함~</div>
+                <div class="post-meta">
+                </div>
+            </div>
+            <div class="post" th:if="${post == null}">
+                <p>작성한 글이 없습니다.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

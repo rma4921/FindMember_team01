@@ -45,8 +45,7 @@ public class InformationViewController {
         model.addAttribute("post", InformationView.from(info));
 
         List<CommentView> visibleComments = info.getComments().stream()
-            .filter(comment -> !comment.getHideStatus())
-            .map(CommentView::from)
+            .filter(comment -> !comment.getHideStatus()).map(CommentView::from)
             .collect(Collectors.toList());
 
         model.addAttribute("comments", visibleComments);
@@ -85,8 +84,6 @@ public class InformationViewController {
         if (loginMember == null) {
             return "redirect:/login";
         }
-
-        System.out.println("ROLE: " + loginMember.getRole());
 
         if (!allowedRoles.contains(loginMember.getRole())) {
             throw new GlobalException(GlobalExceptionType.FORBIDDEN_COMMENT);
