@@ -33,6 +33,7 @@ public class UserAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuc
         request.getSession().setAttribute("memberId", member.getId());
         request.getSession().setAttribute("memberLevel", member.getLevel());
         request.getSession().setAttribute("memberNickname", member.getNickname());
+        request.getSession().setAttribute("memberRole", member.getRole());
 
         boolean isAdmin = authentication.getAuthorities().stream()
             .anyMatch(auth -> auth.getAuthority().equals("ROLE_ADMIN"));
