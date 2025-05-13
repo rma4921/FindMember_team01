@@ -70,7 +70,7 @@ public class ApplicationController {
         }
         Recruitment recruitment = recruitmentService.findPostById(recruitmentId);
         if (!memberId.equals(recruitment.getMember().getId())) {
-            throw new GlobalException(GlobalExceptionType.Cannot_Access);
+            throw new GlobalException(GlobalExceptionType.CANNOT_ACCESS);
         }
         Page<Application> applicationPage = applicationService.searchApplications(recruitmentId,
             titleKeyword, sort, page, 10);
@@ -101,11 +101,11 @@ public class ApplicationController {
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.APPLICATION_NOT_FOUND));
 
         if (!application.getRecruitment().getRecruitmentId().equals(recruitmentId)) {
-            throw new GlobalException(GlobalExceptionType.Cannot_Access);
+            throw new GlobalException(GlobalExceptionType.CANNOT_ACCESS);
         }
 
         if (!application.getRecruitment().getMember().getId().equals(memberId)) {
-            throw new GlobalException(GlobalExceptionType.Cannot_Access);
+            throw new GlobalException(GlobalExceptionType.CANNOT_ACCESS);
         }
         ApplicationResponse dto = applicationService.getDetailApplication(application);
         model.addAttribute("applicationDto", dto);

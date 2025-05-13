@@ -1,11 +1,15 @@
 package com.estsoft.findmember_team01.profile.controller;
 
+import com.estsoft.findmember_team01.exception.GlobalException;
+import com.estsoft.findmember_team01.exception.type.GlobalExceptionType;
+import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.profile.dto.MemberDTO;
 import com.estsoft.findmember_team01.profile.dto.PostDTO;
 import com.estsoft.findmember_team01.profile.service.FileStorageService;
 import com.estsoft.findmember_team01.profile.service.ProfileService;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,14 +29,31 @@ public class ProfilePageController {
     private final FileStorageService fileStorageService;
 
     @GetMapping("/{id}")
-    public String showProfile(@PathVariable Long id, Model model) {
+    public String showProfile(@PathVariable Long id, @AuthenticationPrincipal Member loginMember,
+        Model model) {
+
+        if (loginMember == null) {
+            return "redirect:/login";
+        }
+
+        if (!id.equals(loginMember.getId())) {
+            throw new GlobalException(GlobalExceptionType.CANNOT_ACCESS);
+        }
+
+        model.addAttribute("loginMember", loginMember);
         model.addAttribute("member", profileService.getUser(id));
         return "profile/profile";
     }
 
     @PostMapping("/{id}")
-    public String updateProfile(@PathVariable Long id, @ModelAttribute MemberDTO dto) {
+    public String updateProfile(@PathVariable Long id, @AuthenticationPrincipal Member loginMember,
+        @ModelAttribute MemberDTO dto) {
+        if (loginMember == null || !id.equals(loginMember.getId())) {
+            throw new GlobalException(GlobalExceptionType.CANNOT_ACCESS);
+        }
+
         profileService.updateUser(id, dto);
+
         return "redirect:/profile/view/" + id;
     }
 
