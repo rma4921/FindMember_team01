@@ -29,17 +29,15 @@ public class ProfilePageController {
     private final FileStorageService fileStorageService;
 
     @GetMapping("/{id}")
-    public String showProfile(@PathVariable Long id, @AuthenticationPrincipal Member loginMember, Model model) {
+    public String showProfile(@PathVariable Long id, @AuthenticationPrincipal Member loginMember,
+        Model model) {
 
-        // 로그인 안 했을 경우 로그인 페이지로 리다이렉트
         if (loginMember == null) {
             return "redirect:/login";
         }
 
-        // 본인이 아닌 다른 사람의 프로필 접근 시 차단
         if (!id.equals(loginMember.getId())) {
             throw new GlobalException(GlobalExceptionType.CANNOT_ACCESS);
-            // 또는 return "redirect:/access-denied";
         }
 
         model.addAttribute("loginMember", loginMember);
@@ -48,7 +46,8 @@ public class ProfilePageController {
     }
 
     @PostMapping("/{id}")
-    public String updateProfile(@PathVariable Long id, @AuthenticationPrincipal Member loginMember, @ModelAttribute MemberDTO dto) {
+    public String updateProfile(@PathVariable Long id, @AuthenticationPrincipal Member loginMember,
+        @ModelAttribute MemberDTO dto) {
         if (loginMember == null || !id.equals(loginMember.getId())) {
             throw new GlobalException(GlobalExceptionType.CANNOT_ACCESS);
         }
