@@ -36,7 +36,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers("/api/user/signup", "/logout").permitAll()
                 .requestMatchers("/profile/**").authenticated()
                 .requestMatchers("/api/posts", "/api/posts/**").permitAll()
-                .requestMatchers("/information/**").permitAll()
+                .requestMatchers("/api/information/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/user/*").authenticated()
                 .requestMatchers("/api/user/exp").permitAll()
                 .requestMatchers("/api/admin", "/api/admin/**").hasRole("ADMIN").anyRequest()
