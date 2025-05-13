@@ -37,7 +37,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
                 .requestMatchers("/profile/**").authenticated()
                 .requestMatchers("/api/posts", "/api/posts/**").permitAll()
                 .requestMatchers("/api/information/**").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/api/user/*").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/api/profile/**").authenticated()
                 .requestMatchers("/api/user/exp").permitAll()
                 .requestMatchers("/api/admin", "/api/admin/**").hasRole("ADMIN").anyRequest()
                 .authenticated()).formLogin(
@@ -67,7 +67,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/images/uploads/**")
             .addResourceLocations("file:" + uploadDir + "/");
     }
-
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
