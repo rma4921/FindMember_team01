@@ -13,9 +13,10 @@
     <div class="detail-header">
         <div class="header-top">
             <th:block th:switch="${report.targetType}">
-                <h2 th:if="${report.targetType.name() == 'POST'}">게시물 신고</h2>
+                <h2 th:if="${report.targetType.name() == 'POST'}">팀원 모집 게시글 신고</h2>
                 <h2 th:if="${report.targetType.name() == 'MEMBER'}">회원 신고</h2>
                 <h2 th:if="${report.targetType.name() == 'COMMENT'}">댓글 신고</h2>
+                <h2 th:if="${report.targetType.name() == 'INFORMATION'}">질의 응답 게시글 신고</h2>
             </th:block>
 
             <div class="detail-meta">

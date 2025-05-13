@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/profile")
+@RequestMapping("/api/profile")
 public class ProfilePageController {
 
     private final UserService userService;
@@ -33,7 +33,7 @@ public class ProfilePageController {
     @PostMapping("/{id}")
     public String updateProfile(@PathVariable Long id, @ModelAttribute MemberDTO dto) {
         userService.updateUser(id, dto);
-        return "redirect:/profile/view/" + id;
+        return "redirect:/api/profile/view/" + id;
     }
 
     @PostMapping("/{id}/image")
@@ -41,7 +41,7 @@ public class ProfilePageController {
         throws IOException {
         String filename = fileStorageService.store(file);
         userService.updateProfileImage(id, filename);
-        return "redirect:/profile/view/" + id;
+        return "redirect:/api/profile/view/" + id;
     }
 
     @GetMapping("/view/{id}")

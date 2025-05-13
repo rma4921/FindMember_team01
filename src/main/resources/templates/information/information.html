@@ -14,7 +14,7 @@
         <nav class="nav">
             <a href="/api/posts">팀원 모집</a>
             <a href="/api/posts/complete">완료된 프로젝트</a>
-            <a href="/information" class="active">질의 응답</a>
+            <a href="/api/information" class="active">질의 응답</a>
         </nav>
     </div>
 
@@ -26,7 +26,6 @@
     </div>
     <a class="login-btn" th:href="@{/login}" th:if="${session.memberId == null}">로그인</a>
 </header>
-
 <main class="container">
 
     <section class="content">
@@ -36,17 +35,17 @@
         </div>
 
         <div class="tab-menu">
-            <a th:href="@{/information/search(status='ALL', keyword=${keyword})}"
+            <a th:href="@{/api/information/search(status='ALL', keyword=${keyword})}"
                class="tab"
                th:classappend="${selectedStatus == null or selectedStatus == 'ALL'} ? 'active'">
                 전체
             </a>
-            <a th:href="@{/information/search(status='SOLVED', keyword=${keyword})}"
+            <a th:href="@{/api/information/search(status='SOLVED', keyword=${keyword})}"
                class="tab"
                th:classappend="${selectedStatus == 'SOLVED'} ? 'active'">
                 해결
             </a>
-            <a th:href="@{/information/search(status='UNSOLVED', keyword=${keyword})}"
+            <a th:href="@{/api/information/search(status='UNSOLVED', keyword=${keyword})}"
                class="tab"
                th:classappend="${selectedStatus == 'UNSOLVED'} ? 'active'">
                 미해결
@@ -56,7 +55,7 @@
 
         <div class="filter-box">
             <div class="filter-top">
-                <form th:action="@{/information/search}" method="get">
+                <form th:action="@{/api/information/search}" method="get">
                     <input type="text" name="keyword" placeholder="검색어" th:value="${keyword}"/>
                     <input type="hidden" name="status" th:value="${selectedStatus}"/>
                     <button type="submit">검색</button>
@@ -72,13 +71,13 @@
                 <button class="sort-btn">댓글많은순</button>
             </div>
             <div class="write-section">
-                <a th:href="@{/information/write}" class="write-btn">글쓰기</a>
+                <a th:href="@{/api/information/write}" class="write-btn">글쓰기</a>
             </div>
         </div>
 
         <div class="posts">
             <div class="post" th:each="post : ${posts}">
-                <a th:href="@{'/information/' + ${post.id}}">
+                <a th:href="@{'/api/information/' + ${post.id}}">
                     <div class="post-title">
                         <span th:text="${post.title}">제목</span>
                         <span class="status-badge"
@@ -97,7 +96,7 @@
 
         <div class="pagination" th:if="${totalPages != null and totalPages > 0}">
             <a th:each="page : ${#numbers.sequence(0, totalPages - 1)}"
-               th:href="@{/information/search(status=${selectedStatus}, keyword=${keyword}, page=${page})}"
+               th:href="@{/api/information/search(status=${selectedStatus}, keyword=${keyword}, page=${page})}"
                th:text="${page + 1}"
                th:classappend="${page == currentPage} ? 'active'">
             </a>
