@@ -34,13 +34,6 @@
 
         <form method="post" th:action="@{/logout}" th:if="${session.memberId != null}">
             <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
-    <div class="navbar-user" th:if="${session.memberId != null}">
-        <a class="nickname"
-           th:href="@{/api/profile/{id}(id=${session.memberId})}"
-           th:text="${session.memberNickname + '님'}">
-        </a>
-        <form method="post" th:action="@{/logout}">
-            <button type="submit" class="logout-btn">로그아웃</button>
         </form>
 
         <a class="btn btn-outline-primary btn-sm" th:href="@{/templates/login}"
@@ -109,7 +102,7 @@
                     </div>
                 </a>
                 <div class="post-meta">
-                    <span th:text="${post.writer}">닉네임</span>
+                    <span th:text="${post.writer}">닉네임</span> ·
                     <span th:text="${#temporals.format(post.createdAt, 'yyyy.MM.dd')}"></span>
                     <span th:text="'댓글: ' + ${post.commentCount}"></span>
                 </div>
