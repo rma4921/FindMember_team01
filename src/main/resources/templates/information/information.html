@@ -7,22 +7,33 @@
     <link rel="stylesheet" th:href="@{/css/information/Information.css}"/>
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"/>
     <link href="/css/main/mainpage.css" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="/css/comment/modal.css" rel="stylesheet">
+    <link href="/css/comment/list.css" rel="stylesheet">
 </head>
 <body>
-<header class="header">
-    <div class="header-left">
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="navbar mr-auto">
         <a class="navbar-brand" href="/api/posts">Team 1</a>
-        <nav class="nav">
-            <a href="/api/posts">팀원 모집</a>
-            <a href="/api/posts/complete">완료된 프로젝트</a>
-            <a href="/api/information" class="active">질의 응답</a>
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="/api/posts">팀원 모집</a>
+            <a class="nav-item nav-link" href="/api/posts/complete">완료된 프로젝트</a>
+            <a class="nav-item nav-link" href="/api/information">질의응답</a>
             <a class="nav-item nav-link"
                href="/api/admin/users"
                th:if="${session.memberRole == 'ADMIN'}">
                 관리자페이지</a>
-        </nav>
+        </div>
     </div>
+    <div class="d-flex align-items-center ms-auto">
+        <a class="nickname fw-bold"
+           th:if="${session.memberNickname != null}"
+           th:href="@{/api/profile/{id}(id=${session.memberId})}"
+           th:text="${session.memberNickname + '님 '}">nickname</a>
 
+        <form method="post" th:action="@{/logout}" th:if="${session.memberId != null}">
+            <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
     <div class="navbar-user" th:if="${session.memberId != null}">
         <a class="nickname"
            th:href="@{/api/profile/{id}(id=${session.memberId})}"
@@ -31,9 +42,11 @@
         <form method="post" th:action="@{/logout}">
             <button type="submit" class="logout-btn">로그아웃</button>
         </form>
+
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/templates/login}"
+           th:if="${session.memberId == null}">로그인</a>
     </div>
-    <a class="login-btn" th:href="@{/login}" th:if="${session.memberId == null}">로그인</a>
-</header>
+</nav>
 
 <main class="container">
 

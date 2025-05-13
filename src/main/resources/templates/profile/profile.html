@@ -3,11 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <title>프로필 설정</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/profile/profile.css}">
+    <link href="/css/main/mainpage.css" rel="stylesheet">
+    <link href="/css/comment/modal.css" rel="stylesheet">
+    <link href="/css/comment/list.css" rel="stylesheet">
 </head>
 <body data-member-id="[[${member.id}]]">
-<div class="header" onclick="location.href='/'">TEAM1</div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="navbar mr-auto">
+        <a class="navbar-brand" href="/api/posts">Team 1</a>
+        <div class="navbar-nav mr-auto">
+            <a class="nav-item nav-link" href="/api/posts">팀원 모집</a>
+            <a class="nav-item nav-link" href="/api/posts/complete">완료된 프로젝트</a>
+            <a class="nav-item nav-link" href="/api/information">질의응답</a>
+            <a class="nav-item nav-link"
+               href="/api/admin/users"
+               th:if="${session.memberRole == 'ADMIN'}">
+                관리자페이지</a>
+        </div>
+    </div>
+    <div class="d-flex align-items-center ms-auto">
+        <a class="nickname fw-bold"
+           th:if="${session.memberNickname != null}"
+           th:href="@{/api/profile/{id}(id=${session.memberId})}"
+           th:text="${session.memberNickname + '님 '}">nickname</a>
 
+        <form method="post" th:action="@{/logout}" th:if="${session.memberId != null}">
+            <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
+        </form>
+
+        <a class="btn btn-outline-primary btn-sm" th:href="@{/templates/login}"
+           th:if="${session.memberId == null}">로그인</a>
+    </div>
+</nav>
 
 <th:block
     th:with="imagePath=${member.profileImageUrl != null ? member.profileImageUrl : '/images/default-profile.png'}">
