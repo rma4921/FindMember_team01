@@ -11,7 +11,7 @@
     <h1 class="detail-title">
         <span th:text="${post.title}">제목</span>
 
-        <form th:action="@{/information/report}" method="post"
+        <form th:action="@{/api/information/report}" method="post"
               style="display:inline; margin-left: 10px;">
             <input type="hidden" name="targetType" value="INFORMATION"/>
             <input type="hidden" name="targetId" th:value="${post.id}"/>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="detail-actions">
-        <a th:href="@{'/information/edit/' + ${post.id}}"
+        <a th:href="@{'/api/information/edit/' + ${post.id}}"
            class="edit-btn"
            th:if="${loginMemberId == post.writerId}">
             수정
@@ -40,7 +40,7 @@
             수정
         </a>
 
-        <form th:action="@{'/information/delete/' + ${post.id}}" method="post"
+        <form th:action="@{'/api/information/delete/' + ${post.id}}" method="post"
               style="display:inline;">
             <button type="submit"
                     class="action-btn"
@@ -52,13 +52,13 @@
 
         <form
             th:if="${loginMemberId == post.writerId and post.status != null and post.status.name() == 'UNSOLVED'}"
-            th:action="@{'/information/solve/' + ${post.id}}"
+            th:action="@{'/api/information/solve/' + ${post.id}}"
             method="post"
             style="display:inline;">
             <button type="submit" class="solve-btn">해결하기</button>
         </form>
 
-        <a th:href="@{/information}" class="back-btn">뒤로가기</a>
+        <a th:href="@{/api/information}" class="back-btn">뒤로가기</a>
 
     </div>
 
@@ -66,10 +66,10 @@
 
     <section class="comment-section">
         <h3>댓글</h3>
-        <form th:action="@{/information/comments}" method="post" class="comment-form"
+        <form th:action="@{/api/information/comments}" method="post" class="comment-form"
               onsubmit="return checkRole(event)">
             <input type="hidden" name="informationId" th:value="${post.id}"/>
-            <input type="hidden" id="role" th:value="${loginMember.role}" />
+            <input type="hidden" id="role" th:value="${loginMember.role}"/>
             <textarea name="content" placeholder="댓글을 입력하세요" required></textarea>
             <button type="submit">등록</button>
         </form>
@@ -81,10 +81,10 @@
                     <span class="comment-date"
                           th:text="${#temporals.format(comment.createdAt, 'yy.MM.dd HH:mm')}">2025.05.07</span>
                 </div>
-                <form th:action="@{/information/report}" method="post"
+                <form th:action="@{/api/information/report}" method="post"
                       style="display:inline; margin-left: 10px;">
                     <input type="hidden" name="targetType" value="COMMENT"/>
-                    <input type="hidden" name="targetId" th:value="${comment.id}"/>
+                    <input type="hidden" name="targetId" th:value="${post.id}"/>
                     <input type="text" name="reason" placeholder="신고 사유" required
                            style="height: 20px; font-size: 11px;"/>
                     <button type="submit" class="report-btn">신고</button>
@@ -92,7 +92,7 @@
                 <div class="comment-text" th:text="${comment.content}">댓글 내용</div>
 
                 <form th:if="${loginMemberId == post.writerId}"
-                      th:action="@{'/information/comments/delete/' + ${comment.id}}"
+                      th:action="@{'/api/information/comments/delete/' + ${comment.id}}"
                       method="post" style="display:inline;">
                     <button type="submit" class="delete-btn"
                             onclick="return confirm('댓글을 삭제하시겠습니까?')">댓글 삭제

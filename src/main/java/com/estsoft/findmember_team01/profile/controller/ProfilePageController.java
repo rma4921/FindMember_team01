@@ -22,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/profile")
+@RequestMapping("/api/profile")
 public class ProfilePageController {
 
     private final ProfileService profileService;
@@ -54,7 +54,7 @@ public class ProfilePageController {
 
         profileService.updateUser(id, dto);
 
-        return "redirect:/profile/view/" + id;
+        return "redirect:/api/profile/view/" + id;
     }
 
     @PostMapping("/{id}/image")
@@ -62,7 +62,7 @@ public class ProfilePageController {
         throws IOException {
         String filename = fileStorageService.store(file);
         profileService.updateProfileImage(id, filename);
-        return "redirect:/profile/view/" + id;
+        return "redirect:/api/profile/view/" + id;
     }
 
     @GetMapping("/view/{id}")
