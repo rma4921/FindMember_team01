@@ -65,7 +65,7 @@
             </div>
             <form th:action="@{/api/profile/{id}(id=${member.id})}" method="post"
                   onsubmit="return confirm('정말로 탈퇴하시겠습니까');">
-                <input type="hidden" name="_method" value="delete">
+                <input type="hidden" name="_method" value="DELETE">
                 <button type="submit">회원 탈퇴</button>
             </form>
         </div>

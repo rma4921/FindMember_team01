@@ -175,6 +175,7 @@ public class ReportController {
     @PostMapping("/api/admin/information/delete/{id}")
     public String deleteInformationByAdmin(@PathVariable Long id) {
         informationService.deleteInformation(id);
+
         return "redirect:/api/admin/information";
     }
 
@@ -182,12 +183,14 @@ public class ReportController {
     public String deleteCommentByAdmin(@PathVariable Long id) {
         Long postId = commentService.findById(id).getInformation().getInformationId();
         commentService.deleteComment(id);
+
         return "redirect:/api/admin/information/" + postId;
     }
 
     @PutMapping("/api/admin/information/hide/{id}")
     public String toggleInformationHide(@PathVariable Long id, @RequestParam boolean hide_status) {
         informationService.updateHideStatus(id, hide_status);
+
         return "redirect:/api/admin/information/" + id;
     }
 
@@ -195,6 +198,7 @@ public class ReportController {
     public String toggleCommentHide(@PathVariable Long id, @RequestParam boolean hide_status) {
         commentService.updateHideStatus(id, hide_status);
         Long infoId = commentService.findById(id).getInformation().getInformationId();
+
         return "redirect:/api/admin/information/" + infoId;
     }
 }
