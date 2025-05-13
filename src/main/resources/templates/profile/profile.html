@@ -44,16 +44,13 @@
             <form th:action="@{/api/member/{id}/update(id=${member.id})}"
                   method="post">
                 <div class="form-group">
-                    <label for="name">이름</label>
-                    <input type="text" id="name" name="name" th:value="${member.name}"/>
-                </div>
-                <div class="form-group">
                     <label for="nickname">닉네임</label>
                     <input type="text" id="nickname" name="nickname" th:value="${member.nickname}"/>
                 </div>
                 <div class="form-group">
                     <label for="email">이메일</label>
-                    <input type="email" id="email" name="email" th:value="${member.email}"/>
+                    <input type="email" id="email" name="email" readonly
+                           th:value="${member.email}"/>
                 </div>
                 <div class="form-group">
                     <label for="tech">기술스택</label>
@@ -64,7 +61,7 @@
                     <button type="button" class="btn btn-cancel" onclick="location.reload()">취소
                     </button>
                     <button type="submit" class="btn btn-submit"
-                            th:if="${user.id == loginMember.id}">설정 완료
+                            th:if="${member.id == loginMember.id}">설정 완료
                     </button>
                 </div>
             </form>
