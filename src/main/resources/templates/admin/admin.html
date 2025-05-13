@@ -60,6 +60,9 @@
                         th:text="'가입일자: ' + ${#temporals.format(member.createdAt, 'yyyy-MM-dd HH:mm')}">가입일자</span>
                 </div>
                 <div class="text-muted">
+                    <span th:text="'이메일: ' + ${member.email}">이메일</span>
+                </div>
+                <div class="text-muted">
                     <span
                         th:text="'최종 접속 시간: ' + ${#temporals.format(member.lastAccessTime, 'yyyy-MM-dd HH:mm')}">최종 접속시간</span>
                 </div>

@@ -25,9 +25,10 @@
         </div>
     </div>
     <div class="d-flex align-items-center ms-auto">
-    <span class="me-2 fw-bold"
-          th:if="${session.memberNickname != null}"
-          th:text="${session.memberNickname + '님'}">nickname</span>
+        <a class="me-2 fw-bold"
+           th:if="${session.memberNickname != null}"
+           th:href="@{/api/profile/{id}(id=${session.memberId})}"
+           th:text="${session.memberNickname + '님'}">nickname</a>
 
         <form method="post" th:action="@{/logout}" th:if="${session.memberId != null}">
             <button class="btn btn-success btn-sm" type="submit">로그아웃</button>
