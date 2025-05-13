@@ -34,7 +34,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         httpSecurity.authorizeHttpRequests(
             auth -> auth.requestMatchers("/login", "/signup", "/user").permitAll()
                 .requestMatchers("/api/user/signup", "/logout").permitAll()
-                .requestMatchers("/profile/**").permitAll()
+                .requestMatchers("/profile/**").authenticated()
                 .requestMatchers("/api/posts", "/api/posts/**").permitAll()
                 .requestMatchers("/information/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/api/user/*").authenticated()
@@ -61,7 +61,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
     @Value("${file.upload-dir}")
     private String uploadDir;
-
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
