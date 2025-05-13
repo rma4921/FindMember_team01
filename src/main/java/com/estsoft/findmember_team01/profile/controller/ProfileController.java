@@ -28,12 +28,14 @@ public class ProfileController {
     public String getProfilePage(@PathVariable Long id, Model model) {
         MemberDTO member = profileService.getUser(id);
         model.addAttribute("member", member);
+
         return "profile/profile";
     }
 
     @PostMapping("/{id}/update")
     public String updateUserText(@PathVariable Long id, @ModelAttribute MemberDTO memberDTO) {
         profileService.updateUser(id, memberDTO);
+
         return "redirect:/api/profile/view/" + id;
     }
 
@@ -53,6 +55,7 @@ public class ProfileController {
         PostDTO post = profileService.getLatestPostByUser(id);
         model.addAttribute("member", member);
         model.addAttribute("post", post);
+
         return "profile/profileView";
     }
 }

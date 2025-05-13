@@ -18,6 +18,7 @@ public class MemberViewResponse {
     private Integer exp;
     private Long accessCount;
     private String role;
+    private String email;
     private String userAgent;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
@@ -35,5 +36,6 @@ public class MemberViewResponse {
         this.userAgent = member.getUserAgent();
         this.createdAt = member.getCreatedAt();
         this.lastAccessTime = member.getLastAccessTime();
+        this.email = member.getEmail();
     }
 }
