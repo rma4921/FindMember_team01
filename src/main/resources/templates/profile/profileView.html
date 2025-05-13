@@ -12,26 +12,26 @@
 
 <div class="container">
     <div class="left-section">
-        <img th:if="${user.profileImageUrl != null}"
-             th:src="${user.profileImageUrl}"
+        <img th:if="${member.profileImageUrl != null}"
+             th:src="${member.profileImageUrl}"
              alt="프로필 이미지"/>
 
-        <img th:unless="${user.profileImageUrl != null}"
+        <img th:unless="${member.profileImageUrl != null}"
              th:src="@{/images/default-profile.png}"
              alt="기본 프로필 이미지"/>
-        <h4 th:text="${user.nickname}">닉네임</h4>
+        <h4 th:text="${member.nickname}">닉네임</h4>
 
         <div class="level">
-            <p th:text="'Lv. ' + ${user.level}">레벨</p>
+            <p th:text="'Lv. ' + ${member.level}">레벨</p>
         </div>
     </div>
 
     <div class="right-section">
         <div class="tech-stack">
             <h3>기술스택</h3>
-            <p th:if="${user.tech != null and !#strings.isEmpty(user.tech)}"
-               th:text="${user.tech}">Java, Spring, MySQL</p>
-            <p th:unless="${user.tech != null and !#strings.isEmpty(user.tech)}">
+            <p th:if="${member.tech != null and !#strings.isEmpty(member.tech)}"
+               th:text="${member.tech}">Java, Spring, MySQL</p>
+            <p th:unless="${member.tech != null and !#strings.isEmpty(member.tech)}">
                 등록된 기술스택이 없습니다.
             </p>
         </div>
