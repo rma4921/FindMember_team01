@@ -15,7 +15,7 @@
         <div class="left-section">
             <img id="profileImage" th:src="@{${imagePath}}" alt="프로필 이미지"/>
 
-            <form th:action="@{/member/{id}/image(id=${member.id})}"
+            <form th:action="@{/api/member/{id}/image(id=${member.id})}"
                   method="post"
                   enctype="multipart/form-data">
                 <input type="file"
@@ -33,7 +33,7 @@
             <div class="level">
                 <p th:text="'Lv : ' + ${member.level}"></p>
             </div>
-            <form th:action="@{/profile/{id}(id=${member.id})}" method="post"
+            <form th:action="@{/api/profile/{id}(id=${member.id})}" method="post"
                   onsubmit="return confirm('정말로 탈퇴하시겠습니까');">
                 <input type="hidden" name="_method" value="delete">
                 <button type="submit">회원 탈퇴</button>
@@ -41,7 +41,7 @@
         </div>
 
         <div class="right-section">
-            <form th:action="@{/member/{id}/update(id=${member.id})}"
+            <form th:action="@{/api/member/{id}/update(id=${member.id})}"
                   method="post">
                 <div class="form-group">
                     <label for="name">이름</label>

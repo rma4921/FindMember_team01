@@ -10,7 +10,6 @@ import com.estsoft.findmember_team01.information.dto.InformationView;
 import com.estsoft.findmember_team01.information.service.InformationService;
 import com.estsoft.findmember_team01.member.domain.Member;
 import com.estsoft.findmember_team01.report.domain.Report;
-import com.estsoft.findmember_team01.report.domain.ReportTargetType;
 import com.estsoft.findmember_team01.report.dto.ReportRequest;
 import com.estsoft.findmember_team01.report.dto.ReportResponse;
 import com.estsoft.findmember_team01.report.service.ReportService;
@@ -119,19 +118,15 @@ public class ReportController {
         return "redirect:/api/admin/reports";
     }
 
-    @PostMapping("/information/report")
+    @PostMapping("/api/information/report")
     public String handleReport(@ModelAttribute ReportRequest request,
         @AuthenticationPrincipal Member loginMember) {
 
         reportService.submitReport(loginMember.getId(), request);
 
         String redirectUrl;
-        if (request.getTargetType() == ReportTargetType.INFORMATION) {
-            redirectUrl = "/information/" + request.getTargetId();
-        } else if (request.getTargetType() == ReportTargetType.COMMENT) {
-            Long postId = commentService.findById(request.getTargetId()).getInformation()
-                .getInformationId();
-            redirectUrl = "/information/" + postId;
+        if (request.getTargetType() != null) {
+            redirectUrl = "/api/information/" + request.getTargetId();
         } else {
             throw new GlobalException(GlobalExceptionType.UNSUPPORTED_REPORT_TYPE);
         }
@@ -163,7 +158,7 @@ public class ReportController {
         model.addAttribute("keyword", keyword);
         model.addAttribute("selectedStatus", status);
 
-        return "adminInformationList";
+        return "admin/adminInformationList";
     }
 
     @GetMapping("/api/admin/information/{id}")
@@ -174,7 +169,7 @@ public class ReportController {
         model.addAttribute("comments",
             info.getComments().stream().map(CommentView::from).collect(Collectors.toList()));
 
-        return "adminInformationDetail";
+        return "admin/adminInformationDetail";
     }
 
     @PostMapping("/api/admin/information/delete/{id}")

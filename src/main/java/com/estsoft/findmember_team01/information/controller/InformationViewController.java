@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/information")
+@RequestMapping("/api/information")
 @RequiredArgsConstructor
 public class InformationViewController {
 
@@ -73,7 +73,7 @@ public class InformationViewController {
         request.setMemberId(loginMember.getId());
         Information saved = informationService.addInformation(request);
 
-        return "redirect:/information/" + saved.getInformationId();
+        return "redirect:/api/information/" + saved.getInformationId();
     }
 
     @PostMapping("/comments")
@@ -93,7 +93,7 @@ public class InformationViewController {
         CommentRequest request = new CommentRequest(content);
         commentService.addComment(informationId, loginMember.getId(), request);
 
-        return "redirect:/information/" + informationId;
+        return "redirect:/api/information/" + informationId;
     }
 
     @GetMapping
@@ -135,7 +135,7 @@ public class InformationViewController {
         @ModelAttribute InformationRequest request) {
         informationService.updateInformation(id, request);
 
-        return "redirect:/information/" + id;
+        return "redirect:/api/information/" + id;
     }
 
     @PostMapping("/delete/{id}")
@@ -146,7 +146,7 @@ public class InformationViewController {
         }
         informationService.deleteInformation(id);
 
-        return "redirect:/information";
+        return "redirect:/api/information";
     }
 
     @GetMapping("/search")
@@ -179,7 +179,7 @@ public class InformationViewController {
     public String solveInformation(@PathVariable Long id, @AuthenticationPrincipal Member member) {
         informationService.markAsSolved(id, member.getId());
 
-        return "redirect:/information/" + id;
+        return "redirect:/api/information/" + id;
     }
 
     @PostMapping("/comments/delete/{commentId}")
@@ -195,6 +195,6 @@ public class InformationViewController {
 
         commentService.deleteComment(commentId);
 
-        return "redirect:/information/" + info.getInformationId();
+        return "redirect:/api/information/" + info.getInformationId();
     }
 }
