@@ -5,24 +5,24 @@
     <title>프로필 설정</title>
     <link rel="stylesheet" th:href="@{/css/profile/profile.css}">
 </head>
-<body data-user-id="[[${user.id}]]">
+<body data-member-id="[[${member.id}]]">
 <div class="header" onclick="location.href='/'">TEAM1</div>
 
 
 <th:block
-    th:with="imagePath=${user.profileImageUrl != null ? user.profileImageUrl : '/images/default-profile.png'}">
+    th:with="imagePath=${member.profileImageUrl != null ? member.profileImageUrl : '/images/default-profile.png'}">
     <div class="container">
         <div class="left-section">
             <img id="profileImage" th:src="@{${imagePath}}" alt="프로필 이미지"/>
 
-            <form th:action="@{/user/{id}/image(id=${user.id})}"
+            <form th:action="@{/member/{id}/image(id=${member.id})}"
                   method="post"
                   enctype="multipart/form-data">
                 <input type="file"
                        id="imageUpload"
                        name="file"
                        onchange="this.form.submit()"
-                       th:disabled="${user.level < 5}"/>
+                       th:disabled="${member.level < 5}"/>
                 <button type="button"
                         class="change-img-btn btn btn-cancel"
                         onclick="document.getElementById('imageUpload').click()">
@@ -31,31 +31,33 @@
             </form>
 
             <div class="level">
-                <p th:text="'Lv : ' + ${user.level}"></p>
+                <p th:text="'Lv : ' + ${member.level}"></p>
             </div>
-            <div class="withdraw">
-                <a href="#" th:onclick="|confirmDelete(${user.id})|">회원탈퇴</a>
-            </div>
+            <form th:action="@{/profile/{id}(id=${member.id})}" method="post"
+                  onsubmit="return confirm('정말로 탈퇴하시겠습니까');">
+                <input type="hidden" name="_method" value="delete">
+                <button type="submit">회원 탈퇴</button>
+            </form>
         </div>
 
         <div class="right-section">
-            <form th:action="@{/user/{id}/update(id=${user.id})}"
+            <form th:action="@{/member/{id}/update(id=${member.id})}"
                   method="post">
                 <div class="form-group">
                     <label for="name">이름</label>
-                    <input type="text" id="name" name="name" th:value="${user.name}"/>
+                    <input type="text" id="name" name="name" th:value="${member.name}"/>
                 </div>
                 <div class="form-group">
                     <label for="nickname">닉네임</label>
-                    <input type="text" id="nickname" name="nickname" th:value="${user.nickname}"/>
+                    <input type="text" id="nickname" name="nickname" th:value="${member.nickname}"/>
                 </div>
                 <div class="form-group">
                     <label for="email">이메일</label>
-                    <input type="email" id="email" name="email" th:value="${user.email}"/>
+                    <input type="email" id="email" name="email" th:value="${member.email}"/>
                 </div>
                 <div class="form-group">
                     <label for="tech">기술스택</label>
-                    <input type="text" id="tech" name="tech" th:value="${user.tech}"/>
+                    <input type="text" id="tech" name="tech" th:value="${member.tech}"/>
                 </div>
 
                 <div class="buttons">
