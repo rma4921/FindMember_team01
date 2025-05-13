@@ -67,10 +67,12 @@ public class ProfilePageController {
 
     @GetMapping("/view/{id}")
     public String viewProfile(@PathVariable Long id, Model model) {
+
         MemberDTO member = profileService.getUser(id);
         PostDTO post = profileService.getLatestPostByUser(id);
         model.addAttribute("member", member);
         model.addAttribute("post", post);
+
         return "profile/profileView";
     }
 }
