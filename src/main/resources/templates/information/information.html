@@ -16,6 +16,10 @@
             <a href="/api/posts">팀원 모집</a>
             <a href="/api/posts/complete">완료된 프로젝트</a>
             <a href="/api/information" class="active">질의 응답</a>
+            <a class="nav-item nav-link"
+               href="/api/admin/users"
+               th:if="${session.memberRole == 'ADMIN'}">
+                관리자페이지</a>
         </nav>
     </div>
 
@@ -30,6 +34,7 @@
     </div>
     <a class="login-btn" th:href="@{/login}" th:if="${session.memberId == null}">로그인</a>
 </header>
+
 <main class="container">
 
     <section class="content">

@@ -18,6 +18,10 @@
             <a class="nav-item nav-link" href="/api/posts">팀원 모집</a>
             <a class="nav-item nav-link" href="/api/posts/complete">완료된 프로젝트</a>
             <a class="nav-item nav-link" href="/api/information">질의응답</a>
+            <a class="nav-item nav-link"
+               href="/api/admin/users"
+               th:if="${session.memberRole == 'ADMIN'}">
+                관리자페이지</a>
         </div>
     </div>
     <div class="d-flex align-items-center ms-auto">
