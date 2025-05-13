@@ -16,8 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(GlobalException.class)
-    public Object handlerGlobalException(GlobalException e,
-        HttpServletRequest request) {
+    public Object handlerGlobalException(GlobalException e, HttpServletRequest request) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             Map<String, String> error = new HashMap<>();

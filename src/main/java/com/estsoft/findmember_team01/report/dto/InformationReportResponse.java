@@ -25,17 +25,9 @@ public class InformationReportResponse {
     private Long postId;
 
     public static InformationReportResponse from(Report report, Long postId) {
-        return new InformationReportResponse(
-            report.getReportId(),
-            report.getMember().getId(),
-            report.getTargetType(),
-            report.getTargetId(),
-            report.getReason(),
-            report.getCreatedAt(),
-            report.getStatus(),
-            report.getMember().getNickname(),
-            postId
-        );
+        return new InformationReportResponse(report.getReportId(), report.getMember().getId(),
+            report.getTargetType(), report.getTargetId(), report.getReason(), report.getCreatedAt(),
+            report.getStatus(), report.getMember().getNickname(), postId);
 
     }
 }

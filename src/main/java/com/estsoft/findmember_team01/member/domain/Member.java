@@ -48,7 +48,6 @@ public class Member implements UserDetails {
     private Integer exp;
 
 
-
     @CreatedDate
     private LocalDateTime createdAt;
 
@@ -64,7 +63,6 @@ public class Member implements UserDetails {
 
     @Column(length = 200)
     private String profileImageUrl;
-
 
 
     public Member(String email, String password, String nickname) {
@@ -131,10 +129,15 @@ public class Member implements UserDetails {
         this.role = newRole;
     }
 
-    public void updateNickname(String nickname) { this.nickname = nickname; }
-    public void updateTech(String tech) { this.tech = tech; }
-    public void updateProfileImageUrl(String profileImageUrl) { this.profileImageUrl = profileImageUrl; }
-}
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 
-//    public String getProfileImageUrl() { return profileImageUrl; }
-//    public void setProfileImageUrl(String url) { this.profileImageUrl = url; }
+    public void updateTech(String tech) {
+        this.tech = tech;
+    }
+
+    public void updateProfileImageUrl(String profileImageUrl) {
+        this.profileImageUrl = profileImageUrl;
+    }
+}

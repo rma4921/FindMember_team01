@@ -84,14 +84,10 @@ public class RecruitmentController {
     }
 
     @GetMapping("/complete")
-    public String getEndRecruitments(
-        @RequestParam(defaultValue = "0") int page,
+    public String getEndRecruitments(@RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "createdAt") String sortBy,
         @RequestParam(defaultValue = "-1") int status,
-        @RequestParam(required = false) String keyword,
-        Model model,
-        HttpServletRequest request
-    ) {
+        @RequestParam(required = false) String keyword, Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
         model.addAttribute("memberId", session.getAttribute("memberId"));
         model.addAttribute("nickname", session.getAttribute("memberNickname"));
@@ -102,24 +98,18 @@ public class RecruitmentController {
         boolean hasStatus = status != -1;
 
         if (hasKeyword && hasStatus) {
-            // status, keyword 둘 다 필터링
             boardPage = recruitmentService.getRecruitmentsByStatusAndKeyword(page, sortBy, status,
                 keyword);
         } else if (hasKeyword) {
-            // keyword 필터링
             boardPage = recruitmentService.getRecruitmentsWithKeyword(page, sortBy, keyword);
         } else if (hasStatus) {
-            // status 필터링
             boardPage = recruitmentService.getRecruitmentsByStatus(page, sortBy, status);
         } else {
-            // 아무것도 없으면 전체 조회
             boardPage = recruitmentService.getRecruitments(page, sortBy);
         }
 
         List<RecruitmentViewResponse> recruitmentList = boardPage.getContent().stream()
-            // 숨겨진 게시글 필터링
-            .map(RecruitmentViewResponse::new)
-            .collect(Collectors.toList());
+            .map(RecruitmentViewResponse::new).collect(Collectors.toList());
 
         int totalPages = boardPage.getTotalPages();
         int currentPage = page;
@@ -147,9 +137,8 @@ public class RecruitmentController {
         model.addAttribute("memberId", memberId);
 
         if (memberId != null) {
-            Member member = memberRepository.findById(memberId)
-                .orElseThrow(
-                    () -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. id=" + memberId));
+            Member member = memberRepository.findById(memberId).orElseThrow(
+                () -> new IllegalArgumentException("해당 회원이 존재하지 않습니다. id=" + memberId));
             Long memberLevel = member.getLevel();
             model.addAttribute("memberLevel", memberLevel);
         }

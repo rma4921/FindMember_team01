@@ -12,6 +12,6 @@ public class ErrorViewController {
     public String errorView(Model model, @RequestParam(required = false) String msg) {
         model.addAttribute("errorMessage", msg != null ? msg : "알 수 없는 오류 발생");
 
-        return "error";
+        return "error/error";
     }
 }
