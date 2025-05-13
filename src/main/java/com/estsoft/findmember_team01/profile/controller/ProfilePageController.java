@@ -53,7 +53,7 @@ public class ProfilePageController {
         }
 
         userService.updateUser(id, dto);
-        return "redirect:/user/" + id;
+        return "redirect:/profile/view/" + id;
     }
 
     @PostMapping("/{id}/image")
