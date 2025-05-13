@@ -23,7 +23,7 @@
     <div class="d-flex align-items-center ms-auto">
         <a class="nickname fw-bold"
            th:if="${session.memberNickname != null}"
-           th:href="@{/profile/{id}(id=${session.memberId})}"
+           th:href="@{/api/profile/{id}(id=${session.memberId})}"
            th:text="${session.memberNickname + '님 '}">nickname</a>
 
         <form method="post" th:action="@{/logout}" th:if="${session.memberId != null}">
