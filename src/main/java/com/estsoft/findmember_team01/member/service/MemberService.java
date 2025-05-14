@@ -56,9 +56,11 @@ public class MemberService {
         Member member = memberRepository.findByEmail(email)
             .orElseThrow(() -> new GlobalException(GlobalExceptionType.EMAIL_NOT_FOUND));
 
-        member.addExp(exp);
-        member.updateRoleByLevel();
-        memberRepository.save(member);
+        if (member.getLevel() != 0 && member.getRole().equals("ADMIN")) {
+            member.addExp(exp);
+            member.updateRoleByLevel();
+            memberRepository.save(member);
+        }
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
