@@ -40,7 +40,7 @@
 </nav>
 
 <th:block
-    th:with="imagePath=${member.profileImageUrl != null ? member.profileImageUrl : '/images/default-profile.png'}">
+    th:with="imagePath=${member.profileImageUrl != null ? member.profileImageUrl : '/images/default-profile.webp'}">
     <div class="container">
         <div class="left-section">
             <img id="profileImage" th:src="@{${imagePath}}" alt="프로필 이미지"/>
