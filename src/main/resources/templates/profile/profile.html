@@ -48,14 +48,16 @@
             <form th:action="@{/api/member/{id}/image(id=${member.id})}"
                   method="post"
                   enctype="multipart/form-data">
+
                 <input type="file"
                        id="imageUpload"
                        name="file"
-                       onchange="this.form.submit()"
-                       th:disabled="${member.level < 5}"/>
+                       style="display: none;"
+                       onchange="this.form.submit()"/>
+
                 <button type="button"
                         class="change-img-btn btn btn-cancel"
-                        onclick="document.getElementById('imageUpload').click()">
+                        th:onclick="'onImageButtonClick(' + ${member.level} + ')'">
                     대표 이미지를 설정해 주세요
                 </button>
             </form>
