@@ -92,8 +92,8 @@
             </div>
             <textarea name="content" class="editor-content" required
                       th:text="${recruitment.content}"></textarea><br>
-            <input type="datetime-local"
-                   th:text="${#temporals.format(recruitment.updatedAt, 'yyyy-MM-dd HH:mm')}"/><br>
+            <input type="datetime-local" name="deadline"
+                   th:value="${recruitment.deadline != null ? #temporals.format(recruitment.deadline,  'yyyy-MM-dd HH:mm'): ''}"/><br>
             <select name="status">
                 <option value="true" th:selected="${recruitment.status} == true">모집중</option>
                 <option value="false" th:selected="${recruitment.status} == false">모집완료</option>
