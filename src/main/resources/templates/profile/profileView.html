@@ -46,7 +46,7 @@
              alt="프로필 이미지"/>
 
         <img th:unless="${member.profileImageUrl != null}"
-             th:src="@{/images/default-profile.png}"
+             th:src="@{/images/default-profile.webp}"
              alt="기본 프로필 이미지"/>
         <h4 th:text="${member.nickname}">닉네임</h4>
 
